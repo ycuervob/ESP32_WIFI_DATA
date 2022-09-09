@@ -12,7 +12,6 @@
 #include <TinyGPS.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include <ArduinoJson.h>
 
 
 //Setting Wifi settings for connection
@@ -37,10 +36,16 @@ void setup() {
   //Wifi settings
   WiFi.begin(ssid, password);
   Serial.println("Connecting");
+  int count = 0;
   
   while(WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
+    count++;
+    if(count == 20){
+        WiFi.begin(ssid, password);
+        count =0;
+    }
   }
   
   Serial.println("");
@@ -71,7 +76,6 @@ void loop() {
   // Read data from gps
   float flat, flon;
   unsigned long age;
-  gps.f_get_position(&flat, &flon, &age);
 
   gps.f_get_position(&flat, &flon, &age);
   Serial.print("LAT=");
@@ -82,6 +86,8 @@ void loop() {
   Serial.print(gps.satellites() == TinyGPS::GPS_INVALID_SATELLITES ? 0 : gps.satellites());
   Serial.print(" PREC=");
   Serial.print(gps.hdop() == TinyGPS::GPS_INVALID_HDOP ? 0.0 : ((float) gps.hdop())/100 , 6);
+
+  Serial.println();
   
   //Check WiFi connection status
   if(WiFi.status()== WL_CONNECTED){
@@ -90,16 +96,11 @@ void loop() {
     http.begin(client, serverName);
     http.addHeader("Content-Type", "application/json");
     
-    //Creating a JSON to post
-    DynamicJsonDocument doc(1024);
-    doc["sensor"] = "gps";
-    doc["x"]   = flat;
-    doc["y"] = flon;
-    doc["age"] = age;
-
     //Dezerialize JSON to char * 
-    char * postData;
-    deserializeJson(doc, postData);
+    // Falta crear el JSON -------
+    
+    char * postData = "Aca queda el post configurado";
+    Serial.println(postData);
     int httpResponseCode = http.POST(postData);
    
     Serial.print("HTTP Response code: ");
