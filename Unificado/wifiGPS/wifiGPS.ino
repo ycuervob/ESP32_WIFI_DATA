@@ -13,6 +13,8 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 
+//Data from the device
+const char * id_device = "ESP32LAB_TEST1";
 
 //Setting Wifi settings for connection
 const char* ssid = "UFI32";
@@ -56,6 +58,17 @@ void setup() {
 }
 
 void loop() {
+
+  // Nivel de bateria
+  int bateria = 100;
+  
+  //tepmeratura y humedad
+  float temperatura = 27.14;
+  float humedad = 0.45;
+
+  //Timestamp
+  char * timestamp = "2022-09-18 18:00:00";
+  
   bool newData = false;
   unsigned long chars;
   unsigned short sentences, failed;
@@ -78,6 +91,11 @@ void loop() {
   unsigned long age;
 
   gps.f_get_position(&flat, &flon, &age);
+  gps.stats(&chars, &sentences, &failed);
+
+  int numero_satelites = gps.satellites();
+  float varianza = ((float) gps.hdop())/100;
+  
   Serial.print("LAT=");
   Serial.print(flat == TinyGPS::GPS_INVALID_F_ANGLE ? 0.0 : flat, 6);
   Serial.print(" LON=");
@@ -86,7 +104,6 @@ void loop() {
   Serial.print(gps.satellites() == TinyGPS::GPS_INVALID_SATELLITES ? 0 : gps.satellites());
   Serial.print(" PREC=");
   Serial.print(gps.hdop() == TinyGPS::GPS_INVALID_HDOP ? 0.0 : ((float) gps.hdop())/100 , 6);
-
   Serial.println();
   
   //Check WiFi connection status
@@ -98,8 +115,8 @@ void loop() {
     
     //Dezerialize JSON to char * 
     // Falta crear el JSON -------
-    
-    char * postData = "Aca queda el post configurado";
+    char * postData;
+    sprintf(postData, "{ \"id_dipositivo\" : \"%s\", \"n_bateria\": %i, \"temperatura\" : %f, \"humedad\" : $f, \"x\": %f, \"y\": %f, \"t_lectura\" : \"%s\", \"num_satelites\": %i, \"varianza\":%i}" ,id_device, bateria, temperatura, humedad, flat, flon, timestamp, numero_satelites, varianza);
     Serial.println(postData);
     int httpResponseCode = http.POST(postData);
    
