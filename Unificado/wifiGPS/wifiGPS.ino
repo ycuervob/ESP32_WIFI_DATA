@@ -12,6 +12,10 @@
 #include <TinyGPS.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <DHT.h>           //Cargamos la librería DHT
+#define DHTTYPE  DHT22   //Definimos el modelo del sensor DHT22
+#define DHTPIN    4     // Se define el pin D4 del ESP32 para conectar el sensor DHT22
+
 
 //Data from the device
 const char * id_device = "ESP32LAB_TEST1";
@@ -28,6 +32,7 @@ unsigned long timerDelay = 5000;
 //TinyGPSPlus gps
 TinyGPS gps;
 HardwareSerial SerialGPS(2);
+DHT dht(DHTPIN, DHTTYPE, 22);  // Función de temperatura
 
 void setup() {
   Serial.begin(115200);
@@ -40,13 +45,16 @@ void setup() {
   Serial.println("Connecting");
   int count = 0;
   
-  while(WiFi.status() != WL_CONNECTED) {
+    while(WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
     count++;
     if(count == 30){
         count =0;
     }
+
+   // Temperatura y humedad
+   dht.begin(); 
   }
   
   Serial.println("");
@@ -107,6 +115,16 @@ void loop() {
   Serial.print(varianza , 6);
   Serial.println();
   
+  // Temperatura y humedad
+  float h = dht.readHumidity(); //Se lee la humedad y se asigna el valor a "h"
+  float t = dht.readTemperature(); //Se lee la temperatura y se asigna el valor a "t"
+   //Se imprimen las variables
+    Serial.println("Humedad: "); 
+    Serial.println(h);
+    Serial.println("Temperatura: ");
+    Serial.println(t);
+    delay(2000);  
+
   //Check WiFi connection status
   if(WiFi.status()== WL_CONNECTED){
     WiFiClient client;
@@ -138,5 +156,4 @@ void loop() {
   else {
     Serial.println("WiFi Disconnected");
   }
-
 }
