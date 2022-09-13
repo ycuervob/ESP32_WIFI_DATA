@@ -68,10 +68,7 @@ void loop() {
 
   // Nivel de bateria
   int bateria = 100;
-  
-  //tepmeratura y humedad
-  float temperatura = 27.14;
-  float humedad = 0.45;
+ 
 
   //Timestamp
   char * timestamp = "2022-09-18 18:00:00";
@@ -114,15 +111,16 @@ void loop() {
   Serial.print(" PREC=");
   Serial.print(varianza , 6);
   Serial.println();
+
+  //tepmeratura y humedad
+  float temperatura = dht.readHumidity();
+  float humedad = dht.readTemperature();
   
-  // Temperatura y humedad
-  float h = dht.readHumidity(); //Se lee la humedad y se asigna el valor a "h"
-  float t = dht.readTemperature(); //Se lee la temperatura y se asigna el valor a "t"
    //Se imprimen las variables
     Serial.println("Humedad: "); 
-    Serial.println(h);
+    Serial.println(humedad);
     Serial.println("Temperatura: ");
-    Serial.println(t);
+    Serial.println(temperatura);
     delay(2000);  
 
   //Check WiFi connection status
