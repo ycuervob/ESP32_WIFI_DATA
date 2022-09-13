@@ -17,11 +17,11 @@
 const char * id_device = "ESP32LAB_TEST1";
 
 //Setting Wifi settings for connection
-const char* ssid = "UFI32";
-const char* password = "1234567890";
+const char* ssid = "LabLog";
+const char* password = "17113467";
 
 //Your Domain name with URL path or IP address with path
-const char* serverName = "http://192.168.100.41:3000";
+const char* serverName = "http://192.168.0.106:3000";
 unsigned long lastTime = 0;
 unsigned long timerDelay = 5000;
 
@@ -44,8 +44,7 @@ void setup() {
     delay(500);
     Serial.print(".");
     count++;
-    if(count == 20){
-        WiFi.begin(ssid, password);
+    if(count == 30){
         count =0;
     }
   }
@@ -115,8 +114,19 @@ void loop() {
     
     //Dezerialize JSON to char * 
     // Falta crear el JSON -------
-    char * postData;
-    sprintf(postData, "{ \"id_dipositivo\" : \"%s\", \"n_bateria\": %i, \"temperatura\" : %f, \"humedad\" : $f, \"x\": %f, \"y\": %f, \"t_lectura\" : \"%s\", \"num_satelites\": %i, \"varianza\":%i}" ,id_device, bateria, temperatura, humedad, flat, flon, timestamp, numero_satelites, varianza);
+    String postData = String("{ \"lista\":[")
+      + String("\"") + String(id_device)+ String("\",")
+      + String(bateria) + String(",")
+      + String(temperatura) + String(",")
+      + String(humedad) + String(",")
+      + String(flat) + String(",")
+      + String(flon) + String(",")
+      + String("\"") + String(timestamp) + String("\",")
+      + String(numero_satelites) + String(",")
+      + String(varianza)+String("]}");
+    
+    
+    //sprintf(postData, "{ \"lista\" : [\"%s\", %i, %f, %f, %f, %f,\"%s\", %i,%i]}" ,id_device, bateria, temperatura, humedad, flat, flon, timestamp, numero_satelites, varianza);
     Serial.println(postData);
     int httpResponseCode = http.POST(postData);
    
