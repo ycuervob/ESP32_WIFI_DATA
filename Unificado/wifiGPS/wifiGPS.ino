@@ -91,18 +91,20 @@ void loop() {
 
   gps.f_get_position(&flat, &flon, &age);
   gps.stats(&chars, &sentences, &failed);
-
-  int numero_satelites = gps.satellites();
-  float varianza = ((float) gps.hdop())/100;
+  
+  flat = (flat == TinyGPS::GPS_INVALID_F_ANGLE) ? 0.0 : flat;
+  flon = (flon == TinyGPS::GPS_INVALID_F_ANGLE) ? 0.0 : flon;
+  int numero_satelites = (gps.satellites() == TinyGPS::GPS_INVALID_SATELLITES) ? 0 : gps.satellites();
+  float varianza = (gps.hdop() == TinyGPS::GPS_INVALID_HDOP) ? 0.0 : ((float) gps.hdop())/100;
   
   Serial.print("LAT=");
-  Serial.print(flat == TinyGPS::GPS_INVALID_F_ANGLE ? 0.0 : flat, 6);
+  Serial.print(flat);
   Serial.print(" LON=");
-  Serial.print(flon == TinyGPS::GPS_INVALID_F_ANGLE ? 0.0 : flon, 6);
+  Serial.print(flon);
   Serial.print(" SAT=");
-  Serial.print(gps.satellites() == TinyGPS::GPS_INVALID_SATELLITES ? 0 : gps.satellites());
+  Serial.print(numero_satelites);
   Serial.print(" PREC=");
-  Serial.print(gps.hdop() == TinyGPS::GPS_INVALID_HDOP ? 0.0 : ((float) gps.hdop())/100 , 6);
+  Serial.print(varianza , 6);
   Serial.println();
   
   //Check WiFi connection status
@@ -125,8 +127,6 @@ void loop() {
       + String(numero_satelites) + String(",")
       + String(varianza)+String("]}");
     
-    
-    //sprintf(postData, "{ \"lista\" : [\"%s\", %i, %f, %f, %f, %f,\"%s\", %i,%i]}" ,id_device, bateria, temperatura, humedad, flat, flon, timestamp, numero_satelites, varianza);
     Serial.println(postData);
     int httpResponseCode = http.POST(postData);
    
