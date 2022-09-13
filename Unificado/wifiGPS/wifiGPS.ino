@@ -12,20 +12,20 @@
 #include <TinyGPS.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include <ArduinoJson.h>
 #include <DHT.h>           //Cargamos la librería DHT
-
-
 #define DHTTYPE  DHT22   //Definimos el modelo del sensor DHT22
 #define DHTPIN    4     // Se define el pin D4 del ESP32 para conectar el sensor DHT22
 
 
+//Data from the device
+const char * id_device = "ESP32LAB_TEST1";
+
 //Setting Wifi settings for connection
-const char* ssid = "Lablog";
+const char* ssid = "LabLog";
 const char* password = "17113467";
 
 //Your Domain name with URL path or IP address with path
-const char* serverName = "http://192.168.100.41:3000";
+const char* serverName = "http://192.168.0.106:3000";
 unsigned long lastTime = 0;
 unsigned long timerDelay = 5000;
 
@@ -43,10 +43,15 @@ void setup() {
   //Wifi settings
   WiFi.begin(ssid, password);
   Serial.println("Connecting");
+  int count = 0;
   
     while(WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
+    count++;
+    if(count == 30){
+        count =0;
+    }
 
    // Temperatura y humedad
    dht.begin(); 
@@ -60,6 +65,17 @@ void setup() {
 }
 
 void loop() {
+
+  // Nivel de bateria
+  int bateria = 100;
+  
+  //tepmeratura y humedad
+  float temperatura = 27.14;
+  float humedad = 0.45;
+
+  //Timestamp
+  char * timestamp = "2022-09-18 18:00:00";
+  
   bool newData = false;
   unsigned long chars;
   unsigned short sentences, failed;
@@ -80,17 +96,25 @@ void loop() {
   // Read data from gps
   float flat, flon;
   unsigned long age;
-  gps.f_get_position(&flat, &flon, &age);
 
   gps.f_get_position(&flat, &flon, &age);
+  gps.stats(&chars, &sentences, &failed);
+  
+  flat = (flat == TinyGPS::GPS_INVALID_F_ANGLE) ? 0.0 : flat;
+  flon = (flon == TinyGPS::GPS_INVALID_F_ANGLE) ? 0.0 : flon;
+  int numero_satelites = (gps.satellites() == TinyGPS::GPS_INVALID_SATELLITES) ? 0 : gps.satellites();
+  float varianza = (gps.hdop() == TinyGPS::GPS_INVALID_HDOP) ? 0.0 : ((float) gps.hdop())/100;
+  
   Serial.print("LAT=");
-  Serial.print(flat == TinyGPS::GPS_INVALID_F_ANGLE ? 0.0 : flat, 6);
+  Serial.print(flat);
   Serial.print(" LON=");
-  Serial.print(flon == TinyGPS::GPS_INVALID_F_ANGLE ? 0.0 : flon, 6);
+  Serial.print(flon);
   Serial.print(" SAT=");
-  Serial.print(gps.satellites() == TinyGPS::GPS_INVALID_SATELLITES ? 0 : gps.satellites());
+  Serial.print(numero_satelites);
   Serial.print(" PREC=");
-  Serial.print(gps.hdop() == TinyGPS::GPS_INVALID_HDOP ? 0.0 : ((float) gps.hdop())/100 , 6);
+  Serial.print(varianza , 6);
+  Serial.println();
+  
   // Temperatura y humedad
   float h = dht.readHumidity(); //Se lee la humedad y se asigna el valor a "h"
   float t = dht.readTemperature(); //Se lee la temperatura y se asigna el valor a "t"
@@ -100,7 +124,7 @@ void loop() {
     Serial.println("Temperatura: ");
     Serial.println(t);
     delay(2000);  
-    
+
   //Check WiFi connection status
   if(WiFi.status()== WL_CONNECTED){
     WiFiClient client;
@@ -108,16 +132,20 @@ void loop() {
     http.begin(client, serverName);
     http.addHeader("Content-Type", "application/json");
     
-    //Creating a JSON to post
-    DynamicJsonDocument doc(1024);
-    doc["sensor"] = "gps";
-    doc["x"]   = flat;
-    doc["y"] = flon;
-    doc["age"] = age;
-
     //Dezerialize JSON to char * 
-    char * postData;
-    deserializeJson(doc, postData);
+    // Falta crear el JSON -------
+    String postData = String("{ \"lista\":[")
+      + String("\"") + String(id_device)+ String("\",")
+      + String(bateria) + String(",")
+      + String(temperatura) + String(",")
+      + String(humedad) + String(",")
+      + String(flat) + String(",")
+      + String(flon) + String(",")
+      + String("\"") + String(timestamp) + String("\",")
+      + String(numero_satelites) + String(",")
+      + String(varianza)+String("]}");
+    
+    Serial.println(postData);
     int httpResponseCode = http.POST(postData);
    
     Serial.print("HTTP Response code: ");
