@@ -13,11 +13,16 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
+#include <DHT.h>           //Cargamos la librería DHT
+
+
+#define DHTTYPE  DHT22   //Definimos el modelo del sensor DHT22
+#define DHTPIN    4     // Se define el pin D4 del ESP32 para conectar el sensor DHT22
 
 
 //Setting Wifi settings for connection
-const char* ssid = "UFI32";
-const char* password = "1234567890";
+const char* ssid = "Lablog";
+const char* password = "17113467";
 
 //Your Domain name with URL path or IP address with path
 const char* serverName = "http://192.168.100.41:3000";
@@ -27,6 +32,7 @@ unsigned long timerDelay = 5000;
 //TinyGPSPlus gps
 TinyGPS gps;
 HardwareSerial SerialGPS(2);
+DHT dht(DHTPIN, DHTTYPE, 22);  // Función de temperatura
 
 void setup() {
   Serial.begin(115200);
@@ -38,9 +44,12 @@ void setup() {
   WiFi.begin(ssid, password);
   Serial.println("Connecting");
   
-  while(WiFi.status() != WL_CONNECTED) {
+    while(WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
+
+   // Temperatura y humedad
+   dht.begin(); 
   }
   
   Serial.println("");
@@ -82,7 +91,16 @@ void loop() {
   Serial.print(gps.satellites() == TinyGPS::GPS_INVALID_SATELLITES ? 0 : gps.satellites());
   Serial.print(" PREC=");
   Serial.print(gps.hdop() == TinyGPS::GPS_INVALID_HDOP ? 0.0 : ((float) gps.hdop())/100 , 6);
-  
+  // Temperatura y humedad
+  float h = dht.readHumidity(); //Se lee la humedad y se asigna el valor a "h"
+  float t = dht.readTemperature(); //Se lee la temperatura y se asigna el valor a "t"
+   //Se imprimen las variables
+    Serial.println("Humedad: "); 
+    Serial.println(h);
+    Serial.println("Temperatura: ");
+    Serial.println(t);
+    delay(2000);  
+    
   //Check WiFi connection status
   if(WiFi.status()== WL_CONNECTED){
     WiFiClient client;
@@ -110,5 +128,4 @@ void loop() {
   else {
     Serial.println("WiFi Disconnected");
   }
-
 }
