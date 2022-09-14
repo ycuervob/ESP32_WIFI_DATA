@@ -50,6 +50,7 @@ void setup() {
     Serial.print(".");
     count++;
     if(count == 30){
+      ESP.restart();
         count =0;
     }
 
@@ -103,9 +104,9 @@ void loop() {
   float varianza = (gps.hdop() == TinyGPS::GPS_INVALID_HDOP) ? 0.0 : ((float) gps.hdop())/100;
   
   Serial.print("LAT=");
-  Serial.print(flat);
+  Serial.print(flat,6);
   Serial.print(" LON=");
-  Serial.print(flon);
+  Serial.print(flon,6);
   Serial.print(" SAT=");
   Serial.print(numero_satelites);
   Serial.print(" PREC=");
@@ -120,8 +121,7 @@ void loop() {
     Serial.println("Humedad: "); 
     Serial.println(humedad);
     Serial.println("Temperatura: ");
-    Serial.println(temperatura);
-    delay(2000);  
+    Serial.println(temperatura); 
 
   //Check WiFi connection status
   if(WiFi.status()== WL_CONNECTED){
@@ -135,10 +135,10 @@ void loop() {
     String postData = String("{ \"lista\":[")
       + String("\"") + String(id_device)+ String("\",")
       + String(bateria) + String(",")
-      + String(temperatura) + String(",")
-      + String(humedad) + String(",")
-      + String(flat) + String(",")
-      + String(flon) + String(",")
+      + String(temperatura,6) + String(",")
+      + String(humedad,6) + String(",")
+      + String(flat,6) + String(",")
+      + String(flon,6) + String(",")
       + String("\"") + String(timestamp) + String("\",")
       + String(numero_satelites) + String(",")
       + String(varianza)+String("]}");
