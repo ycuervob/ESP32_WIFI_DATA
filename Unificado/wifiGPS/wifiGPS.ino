@@ -18,6 +18,7 @@
 // Control de encencido
 int pinTem = 13;
 int pinGps = 12;
+byte x=1; //Declaro una variable tipo byte
 //Data from the device
 const char * id_device = "ESP32LAB_TEST1";
 
@@ -75,9 +76,18 @@ void setup() {
 
 void loop() {
   // Control de encendido
-    task1();
-    task2();
+  while (x <= 5){      //Mientras x sea menor o igual a 5 ejecuto las instrucciones
+     task1();
+     task2();
+     x=x+1;  //Incrementa en uno el valor de x
+    }
+  task3();
+  Serial.print("Tiempo de espera ");
+  delay(300000);
+  x=1;
 }
+   
+
 void  task1() {
     //{period}: Periodo de Tiempo en el cual se va a ejecutar esta tarea
     unsigned long period=2; //En Milisegundos
@@ -87,6 +97,18 @@ void  task1() {
     if((millis()-previousMillis)>period){
         digitalWrite(pinTem, HIGH);
         digitalWrite(pinGps, HIGH);
+        previousMillis += period;
+    }  
+}
+void  task3() {
+    //{period}: Periodo de Tiempo en el cual se va a ejecutar esta tarea
+    unsigned long period=2; //En Milisegundos
+
+    static unsigned long previousMillis=0;
+
+    if((millis()-previousMillis)>period){
+        digitalWrite(pinTem, LOW);
+        digitalWrite(pinGps, LOW);
         previousMillis += period;
     }  
 }
@@ -145,8 +167,8 @@ void  task2() {
   Serial.println();
 
   //tepmeratura y humedad
-  float temperatura = dht.readHumidity();
-  float humedad = dht.readTemperature();
+  float temperatura = dht.readTemperature();
+  float humedad = dht.readHumidity();
   
    //Se imprimen las variables
     Serial.println("Humedad: "); 
