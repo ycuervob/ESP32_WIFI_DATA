@@ -16,7 +16,7 @@ void setup() {
 void loop() {
    
   /*Read from ADXL345 accelerometer*/
-  sensors_event_t event; 
+  sensors_event_t event;
   accel.getEvent(&event);
  
   /* Display the results (acceleration is measured in m/s^2) */

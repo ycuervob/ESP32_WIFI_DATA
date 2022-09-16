@@ -1,13 +1,3 @@
-/*
-  Rui Santos
-  Complete project details at Complete project details at https://RandomNerdTutorials.com/esp32-http-get-post-arduino/
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files.
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-*/
 #include <HardwareSerial.h>
 #include <TinyGPS.h>
 #include <WiFi.h>
@@ -15,9 +5,7 @@
 #include <DHT.h>           //Cargamos la librería DHT
 #define DHTTYPE  DHT22   //Definimos el modelo del sensor DHT22
 #define DHTPIN    4     // Se define el pin D4 del ESP32 para conectar el sensor DHT22
-// Control de encencido
-int pinTem = 13;
-int pinGps = 12;
+int pin_led = 23;
 //Data from the device
 const char * id_device = "ESP32LAB_TEST1";
 
@@ -34,70 +22,25 @@ unsigned long timerDelay = 5000;
 TinyGPS gps;
 HardwareSerial SerialGPS(2);
 DHT dht(DHTPIN, DHTTYPE, 22);  // Función de temperatura
-
-
+// Control de encencido
+int pinTem = 23;
 void pinesyvariables(){
     pinMode(pinTem, OUTPUT);
-    pinMode(pinGps, OUTPUT);
 
 }
-
+//Paso 2
 void setup() {
-  Serial.begin(115200);
+      Serial.begin(115200);
   // Control de Encendido
    pinesyvariables();
-      //GPS serial RX-> 16 , TX -> 17
-  SerialGPS.begin(9600, SERIAL_8N1, 16, 17);
-
-  //Wifi settings
-  WiFi.begin(ssid, password);
-  Serial.println("Connecting");
-  int count = 0;
-  
-    while(WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-    count++;
-    if(count == 30){
-      ESP.restart();
-        count =0;
-    }
-
-   // Temperatura y humedad
-   dht.begin(); 
-  }
-  
-  Serial.println("");
-  Serial.print("Connected to WiFi network with IP Address: ");
-  Serial.println(WiFi.localIP());
-  Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
+   ConnectWiFi_STA();
 }
 
+//Paso 3
 void loop() {
   // Control de encendido
-    task1();
-    task2();
-}
-void  task1() {
-    //{period}: Periodo de Tiempo en el cual se va a ejecutar esta tarea
-    unsigned long period=2; //En Milisegundos
+   digitalWrite(pinTem, HIGH);
 
-    static unsigned long previousMillis=0;
-
-    if((millis()-previousMillis)>period){
-        digitalWrite(pinTem, HIGH);
-        digitalWrite(pinGps, HIGH);
-        previousMillis += period;
-    }  
-}
-void  task2() {
-    //{period}: Periodo de Tiempo en el cual se va a ejecutar esta tarea
-    unsigned long period=1000; //En Milisegundos
-
-    static unsigned long previousMillis=0;
-
-    if((millis()-previousMillis)>period){
-          //delay(1000);
   // Nivel de bateria
   int bateria = 100;
  
@@ -185,7 +128,31 @@ void  task2() {
   else {
     Serial.println("WiFi Disconnected");
   }
-        previousMillis += period;
-    }  
 }
- 
+   ConnectWiFi_STA(){
+      //GPS serial RX-> 16 , TX -> 17
+  SerialGPS.begin(9600, SERIAL_8N1, 16, 17);
+
+  //Wifi settings
+  WiFi.begin(ssid, password);
+  Serial.println("Connecting");
+  int count = 0;
+  
+    while(WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+    count++;
+    if(count == 30){
+      ESP.restart();
+        count =0;
+    }
+
+   // Temperatura y humedad
+   dht.begin(); 
+  }
+  
+  Serial.println("");
+  Serial.print("Connected to WiFi network with IP Address: ");
+  Serial.println(WiFi.localIP());
+  Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
+   }
