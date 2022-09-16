@@ -77,18 +77,18 @@ void setup() {
 void loop() {
   // Control de encendido
   while (x <= 5){      //Mientras x sea menor o igual a 5 ejecuto las instrucciones
-     task1();
-     task2();
+     EncenderDispositivos();
+     ProcesamientoDeInformacion(); //Procesamiento de información
      x=x+1;  //Incrementa en uno el valor de x
     }
-  task3();
+  ApagarDispositivos();
   Serial.print("Tiempo de espera ");
   delay(300000);
   x=1;
 }
    
 
-void  task1() {
+void  EncenderDispositivos() {
     //{period}: Periodo de Tiempo en el cual se va a ejecutar esta tarea
     unsigned long period=2; //En Milisegundos
 
@@ -100,7 +100,7 @@ void  task1() {
         previousMillis += period;
     }  
 }
-void  task3() {
+void  ApagarDispositivos() {
     //{period}: Periodo de Tiempo en el cual se va a ejecutar esta tarea
     unsigned long period=2; //En Milisegundos
 
@@ -112,7 +112,7 @@ void  task3() {
         previousMillis += period;
     }  
 }
-void  task2() {
+void  ProcesamientoDeInformacion() {
     //{period}: Periodo de Tiempo en el cual se va a ejecutar esta tarea
     unsigned long period=1000; //En Milisegundos
 
