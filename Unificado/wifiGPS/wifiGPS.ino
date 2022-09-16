@@ -83,7 +83,7 @@ void loop() {
     }
   ApagarDispositivos();
   Serial.print("Tiempo de espera ");
-  delay(300000);
+  delay(30000);
   x=1;
 }
    
