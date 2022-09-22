@@ -57,6 +57,11 @@ void pinesyvariables()
 void setup()
 {
   Serial.begin(115200);
+  while (!Serial)
+  {
+    ; // wait for serial port to connect. Needed for native USB port only
+  }
+
   // Control de Encendido
   pinesyvariables();
   // GPS serial RX-> 16 , TX -> 17
@@ -64,7 +69,7 @@ void setup()
 
   // sd initialization
   Serial.print("Initializing SD card...");
-  if (!SD.begin(SS))
+  if (!SD.begin(5))
   {
     Serial.println("initialization failed!");
     while (1)

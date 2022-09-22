@@ -51,7 +51,7 @@ void setup() {
       myFile.println(i);
     }
     // close the file:
-    myFile.close();
+     
     Serial.println("done.");
   } else {
     // if the file didn't open, print an error:
