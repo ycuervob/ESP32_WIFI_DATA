@@ -54,19 +54,8 @@ void pinesyvariables()
   pinMode(pinGps, OUTPUT);
 }
 
-void setup()
+void sdInitialization()
 {
-  Serial.begin(115200);
-  while (!Serial)
-  {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }
-
-  // Control de Encendido
-  pinesyvariables();
-  // GPS serial RX-> 16 , TX -> 17
-  SerialGPS.begin(9600, SERIAL_8N1, 16, 17);
-
   // sd initialization
   Serial.print("Initializing SD card...");
   if (!SD.begin(5))
@@ -76,6 +65,16 @@ void setup()
       ;
   }
   Serial.println("initialization done.");
+}
+
+void setup()
+{
+  Serial.begin(115200);
+
+  // Control de Encendido
+  pinesyvariables();
+  // GPS serial RX-> 16 , TX -> 17
+  SerialGPS.begin(9600, SERIAL_8N1, 16, 17);
 
   // Wifi settings
   WiFi.begin(ssid, password);
@@ -109,6 +108,7 @@ void loop()
   while (x <= 5)
   { // Mientras x sea menor o igual a 5 ejecuto las instrucciones
     EncenderDispositivos();
+    sdInitialization();
     ProcesamientoDeInformacion(); // Procesamiento de información
     x = x + 1;                    // Incrementa en uno el valor de x
   }
