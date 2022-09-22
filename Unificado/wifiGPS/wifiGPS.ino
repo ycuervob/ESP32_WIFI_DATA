@@ -105,10 +105,10 @@ void setup()
 void loop()
 {
   // Control de encendido
+  EncenderDispositivos();
+  sdInitialization();
   while (x <= 5)
   { // Mientras x sea menor o igual a 5 ejecuto las instrucciones
-    EncenderDispositivos();
-    sdInitialization();
     ProcesamientoDeInformacion(); // Procesamiento de información
     x = x + 1;                    // Incrementa en uno el valor de x
   }
@@ -120,19 +120,12 @@ void loop()
 
 void EncenderDispositivos()
 {
-  //{period}: Periodo de Tiempo en el cual se va a ejecutar esta tarea
-  unsigned long period = 2; // En Milisegundos
-
-  static unsigned long previousMillis = 0;
-
-  if ((millis() - previousMillis) > period)
-  {
-    digitalWrite(pinSD, HIGH);
-    digitalWrite(pinTem, HIGH);
-    digitalWrite(pinGps, HIGH);
-    previousMillis += period;
-  }
+  digitalWrite(pinSD, HIGH);
+  digitalWrite(pinTem, HIGH);
+  digitalWrite(pinGps, HIGH);
 }
+
+
 void ApagarDispositivos()
 {
   //{period}: Periodo de Tiempo en el cual se va a ejecutar esta tarea
