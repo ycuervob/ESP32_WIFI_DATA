@@ -92,10 +92,10 @@ void setup()
       ESP.restart();
       count = 0;
     }
-
-    // Temperatura y humedad
-    dht.begin();
   }
+
+  // Temperatura y humedad
+  dht.begin();
 
   Serial.println("");
   Serial.print("Connected to WiFi network with IP Address: ");
