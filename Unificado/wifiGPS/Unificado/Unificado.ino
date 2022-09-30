@@ -1,5 +1,3 @@
-
-
 /*
   Rui Santos
   Complete project details at Complete project details at https://RandomNerdTutorials.com/esp32-http-get-post-arduino/
@@ -46,7 +44,7 @@ unsigned long timerDelay = 5000;
 // TinyGPSPlus gps
 TinyGPS gps;
 HardwareSerial SerialGPS(2);
-DHT dht(DHTPIN, DHTTYPE, 22); // Función de temperatura
+DHT dht(DHTPIN, DHTTYPE, 22);  // Función de temperatura
 
 // Micro sd storage
 File myFile;
@@ -54,41 +52,35 @@ File myFile;
 // Accelerometer
 Adafruit_MPU6050 mpu;
 
-void pinesyvariables()
-{
+void pinesyvariables() {
   pinMode(pinSD, OUTPUT);
   pinMode(pinTem, OUTPUT);
   pinMode(pinGps, OUTPUT);
 }
 
-void sdInitialization()
-{
+void sdInitialization() {
 
   Serial.print("Initializing SD card...");
-  if (!SD.begin(SS))
-  {
+  if (!SD.begin(SS)) {
     Serial.println("initialization failed!");
     ESP.restart();
   }
   Serial.println("initialization done.");
 }
 
-void EncenderDispositivos()
-{
+void EncenderDispositivos() {
   digitalWrite(pinSD, HIGH);
   digitalWrite(pinTem, HIGH);
   digitalWrite(pinGps, HIGH);
 }
 
-void ApagarDispositivos()
-{
+void ApagarDispositivos() {
   digitalWrite(pinSD, LOW);
   digitalWrite(pinTem, LOW);
   digitalWrite(pinGps, LOW);
 }
 
-void acelerometro(double *array)
-{
+void acelerometro(double *array_ace) {
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
   Serial.print("Acceleration Total: ");
@@ -102,12 +94,11 @@ void acelerometro(double *array)
   Serial.print(a.acceleration.z);
   Serial.println(" m/s^2");
 
-  double acceArray[3] = {a.acceleration.x, a.acceleration.y, a.acceleration.x};
-  array = acceArray;
+  double acceArray[3] = { a.acceleration.x, a.acceleration.y, a.acceleration.x };
+  array_ace = acceArray;
 }
 
-void gpsDatos(String *array)
-{
+String * gpsDatos() {
   // Read data from gps
   unsigned long chars;
   unsigned short sentences, failed;
@@ -119,12 +110,10 @@ void gpsDatos(String *array)
 
   // For one second we parse GPS data and report some key values
   // Checks if the GPS in sending data and if new data is received
-  for (unsigned long start = millis(); millis() - start < 1000;)
-  {
-    while (SerialGPS.available())
-    {
+  for (unsigned long start = millis(); millis() - start < 1000;) {
+    while (SerialGPS.available()) {
       char c = SerialGPS.read();
-      if (gps.encode(c)) // Did a new valid sentence come in?
+      if (gps.encode(c))  // Did a new valid sentence come in?
         newData = true;
     }
   }
@@ -150,12 +139,11 @@ void gpsDatos(String *array)
   Serial.print(varianza, 6);
   Serial.println();
 
-  String strArray[5] = {String(flat, 6), String(flon, 6), String(timestamp), String(numero_satelites), String(varianza)};
-  array = strArray;
+  String strArray2[5] = { String(flat, 6), String(flon, 6), String(timestamp), String(numero_satelites), String(varianza) };
+  return strArray2;
 }
 
-void tempyhumedad(String *array)
-{
+String * tempyhumedad() {
   float temperatura = dht.readTemperature();
   float humedad = dht.readHumidity();
   Serial.println("Humedad: ");
@@ -163,159 +151,21 @@ void tempyhumedad(String *array)
   Serial.println("Temperatura: ");
   Serial.println(temperatura);
 
-  String strArray[2] = {String(temperatura, 6), String(humedad, 6)};
-  array = strArray;
+  String strArray[2] = { String(temperatura, 6), String(humedad, 6) };
+  return strArray;
 }
 
-int httpRequest(String id_device_in, String bateria, String temperatura, String humedad, String flat, String flon, String timestamp, String numero_satelites, String varianza, String x, String y, String z)
-{
-  // Check WiFi connection status
-  if (WiFi.status() == WL_CONNECTED)
-  {
-    WiFiClient client;
-    HTTPClient http;
-    http.begin(client, serverName);
-    http.addHeader("Content-Type", "application/json");
-
-    // JSON to send
-    String postData = String("{ \"lista\":[") + String("\"") + id_device_in + String("\",") + bateria + String(",") + temperatura + String(",") + humedad + String(",") + flat + String(",") + flon + String(",") + String("\"") + timestamp + String("\",") + numero_satelites + String(",") + varianza + String("]}");
-    Serial.println(postData);
-    int httpResponseCode = http.POST(postData);
-
-    if (httpResponseCode < 0)
-    {
-
-      myFile = SD.open("/data.json", FILE_APPEND);
-      Serial.print("Error sending data, storing in SD, http code: ");
-      Serial.println(httpResponseCode);
-
-      if (myFile)
-      {
-        Serial.print("Writing to data.json...");
-        myFile.println(postData);
-        myFile.close();
-        Serial.println("done.");
-      }
-      else
-      {
-        Serial.println("error opening data.json");
-        ESP.restart();
-      }
-    }
-    else
-    {
-      Serial.print("Sended to the server, code: ");
-      Serial.println(httpResponseCode);
-    }
-
-    // Free resources
-    http.end();
-    return httpResponseCode;
-  }
-  else
-  {
-    Serial.println("WiFi Disconnected");
-    ESP.restart();
-  }
-}
-
-void acelerometroInicializacion()
-{
-  // acc initialization
-  Serial.begin(115200);
-  while (!Serial)
-    delay(10); // will pause Zero, Leonardo, etc until serial console opens
-
-  Serial.println("Adafruit MPU6050 test!");
-
-  // Try to initialize!
-  if (!mpu.begin())
-  {
-    Serial.println("Failed to find MPU6050 chip");
-    while (1)
-    {
-      delay(10);
-    }
-  }
-  Serial.println("MPU6050 Found!");
-
-  mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
-  Serial.print("Accelerometer range set to: ");
-  switch (mpu.getAccelerometerRange())
-  {
-  case MPU6050_RANGE_2_G:
-    Serial.println("+-2G");
-    break;
-  case MPU6050_RANGE_4_G:
-    Serial.println("+-4G");
-    break;
-  case MPU6050_RANGE_8_G:
-    Serial.println("+-8G");
-    break;
-  case MPU6050_RANGE_16_G:
-    Serial.println("+-16G");
-    break;
-  }
-  mpu.setGyroRange(MPU6050_RANGE_500_DEG);
-  Serial.print("Gyro range set to: ");
-  switch (mpu.getGyroRange())
-  {
-  case MPU6050_RANGE_250_DEG:
-    Serial.println("+- 250 deg/s");
-    break;
-  case MPU6050_RANGE_500_DEG:
-    Serial.println("+- 500 deg/s");
-    break;
-  case MPU6050_RANGE_1000_DEG:
-    Serial.println("+- 1000 deg/s");
-    break;
-  case MPU6050_RANGE_2000_DEG:
-    Serial.println("+- 2000 deg/s");
-    break;
-  }
-
-  mpu.setFilterBandwidth(MPU6050_BAND_5_HZ);
-  Serial.print("Filter bandwidth set to: ");
-  switch (mpu.getFilterBandwidth())
-  {
-  case MPU6050_BAND_260_HZ:
-    Serial.println("260 Hz");
-    break;
-  case MPU6050_BAND_184_HZ:
-    Serial.println("184 Hz");
-    break;
-  case MPU6050_BAND_94_HZ:
-    Serial.println("94 Hz");
-    break;
-  case MPU6050_BAND_44_HZ:
-    Serial.println("44 Hz");
-    break;
-  case MPU6050_BAND_21_HZ:
-    Serial.println("21 Hz");
-    break;
-  case MPU6050_BAND_10_HZ:
-    Serial.println("10 Hz");
-    break;
-  case MPU6050_BAND_5_HZ:
-    Serial.println("5 Hz");
-    break;
-  }
-}
-
-void wifiInicializacion()
-{
+void wifiInicializacion() {
   // Wifi settings
   WiFi.begin(ssid, password);
   Serial.println("Connecting");
   int count = 0;
 
-  while (WiFi.status() != WL_CONNECTED)
-  {
+  while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
     count++;
-    if (count == 30)
-    {
+    if (count == 30) {
       ESP.restart();
       count = 0;
     }
@@ -327,34 +177,146 @@ void wifiInicializacion()
   Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
 }
 
-void ProcesamientoDeInformacion()
-{
-  int bateria = 100;
-  String *array_tempyhym;
-  String *array_gpsDatos;
-  double array_acelerometro = {"-1","-1","-1"};
-  tempyhumedad(array_tempyhym);
-  gpsDatos(array_gpsDatos);
-  //acelerometro(array_acelerometro);
-  int respuesta = httpRequest(
-      id_device,
-      String(bateria),
-      array_tempyhym[0],
-      array_gpsDatos[1],
-      array_gpsDatos[0],
-      array_gpsDatos[1],
-      array_gpsDatos[2],
-      array_gpsDatos[3],
-      array_gpsDatos[4],
-      String(array_acelerometro[0]),
-      String(array_acelerometro[1]),
-      String(array_acelerometro[2]));
+void httpmyRequest(String id_device_in, String bateria, String temperatura, String humedad, String flat, String flon, String timestamp, String numero_satelites, String varianza) {
+  // Check WiFi connection status
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("wifi Connected -------");
+    WiFiClient client;
+    HTTPClient http;
+    http.begin(client, serverName);
+    http.addHeader("Content-Type", "application/json");
+
+    // JSON to send
+    String postData = String("{ \"lista\":[") + String("\"") + id_device_in + String("\",") + bateria + String(",") + temperatura + String(",") + humedad + String(",") + flat + String(",") + flon + String(",") + String("\"") + timestamp + String("\",") + numero_satelites + String(",") + varianza + String("]}");
+    Serial.println(postData);
+    int httpResponseCode = http.POST(postData);
+
+    if (httpResponseCode < 0) {
+
+      myFile = SD.open("/data.json", FILE_APPEND);
+      Serial.print("Error sending data, storing in SD, http code: ");
+      Serial.println(httpResponseCode);
+
+      if (myFile) {
+        Serial.print("Writing to data.json...");
+        myFile.println(postData);
+        myFile.close();
+        Serial.println("done.");
+      } else {
+        Serial.println("error opening data.json");
+        ESP.restart();
+      }
+    } else {
+      Serial.print("Sended to the server, code: ");
+      Serial.println(httpResponseCode);
+    }
+
+    // Free resources
+    http.end();
+  } else {
+    Serial.println("WiFi Disconnected");
+    ESP.restart();
+  }
 }
 
-void setup()
-{
+void acelerometroInicializacion() {
+  // acc initialization
   Serial.begin(115200);
-  SerialGPS.begin(9600, SERIAL_8N1, 16, 17); // GPS serial RX-> 16 , TX -> 17
+  while (!Serial)
+    delay(10);  // will pause Zero, Leonardo, etc until serial console opens
+
+  Serial.println("Adafruit MPU6050 test!");
+
+  // Try to initialize!
+  if (!mpu.begin()) {
+    Serial.println("Failed to find MPU6050 chip");
+    while (1) {
+      delay(10);
+    }
+  }
+  Serial.println("MPU6050 Found!");
+
+  mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
+  Serial.print("Accelerometer range set to: ");
+  switch (mpu.getAccelerometerRange()) {
+    case MPU6050_RANGE_2_G:
+      Serial.println("+-2G");
+      break;
+    case MPU6050_RANGE_4_G:
+      Serial.println("+-4G");
+      break;
+    case MPU6050_RANGE_8_G:
+      Serial.println("+-8G");
+      break;
+    case MPU6050_RANGE_16_G:
+      Serial.println("+-16G");
+      break;
+  }
+  mpu.setGyroRange(MPU6050_RANGE_500_DEG);
+  Serial.print("Gyro range set to: ");
+  switch (mpu.getGyroRange()) {
+    case MPU6050_RANGE_250_DEG:
+      Serial.println("+- 250 deg/s");
+      break;
+    case MPU6050_RANGE_500_DEG:
+      Serial.println("+- 500 deg/s");
+      break;
+    case MPU6050_RANGE_1000_DEG:
+      Serial.println("+- 1000 deg/s");
+      break;
+    case MPU6050_RANGE_2000_DEG:
+      Serial.println("+- 2000 deg/s");
+      break;
+  }
+
+  mpu.setFilterBandwidth(MPU6050_BAND_5_HZ);
+  Serial.print("Filter bandwidth set to: ");
+  switch (mpu.getFilterBandwidth()) {
+    case MPU6050_BAND_260_HZ:
+      Serial.println("260 Hz");
+      break;
+    case MPU6050_BAND_184_HZ:
+      Serial.println("184 Hz");
+      break;
+    case MPU6050_BAND_94_HZ:
+      Serial.println("94 Hz");
+      break;
+    case MPU6050_BAND_44_HZ:
+      Serial.println("44 Hz");
+      break;
+    case MPU6050_BAND_21_HZ:
+      Serial.println("21 Hz");
+      break;
+    case MPU6050_BAND_10_HZ:
+      Serial.println("10 Hz");
+      break;
+    case MPU6050_BAND_5_HZ:
+      Serial.println("5 Hz");
+      break;
+  }
+}
+
+void ProcesamientoDeInformacion() {
+  int bateria = 100;
+  String *array_tempyhym = tempyhumedad();
+  String *array_gpsDatos = gpsDatos();
+  //double array_acelerometro[3] = {-1,-1,-1};
+  //acelerometro(array_acelerometro);
+  Serial.println(id_device);
+  Serial.println(bateria);
+  Serial.println(array_tempyhym[0]);
+  Serial.println(array_tempyhym[1]);
+  Serial.println(array_gpsDatos[0]);
+  Serial.println(array_gpsDatos[1]);
+  Serial.println(array_gpsDatos[2]);
+  Serial.println(array_gpsDatos[3]);
+  Serial.println(array_gpsDatos[4]);
+  //httpmyRequest(id_device, String(bateria), array_tempyhym[0], array_tempyhym[1], array_gpsDatos[0], array_gpsDatos[1], array_gpsDatos[2], array_gpsDatos[3], array_gpsDatos[4]);
+}
+
+void setup() {
+  Serial.begin(115200);
+  SerialGPS.begin(9600, SERIAL_8N1, 16, 17);  // GPS serial RX-> 16 , TX -> 17
   wifiInicializacion();
   dht.begin();
   acelerometroInicializacion();
@@ -363,15 +325,13 @@ void setup()
   sdInitialization();
 }
 
-void loop()
-{
+void loop() {
   // Control de encendido
   EncenderDispositivos();
   sdInitialization();
-  while (x <= 15)
-  { // Mientras x sea menor o igual a 5 ejecuto las instrucciones
-    ProcesamientoDeInformacion(); // Procesamiento de información
-    x = x + 1;                    // Incrementa en uno el valor de x
+  while (x <= 15) {                // Mientras x sea menor o igual a 5 ejecuto las instrucciones
+    ProcesamientoDeInformacion();  // Procesamiento de información
+    x = x + 1;                     // Incrementa en uno el valor de x
   }
   ApagarDispositivos();
   delay(10000);
