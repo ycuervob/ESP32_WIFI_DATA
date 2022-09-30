@@ -370,7 +370,8 @@ void loop()
   sdInitialization();
   while (x <= 15)
   { // Mientras x sea menor o igual a 5 ejecuto las instrucciones
-    acelerometro();
+    double * data_acelerometro;
+    acelerometro(data_acelerometro);
     ProcesamientoDeInformacion(); // Procesamiento de información
     x = x + 1;                    // Incrementa en uno el valor de x
   }
@@ -378,7 +379,7 @@ void loop()
   Serial.print("Tiempo de espera ");
   while (y <= 30)
   {
-    String * array_pivot;
+    double * array_pivot;
     acelerometro(array_pivot);
     delay(1000);
     y = y + 1;
