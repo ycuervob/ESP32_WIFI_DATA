@@ -207,6 +207,7 @@ void loop()
   sdInitialization();
   while (x <= 15)
   {                               // Mientras x sea menor o igual a 5 ejecuto las instrucciones
+    RegistraAcelerometro();
     ProcesamientoDeInformacion(); // Procesamiento de información
     x = x + 1;                    // Incrementa en uno el valor de x
   }
@@ -241,7 +242,7 @@ void RegistraAcelerometro()
   mpu.getEvent(&a, &g, &temp);
   if (sqrt ( pow (a.acceleration.x,2 )+pow (a.acceleration.y,2 )+pow (a.acceleration.z,2 ) > 4.4)){
     Serial.print("Acceleration Total: ");
-    Serial.print(sqrt ( pow (a.acceleration.x,2 )+pow (a.acceleration.y,2 )+pow (a.acceleration.z,2 )));
+    Serial.println(sqrt ( pow (a.acceleration.x,2 )+pow (a.acceleration.y,2 )+pow (a.acceleration.z,2 )));
   /* Print out the values */
   Serial.print("Acceleration X: ");
   Serial.print(a.acceleration.x);
@@ -259,9 +260,9 @@ void RegistraAcelerometro()
   Serial.print(g.gyro.z);
   Serial.println(" rad/s");
 
-  Serial.print("Temperature: ");
+  /*Serial.print("Temperature: ");
   Serial.print(temp.temperature);
-  Serial.println(" degC");
+  Serial.println(" degC");*/
 
   Serial.println("");
   }
