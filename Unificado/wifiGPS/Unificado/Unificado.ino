@@ -167,7 +167,7 @@ void tempyhumedad(String *array)
   array = strArray;
 }
 
-int httpRequest(String id_device, String bateria, String temperatura, String humedad, String flat, String flon, String timestamp, String numero_satelites, String varianza, String x, String y, String z)
+int httpRequest(String id_device_in, String bateria, String temperatura, String humedad, String flat, String flon, String timestamp, String numero_satelites, String varianza, String x, String y, String z)
 {
   // Check WiFi connection status
   if (WiFi.status() == WL_CONNECTED)
@@ -178,7 +178,7 @@ int httpRequest(String id_device, String bateria, String temperatura, String hum
     http.addHeader("Content-Type", "application/json");
 
     // JSON to send
-    String postData = String("{ \"lista\":[") + String("\"") + id_device + String("\",") + bateria + String(",") + temperatura + String(",") + humedad + String(",") + flat + String(",") + flon + String(",") + String("\"") + timestamp + String("\",") + numero_satelites + String(",") + varianza + String("]}");
+    String postData = String("{ \"lista\":[") + String("\"") + id_device_in + String("\",") + bateria + String(",") + temperatura + String(",") + humedad + String(",") + flat + String(",") + flon + String(",") + String("\"") + timestamp + String("\",") + numero_satelites + String(",") + varianza + String("]}");
     Serial.println(postData);
     int httpResponseCode = http.POST(postData);
 
@@ -332,10 +332,10 @@ void ProcesamientoDeInformacion()
   int bateria = 100;
   String *array_tempyhym;
   String *array_gpsDatos;
-  double *array_acelerometro;
+  double array_acelerometro = {"-1","-1","-1"};
   tempyhumedad(array_tempyhym);
   gpsDatos(array_gpsDatos);
-  acelerometro(array_acelerometro);
+  //acelerometro(array_acelerometro);
   int respuesta = httpRequest(
       id_device,
       String(bateria),
@@ -370,20 +370,9 @@ void loop()
   sdInitialization();
   while (x <= 15)
   { // Mientras x sea menor o igual a 5 ejecuto las instrucciones
-    double * data_acelerometro;
-    acelerometro(data_acelerometro);
     ProcesamientoDeInformacion(); // Procesamiento de información
     x = x + 1;                    // Incrementa en uno el valor de x
   }
   ApagarDispositivos();
-  Serial.print("Tiempo de espera ");
-  while (y <= 30)
-  {
-    double * array_pivot;
-    acelerometro(array_pivot);
-    delay(1000);
-    y = y + 1;
-  }
-  x = 1;
-  y = 1;
+  delay(10000);
 }
