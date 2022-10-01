@@ -17,6 +17,6 @@ String *tempyhumedad()
   Serial.println("Temperatura: ");
   Serial.println(temperatura);
 
-  String strArray[2] = {String(temperatura, 6), String(humedad, 6)};
+  static String strArray[2] = {String(temperatura, 6), String(humedad, 6)};
   return strArray;
 }

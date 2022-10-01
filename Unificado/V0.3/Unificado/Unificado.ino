@@ -20,8 +20,7 @@ void ProcesamientoDeInformacion() {
   int bateria = 100;
   String *array_tempyhym = tempyhumedad();
   String *array_gpsDatos = gpsDatos();
-  // double array_acelerometro[3] = {-1,-1,-1};
-  // acelerometro(array_acelerometro);
+  double *array_acelerometro = acelerometro();
   Serial.println(id_device);
   Serial.println(bateria);
   Serial.println(array_tempyhym[0]);

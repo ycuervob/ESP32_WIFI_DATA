@@ -52,6 +52,6 @@ String *gpsDatos()
     Serial.print(varianza, 6);
     Serial.println();
 
-    String strArray2[5] = {String(flat, 6), String(flon, 6), String(timestamp), String(numero_satelites), String(varianza)};
+    static String strArray2[5] = {String(flat, 6), String(flon, 6), String(timestamp), String(numero_satelites), String(varianza)};
     return strArray2;
 }
