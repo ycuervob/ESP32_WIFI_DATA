@@ -96,6 +96,9 @@ double* acelerometro() {
   Serial.print(a.acceleration.z);
   Serial.println(" m/s^2");
 
-  static double acceArray[3] = { a.acceleration.x, a.acceleration.y, a.acceleration.x };
+  double * acceArray = new double[3];
+  acceArray[0] = a.acceleration.x;
+  acceArray[1] = a.acceleration.y;
+  acceArray[2] = a.acceleration.x;
   return acceArray;
 }

@@ -26,6 +26,7 @@ String *gpsDatos()
         while (SerialGPS.available())
         {
             char c = SerialGPS.read();
+            //Serial.write(c);
             if (gps.encode(c)) // Did a new valid sentence come in?
                 newData = true;
         }
@@ -52,6 +53,12 @@ String *gpsDatos()
     Serial.print(varianza, 6);
     Serial.println();
 
-    static String strArray2[5] = {String(flat, 6), String(flon, 6), String(timestamp), String(numero_satelites), String(varianza)};
+    String * strArray2 = new String[5];
+    strArray2[0] = String(flat, 6);
+    strArray2[1] = String(flon, 6);
+    strArray2[2] = String(timestamp);
+    strArray2[3] = String(numero_satelites);
+    strArray2[4] = String(varianza);
+
     return strArray2;
 }

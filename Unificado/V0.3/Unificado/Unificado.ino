@@ -30,8 +30,12 @@ void ProcesamientoDeInformacion() {
   Serial.println(array_gpsDatos[2]);
   Serial.println(array_gpsDatos[3]);
   Serial.println(array_gpsDatos[4]);
-  // httpmyRequest(id_device, String(bateria), array_tempyhym[0], array_tempyhym[1], array_gpsDatos[0], array_gpsDatos[1], array_gpsDatos[2], array_gpsDatos[3], array_gpsDatos[4]);
+  httpmyRequest(id_device, String(bateria), array_tempyhym[0], array_tempyhym[1], array_gpsDatos[0], array_gpsDatos[1], array_gpsDatos[2], array_gpsDatos[3], array_gpsDatos[4]);
+  delete[] array_gpsDatos;
+  delete[] array_acelerometro;
+  delete[] array_tempyhym;
 }
+
 
 void setup() {
   Serial.begin(115200);
