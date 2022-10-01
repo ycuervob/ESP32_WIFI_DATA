@@ -9,12 +9,6 @@
   copies or substantial portions of the Software.
 */
 #include "utilities.h"
-#include "wifiUtilities.cpp"
-#include "acelerometroUtilities.cpp"
-#include "gpsUtilities.cpp"
-#include "pinnesUtilities.cpp"
-#include "sdUtilities.cpp"
-#include "tempUtilities.cpp"
 
 byte x = 1;
 byte y = 1;
@@ -22,8 +16,7 @@ byte y = 1;
 // Data from the device
 const String id_device = "dispositivo_prueba";
 
-void ProcesamientoDeInformacion()
-{
+void ProcesamientoDeInformacion() {
   int bateria = 100;
   String *array_tempyhym = tempyhumedad();
   String *array_gpsDatos = gpsDatos();
@@ -41,27 +34,24 @@ void ProcesamientoDeInformacion()
   // httpmyRequest(id_device, String(bateria), array_tempyhym[0], array_tempyhym[1], array_gpsDatos[0], array_gpsDatos[1], array_gpsDatos[2], array_gpsDatos[3], array_gpsDatos[4]);
 }
 
-void setup()
-{
+void setup() {
   Serial.begin(115200);
-  SerialGPS.begin(9600, SERIAL_8N1, 16, 17); // GPS serial RX-> 16 , TX -> 17
+  gpsInicialization();
   wifiInicializacion();
-  dht.begin();
+  tempInicialization();
   acelerometroInicializacion();
   pinesyvariables();
   EncenderDispositivos();
   sdInitialization();
 }
 
-void loop()
-{
+void loop() {
   // Control de encendido
   EncenderDispositivos();
   sdInitialization();
-  while (x <= 15)
-  {                               // Mientras x sea menor o igual a 5 ejecuto las instrucciones
-    ProcesamientoDeInformacion(); // Procesamiento de información
-    x = x + 1;                    // Incrementa en uno el valor de x
+  while (x <= 15) {                // Mientras x sea menor o igual a 5 ejecuto las instrucciones
+    ProcesamientoDeInformacion();  // Procesamiento de información
+    x = x + 1;                     // Incrementa en uno el valor de x
   }
   ApagarDispositivos();
   delay(10000);

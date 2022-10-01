@@ -1,3 +1,13 @@
+#include <DHT.h>
+#define DHTTYPE DHT22
+#define DHTPIN 4
+
+DHT dht(DHTPIN, DHTTYPE, 22); // Función de temperatura
+
+void tempInicialization(){
+    dht.begin();
+}
+
 String *tempyhumedad()
 {
   float temperatura = dht.readTemperature();

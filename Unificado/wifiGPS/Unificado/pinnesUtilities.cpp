@@ -1,3 +1,11 @@
+
+#include <HardwareSerial.h>
+
+// Control de encencido
+int pinSD = 14;
+int pinTem = 13;
+int pinGps = 12;
+
 void pinesyvariables()
 {
   pinMode(pinSD, OUTPUT);
