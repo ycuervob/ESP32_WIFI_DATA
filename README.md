@@ -2,7 +2,7 @@
 
 ESP32 Project for real time geolocalization, used libraries:
 
-* [HartwareSerial](https://github.com/G6EJD/ESP32-Using-Hardware-Serial-Ports/blob/master/ESP32_Using_Serial2.ino)
+* [HartwareSerial](https://github.com/G6EJD/ESP32-Using-Hardware-Serial-Ports/blob/master)
 * [TinyGps](https://github.com/mikalhart/TinyGPS)
 * [DTH22](https://github.com/adafruit/DHT-sensor-library)
 * [SD](https://github.com/espressif/arduino-esp32/blob/master/libraries/SD/src/SD.h)
