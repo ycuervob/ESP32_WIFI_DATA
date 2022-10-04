@@ -7,7 +7,7 @@ const char *ssid = "test";
 const char *password = "clavetest";
 
 // Your Domain name with URL path or IP address with path
-const char *serverName = "http://54.94.206.91";
+const char *serverName = "http://**.**.**.**";
 
 void wifiInicializacion() {
   // Wifi settings
