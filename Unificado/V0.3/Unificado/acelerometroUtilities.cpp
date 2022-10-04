@@ -80,6 +80,9 @@ void acelerometroInicializacion() {
       Serial.println("5 Hz");
       break;
   }
+
+
+
 }
 
 double* acelerometro() {
@@ -96,9 +99,24 @@ double* acelerometro() {
   Serial.print(a.acceleration.z);
   Serial.println(" m/s^2");
 
-  double * acceArray = new double[3];
+  double * acceArray = new double[4];
   acceArray[0] = a.acceleration.x;
   acceArray[1] = a.acceleration.y;
-  acceArray[2] = a.acceleration.x;
+  acceArray[2] = a.acceleration.z;
+  acceArray[2] = sqrt(pow(a.acceleration.x, 2) + pow(a.acceleration.y, 2) + pow(a.acceleration.z, 2));
   return acceArray;
 }
+
+bool acelerometroAlto (){
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+  if(sqrt(pow(a.acceleration.x, 2) + pow(a.acceleration.y, 2) + pow(a.acceleration.z, 2)) > 20){
+    return true;
+  }
+  else {
+    return false;
+  }
+    
+  
+}
+

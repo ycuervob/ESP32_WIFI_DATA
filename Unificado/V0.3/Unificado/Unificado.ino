@@ -29,6 +29,8 @@ void setup() {
   pinesyvariables();
   EncenderDispositivos();
   sdInitialization();
+
+  // falta implemetnar código para que despues de iniciarlizar SD, si hay, suba los existentes si puede
 }
 
 void loop() {
@@ -41,5 +43,10 @@ void loop() {
   }
   x = 0; 
   ApagarDispositivos();
-  delay(10000);
+  while(y <= 2000 ){
+    if(acelerometroAlto()== true) break;
+    delay(10);
+    y=y+1;    
+  }
+  y=0;
 }

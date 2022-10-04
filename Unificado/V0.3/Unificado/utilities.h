@@ -5,6 +5,7 @@ void gpsInicialization();
 void tempInicialization();
 void sdInitialization();
 double *acelerometro();
+bool acelerometroAlto ();
 String *gpsDatos();
 String *tempyhumedad();
 void pinesyvariables();
