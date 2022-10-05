@@ -13,13 +13,6 @@ void ProcesamientoDeInformacion() {
   double *array_acelerometro = acelerometro();
   Serial.println(id_device);
   Serial.println(bateria);
-  Serial.println(array_tempyhym[0]);
-  Serial.println(array_tempyhym[1]);
-  Serial.println(array_gpsDatos[0]);
-  Serial.println(array_gpsDatos[1]);
-  Serial.println(array_gpsDatos[2]);
-  Serial.println(array_gpsDatos[3]);
-  Serial.println(array_gpsDatos[4]);
   httpmyRequest(id_device, String(bateria), array_tempyhym[0], array_tempyhym[1], array_gpsDatos[0], array_gpsDatos[1], array_gpsDatos[2], array_gpsDatos[3], array_gpsDatos[4]);
   delete[] array_gpsDatos;
   delete[] array_acelerometro;
@@ -46,6 +39,7 @@ void loop() {
     ProcesamientoDeInformacion();  // Procesamiento de información
     x = x + 1;                     // Incrementa en uno el valor de x
   }
+  x = 0; 
   ApagarDispositivos();
   delay(10000);
 }
