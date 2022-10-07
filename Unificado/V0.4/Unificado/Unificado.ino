@@ -7,22 +7,20 @@ byte y = 1;
 const String id_device = "dispositivo_prueba";
 int bateria = 0;
 void ProcesamientoDeInformacion() {
-  
+
   String *array_tempyhym = tempyhumedad();
   String *array_gpsDatos = gpsDatos();
   double *array_acelerometro = acelerometro();
   bateria = analogRead(pinBateria);
-  Serial.println(id_device);
-  Serial.println(bateria);
   httpmyRequest(
-    id_device, 
-    String(bateria), 
-    array_tempyhym[0], 
-    array_tempyhym[1], 
-    array_gpsDatos[0], 
-    array_gpsDatos[1], 
-    array_gpsDatos[2], 
-    array_gpsDatos[3], 
+    id_device,
+    String(bateria),
+    array_tempyhym[0],
+    array_tempyhym[1],
+    array_gpsDatos[0],
+    array_gpsDatos[1],
+    array_gpsDatos[2],
+    array_gpsDatos[3],
     array_gpsDatos[4],
     array_acelerometro[0],
     array_acelerometro[1],
@@ -35,7 +33,6 @@ void ProcesamientoDeInformacion() {
 
 
 void setup() {
-  Serial.begin(115200);
   gpsInicialization();
   wifiInicializacion();
   tempInicialization();
@@ -55,15 +52,13 @@ void loop() {
     ProcesamientoDeInformacion();  // Procesamiento de información
     x = x + 1;                     // Incrementa en uno el valor de x
   }
-  x = 0; 
+  x = 0;
   ApagarDispositivos();
-  /*
-  while(y <= 2000 ){
+  /*while(y <= 2000 ){
     if(acelerometroAlto()== true) break;
     delay(10);
     y=y+1;    
   }
-  y=0;
-  */
+  y=0;*/
   delay(5000);
 }
