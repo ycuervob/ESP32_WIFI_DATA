@@ -1,0 +1,16 @@
+void setup();
+void ProcesamientoDeInformacion();
+void acelerometroInicializacion();
+void gpsInicialization();
+void tempInicialization();
+bool sdInitialization();
+bool wifiInicializacion();
+double *acelerometro();
+bool acelerometroAlto ();
+String *gpsDatos();
+String *tempyhumedad();
+void pinesyvariables();
+void EncenderDispositivos();
+void ApagarDispositivos();
+void saveData(String, int);
+void httpmyRequest(String, String, String, String, String, String, String, String, String, double,double,double,double);
