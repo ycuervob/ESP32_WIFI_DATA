@@ -52,7 +52,7 @@ void setup() {
 
 void loop() {
   // Control de encendido por cada ciclo se inicializa wifi y SD
-  EncenderDispositivos();
+  //EncenderDispositivos();
   sdInitialization();
   wifiInicializacion();
   while (x <= 15) {                // Mientras x sea menor o igual a 5 ejecuto las instrucciones
@@ -60,7 +60,7 @@ void loop() {
     x = x + 1;                     // Incrementa en uno el valor de x
   }
   x = 0;
-  ApagarDispositivos();
+  //ApagarDispositivos();
   /*
   while(y <= 2000 ){
     if(acelerometroAlto()== true) break;
