@@ -1,6 +1,6 @@
 # ESP32_WIFI_DATA
 
-ESP32 Project for real time geolocalization, used libraries:
+ESP32 Project for real time geolocalization, used libraries: 
 
 * [HartwareSerial](https://github.com/G6EJD/ESP32-Using-Hardware-Serial-Ports)
 * [TinyGps](https://github.com/mikalhart/TinyGPS)
