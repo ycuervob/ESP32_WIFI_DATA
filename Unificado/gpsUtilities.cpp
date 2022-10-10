@@ -1,6 +1,7 @@
 #include <TinyGPS.h>
-#include "utilities.h"
 #include <Arduino.h>
+#include "dataTypes.h"
+
 
 // TinyGPSPlus gps
 TinyGPS gps;

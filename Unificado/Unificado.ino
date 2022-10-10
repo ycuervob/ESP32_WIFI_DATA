@@ -48,7 +48,7 @@ void loop() {
   x = 0;
   ApagarDispositivos();
   /*
-  while(y <= 2000 ){
+  for(unsigned long start = millis(); millis() - start < 15000;){
     if(acelerometroAlto()== true) break;
     delay(10);
     y=y+1;    

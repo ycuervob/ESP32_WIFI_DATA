@@ -2,7 +2,7 @@
 #include <Adafruit_Sensor.h>
 #include <Wire.h>
 #include <Arduino.h>
-#include "utilities.h"
+#include "dataTypes.h"
 
 // Accelerometer
 Adafruit_MPU6050 mpu;
