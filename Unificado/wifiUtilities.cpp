@@ -11,10 +11,13 @@ const char *serverName = "http://54.94.206.91:80/";
 
 bool wifiInicializacion() {
   // Wifi settings
-  WiFi.begin(ssid, password);
+  if (WiFi.status() != WL_CONNECTED) {
+    WiFi.begin(ssid, password);
+  }
+
   unsigned long start = millis();
   while (WiFi.status() != WL_CONNECTED) {
-    if (millis() - start > 10000) {  // Se intenta conectar por 15 segundos
+    if (millis() - start > 10000) {  // Se intenta conectar por 10 segundos
       return false;
     }
   }
@@ -39,6 +42,8 @@ bool httpmyRequest(String postData) {
 
     http.end();
   } else {
+    //Se trata de conectar cada vez que ve que no tiene WIFI
+    wifiInicializacion();
     data_sent_correct = false;
   }
 

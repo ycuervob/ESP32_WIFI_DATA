@@ -2,10 +2,7 @@
 #include <SD.h>
 #include <Arduino.h>
 
-// Micro sd storage
-File myFile;
-
-bool sdInitialization() {
+bool sdInicializacion() {
   if (!SD.begin(SS)) {
     return false;
   }
@@ -14,7 +11,7 @@ bool sdInitialization() {
 
 bool saveDataSD(String postData) {
   bool datosGuardados = false;
-  myFile = SD.open("/data.json", FILE_APPEND);
+  File myFile = SD.open("/data.json", FILE_APPEND);
 
   if (myFile) {
     myFile.println(postData);

@@ -16,11 +16,17 @@ void ProcesamientoDeInformacion() {
   dataToPost.acelerometroDatos = acelerometro();
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = id_device;
-  bool data_enviada = guardaDatosGeneral(dataToPost);
+  String postData = createPostData(dataToPost);
+  byte status = guardaDatosGeneral(postData);
+  //printFromSerial(postData, status); //Se puede comentar y descomentar para que muestre logs
   free(&dataToPost);
 }
 
-
+/**
+  Se puede comprobar si alguna inicializacion es fallida porque retornan bool:
+    EVITAR ESCRIBIR Serial.print o cualquier variante pues si se activa el serial el ESP32 silo funciona con PC
+    Usar Serial.print solo para probar y luego eliminarlo.
+*/
 void setup() {
   gpsInicialization();
   tempInicialization();
@@ -28,7 +34,7 @@ void setup() {
   pinesyvariables();
   EncenderDispositivos();
   //Aqui debe haber un delay, ya que el dispositivo wifi se dera en prender y en estár disponible
-  bool init_sd = sdInitialization();
+  bool init_sd = sdInicializacion();
   bool init_wifi = wifiInicializacion();
   if (!init_sd && !init_wifi) {  //verificar si el wifi o el sd funciona, se admite que uno funcione y el otro no
     ESP.restart();               //La unica posibilidad para reiniciar el dispoditivo es que ni el wifi ni el SD funcionen
@@ -39,11 +45,12 @@ void setup() {
 
 void loop() {
   EncenderDispositivos();
-  sdInitialization();
+  sdInicializacion();
+  //delay(30000); //Este delay es necesario porque el modem wifi puede demorarse en encender si no se está usando entonces dejarlo comentado
   wifiInicializacion();
-  while (x <= 15) {               
-    ProcesamientoDeInformacion();  
-    x = x + 1;                     
+  while (x <= 15) {  //Mejor numero de veces que tiempo, ya que en varias funciones como la del gps o la del Wifi, se pueden presentar delays.
+    ProcesamientoDeInformacion();
+    x += 1;
   }
   x = 0;
   ApagarDispositivos();

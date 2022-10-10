@@ -1,6 +1,6 @@
 #include <DHT.h>
 #include <Arduino.h>
-#include "dataTypes.h"
+#include "dataTypes.h" 
 
 #define DHTTYPE DHT22
 #define DHTPIN 4
@@ -14,7 +14,9 @@ tempInicialization() {
 
 temyhumDataType tempyhumedad() {
   temyhumDataType dataTyH;
-  dataTyH.temperatura = String(dht.readTemperature()) == "nan" ? "0" : String(dht.readTemperature(), 6);
-  dataTyH.humedad = String(dht.readHumidity()) == "nan" ? "0" : String(dht.readTemperature(), 6);
+  String str_temperatura = String(dht.readTemperature(),6);
+  String str_humedad = String(dht.readHumidity(),6);
+  dataTyH.temperatura = str_temperatura == "nan" ? "0" : str_humedad;
+  dataTyH.humedad = str_humedad == "nan" ? "0" : str_humedad;
   return dataTyH;
 }
