@@ -11,13 +11,18 @@ bool sdInitialization() {
   return true;
 }
 
-void saveData(String postData, int httpResponseCode) {
+bool saveDataSD(String postData) {
+  bool datosGuardados = false;
   myFile = SD.open("/data.json", FILE_APPEND);
 
   if (myFile) {
     myFile.println(postData);
-    myFile.close();
+    datosGuardados = true;
   } else {
-
+    datosGuardados = false;
+    //Crear otro archivo?
   }
+  delay(2000);
+  myFile.close();
+  return datosGuardados;
 }

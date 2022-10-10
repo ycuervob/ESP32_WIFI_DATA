@@ -1,16 +1,51 @@
+struct gpsDataType {
+  String flat;
+  String flon;
+  char* timestamp;
+  String numero_satelites;
+  String varianza;
+};
+
+struct temyhumDataType {
+  String temperatura;
+  String humedad;
+};
+
+struct acelerometroDataType {
+  String x;
+  String y;
+  String z;
+  String total;
+};
+
+struct paqueteDataType {
+  String id_device;
+  String bateria;
+  temyhumDataType temyhDatos;
+  gpsDataType gpsDatos;
+  acelerometroDataType acelerometroDatos;
+};
+
+
+
 void setup();
+void defineSerial();
+void printFromSerial(String);
 void ProcesamientoDeInformacion();
 void acelerometroInicializacion();
 void gpsInicialization();
 void tempInicialization();
-bool sdInitialization();
-bool wifiInicializacion();
-double *acelerometro();
-bool acelerometroAlto ();
-String *gpsDatos();
-String *tempyhumedad();
 void pinesyvariables();
 void EncenderDispositivos();
 void ApagarDispositivos();
-void saveData(String, int);
-void httpmyRequest(String, String, String, String, String, String, String, String, String, double,double,double,double);
+bool saveDataSD(String);
+bool sdInitialization();
+bool wifiInicializacion();
+bool acelerometroAlto ();
+acelerometroDataType acelerometro();
+gpsDataType gpsDatos();
+temyhumDataType tempyhumedad();
+bool guardaDatosGeneral(struct paqueteDataType &postData);
+String createPostData(struct paqueteDataType &postData);
+void httpmyRequest(String);
+

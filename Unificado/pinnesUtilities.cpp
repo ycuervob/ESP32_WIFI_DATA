@@ -6,6 +6,7 @@ int pinSD = 14;
 int pinTem = 13;
 int pinGps = 12;
 int pinUsb =27;
+
 void pinesyvariables()
 {
   pinMode(pinSD, OUTPUT);
