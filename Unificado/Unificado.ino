@@ -16,7 +16,7 @@ void ProcesamientoDeInformacion() {
   dataToPost.acelerometroDatos = acelerometro();
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = id_device;
-  
+
   String postData = createPostData(dataToPost);
   byte status = guardaDatosGeneral(postData);
   //printFromSerial(postData, status); //Se puede comentar y descomentar para que muestre logs
@@ -41,7 +41,9 @@ void setup() {
     ESP.restart();               //La unica posibilidad para reiniciar el dispoditivo es que ni el wifi ni el SD funcionen
   }
 
-  // falta implemetnar código para que despues de iniciarlizar SD, si hay, suba los existentes si puede
+  if(init_wifi && init_sd){
+    //sendSDtoServer();    
+  }
 }
 
 void loop() {

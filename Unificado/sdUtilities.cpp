@@ -24,3 +24,12 @@ bool saveDataSD(String postData) {
   myFile.close();
   return datosGuardados;
 }
+
+/**
+  Retorna puntero a instancia de FILE
+
+File* fileInstance() {
+  File myFile = SD.open("/data.json");
+  return &myFile;
+}
+*/

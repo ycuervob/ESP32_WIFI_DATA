@@ -39,3 +39,8 @@ byte guardaDatosGeneral(String postData) {
 
   return status;
 }
+/* POR IMPLEMENTAR
+bool sendSDtoServer(){
+
+}
+*/

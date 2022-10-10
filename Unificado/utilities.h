@@ -24,10 +24,9 @@ bool sdInicializacion();
 bool wifiInicializacion();
 bool acelerometroAlto();
 bool httpmyRequest(String);
+//bool sendSDtoServer();
 acelerometroDataType acelerometro();
 gpsDataType gpsDatos();
 temyhumDataType tempyhumedad();
 byte guardaDatosGeneral(String);
 String createPostData(struct paqueteDataType &postData);
-
-
