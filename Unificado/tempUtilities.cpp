@@ -7,8 +7,7 @@
 
 DHT dht(DHTPIN, DHTTYPE, 22);  // Función de temperatura
 
-void
-tempInicialization() {
+void tempInicialization() {
   dht.begin();
 }
 

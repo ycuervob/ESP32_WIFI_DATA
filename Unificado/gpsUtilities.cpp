@@ -29,7 +29,7 @@ gpsDataType gpsDatos() {
     while (SerialGPS.available()) {
       char c = SerialGPS.read();
       //Serial.write(c);
-      if (gps.encode(c))  // Did a new valid sentence come in?
+      if (gps.encode(c))  
         newData = true;
     }
   }

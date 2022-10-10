@@ -16,6 +16,7 @@ void ProcesamientoDeInformacion() {
   dataToPost.acelerometroDatos = acelerometro();
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = id_device;
+  
   String postData = createPostData(dataToPost);
   byte status = guardaDatosGeneral(postData);
   //printFromSerial(postData, status); //Se puede comentar y descomentar para que muestre logs
