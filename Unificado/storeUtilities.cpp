@@ -1,7 +1,8 @@
+#include <Arduino.h>
 #include "utilities.h"
 
 String createPostData(struct paqueteDataType &postData) {
-  String postData = String("{ \"lista\":[") + "\""
+  String str_postData = String("{ \"lista\":[") + "\""
                     + postData.id_device + "\","
                     + postData.bateria + ","
                     + postData.temyhDatos.temperatura + ","
@@ -16,11 +17,11 @@ String createPostData(struct paqueteDataType &postData) {
                     + postData.acelerometroDatos.z + ","
                     + postData.acelerometroDatos.total + "]}";
 
-  return postData;
+  return str_postData;
 }
 
 bool guardaDatosGeneral(struct paqueteDataType &postData) {
-  if (postData.gpsDatos.flon == String("0.000000") || postData.gpsDatos.== String("0.000000")) {
+  if (postData.gpsDatos.flon == String("0.000000") || postData.gpsDatos.flat == String("0.000000")) {
     return false;  // No envia datos donde el gps no esté funcionando o alun dato esté mal
   }
   

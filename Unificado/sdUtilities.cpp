@@ -1,5 +1,6 @@
 #include <SPI.h>
 #include <SD.h>
+#include <Arduino.h>
 
 // Micro sd storage
 File myFile;

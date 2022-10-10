@@ -1,5 +1,6 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <Arduino.h>
 
 // Setting Wifi settings for connection
 const char *ssid = "LabLog";

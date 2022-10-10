@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include "utilities.h"
 
 const int pinBateria = 35;
@@ -12,11 +13,11 @@ void ProcesamientoDeInformacion() {
   paqueteDataType dataToPost;
   dataToPost.temyhDatos = tempyhumedad();
   dataToPost.gpsDatos = gpsDatos();
-  datatoPost.acelerometroDatos = acelerometro();
+  dataToPost.acelerometroDatos = acelerometro();
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = id_device;
   bool data_enviada = guardaDatosGeneral(dataToPost);
-  free(dataToPost);
+  free(&dataToPost);
 }
 
 

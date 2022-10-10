@@ -1,4 +1,4 @@
-
+#include <Arduino.h>
 #include <HardwareSerial.h>
 
 // Control de encencido
