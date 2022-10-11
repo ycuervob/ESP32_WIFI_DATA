@@ -6,7 +6,7 @@
 struct gpsDataType {
   String flat;
   String flon;
-  char* timestamp;
+  String timestamp;
   String numero_satelites;
   String varianza;
 };

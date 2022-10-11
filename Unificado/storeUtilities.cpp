@@ -12,7 +12,7 @@ String createPostData(struct paqueteDataType &postData) {
     return "NULL";  // No envia datos donde el gps no esté funcionando o alun dato esté mal
   }
 
-  String str_postData = String("{ \"lista\":[") + "\""
+  String str_postData = String("{\"lista\":[") + "\""
                         + postData.id_device + "\","
                         + postData.bateria + ","
                         + postData.temyhDatos.temperatura + ","
@@ -43,7 +43,7 @@ byte guardaDatosGeneral(String postData) {
   if (postData == "NULL") {
     return BAD_DATA;
   }
-
+  
   byte status = SENT;
   if (!httpmyRequest(postData)) {
     status = NOT_WIFI_STORED;
@@ -70,7 +70,7 @@ byte guardaDatosGeneral(String postData) {
 byte sendSDtoServer() {
   String currLine = "";
 
-  byte status = readLine(&currLine, &currPos);
+  byte status = readLine(&currLine, &currPos);  
   while (status == LEIDO) {
     if(!httpmyRequest(currLine)){
       status = LEIDO_PERO_NO_ENVIADO;

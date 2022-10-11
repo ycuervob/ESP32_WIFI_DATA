@@ -11,17 +11,26 @@ int bateria = 0;
 
 void ProcesamientoDeInformacion() {
   paqueteDataType dataToPost;
-  dataToPost.temyhDatos = tempyhumedad();
-  dataToPost.gpsDatos = gpsDatos();
-  dataToPost.acelerometroDatos = acelerometro();
+  temyhumDataType dataTempYHum;
+  acelerometroDataType dataAcel;
+  gpsDataType dataGPS;
+
+  tempyhumedad(dataTempYHum);
+  gpsDatos(dataGPS);
+  acelerometro(dataAcel);
+    
+  dataToPost.temyhDatos = dataTempYHum;
+  dataToPost.gpsDatos = dataGPS;
+  dataToPost.acelerometroDatos = dataAcel;
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = id_device;
 
   String postData = createPostData(dataToPost);
   byte status = guardaDatosGeneral(postData);
-  //printFromSerial(postData); //Se puede comentar y descomentar para que muestre logs.
-  //printStatusGeneral(status); //Se puede comentar y descomentar para mostrar el status de los datos guardados.
-  free(&dataToPost);
+  char Buf[postData.length()+1];
+  postData.toCharArray(Buf, postData.length()+1);
+  printStatusGeneral(status); //Se puede comentar y descomentar para mostrar el status de los datos guardados.
+  Serial.println(Buf);
 }
 
 /**
@@ -35,13 +44,15 @@ void ProcesamientoDeInformacion() {
 void unionInicializacionWifiSD() {
   bool init_sd = sdInicializacion();
   bool init_wifi = wifiInicializacion();
+  Serial.println(init_sd ? "si sd":"no sd");
+  Serial.println(init_wifi ? "si wifi":"no wifi");
   if (!init_sd && !init_wifi) {  //verificar si el wifi o el sd funciona, se admite que uno funcione y el otro no
     ESP.restart();               //La unica posibilidad para reiniciar el dispoditivo es que ni el wifi ni el SD funcionen
   }
 
   if (init_wifi && init_sd) {
     byte status = sendSDtoServer();
-    //printStatusSDtoWIFI(status); //Se puede comentar y descomentar para que muestre los estados que tuvo al enviar al servidor
+    printStatusSDtoWIFI(status); //Se puede comentar y descomentar para que muestre los estados que tuvo al enviar al servidor
   }
 }
 
@@ -50,32 +61,23 @@ void unionInicializacionWifiSD() {
     Usar Serial.println solo para probar y luego eliminarlo.
 */
 void setup() {
+  defineSerial();
   gpsInicialization();
   tempInicialization();
   acelerometroInicializacion();
   pinesyvariables();
-  EncenderDispositivos();
   //Aqui debe haber un delay, ya que el dispositivo wifi (usb) se demora en prender y en estár disponible
-  unionInicializacionWifiSD();
 }
 
 void loop() {
   EncenderDispositivos();
   //Aqui debe haber un delay, ya que el dispositivo wifi (usb) se demora en prender y en estár disponible
   unionInicializacionWifiSD();
-  while (x <= 40) { 
+  while (x <= 5) { 
     ProcesamientoDeInformacion();
     x += 1;
   }
   x = 0;
-  ApagarDispositivos();
-  /*
-  for(unsigned long start = millis(); millis() - start < 15000;){
-    if(acelerometroAlto()== true) break;
-    delay(10);
-    y=y+1;    
-  }
-  y=0;
-  */
-  delay(15000);
+  //ApagarDispositivos();
+  //delay(15000);
 }

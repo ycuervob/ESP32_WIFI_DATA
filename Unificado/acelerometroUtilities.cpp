@@ -19,15 +19,14 @@ bool acelerometroInicializacion() {
   return true;
 }
 
-acelerometroDataType acelerometro() {
+void acelerometro(acelerometroDataType & dataAcelerometro) {
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
-  acelerometroDataType dataAcelerometro;
+  
   dataAcelerometro.x = String(a.acceleration.x, 6);
   dataAcelerometro.y = String(a.acceleration.y, 6);
   dataAcelerometro.z = String(a.acceleration.z, 6);
   dataAcelerometro.total = String(sqrt(pow(a.acceleration.x, 2) + pow(a.acceleration.y, 2) + pow(a.acceleration.z, 2)), 6);
-  return dataAcelerometro;
 }
 
 bool acelerometroAlto() {

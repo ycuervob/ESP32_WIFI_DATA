@@ -24,6 +24,9 @@ void EncenderDispositivos();
 void ApagarDispositivos();
 void gpsInicialization();
 void tempInicialization();
+void unionInicializacionWifiSD(byte);
+void printStatusGeneral(byte);
+void printStatusSDtoWIFI(byte);
 
 bool saveDataSD(String);
 bool acelerometroInicializacion();
@@ -34,9 +37,9 @@ bool httpmyRequest(String);
 
 byte sendSDtoServer();
 byte readLine(String*, int*);
-acelerometroDataType acelerometro();
-gpsDataType gpsDatos();
-temyhumDataType tempyhumedad();
+void acelerometro(acelerometroDataType &);
+void gpsDatos(gpsDataType &);
+void tempyhumedad(temyhumDataType &);
 byte guardaDatosGeneral(String);
-String createPostData(struct paqueteDataType &postData);
+String createPostData(paqueteDataType &);
 

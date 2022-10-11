@@ -15,16 +15,19 @@ bool sdInicializacion() {
 */
 bool saveDataSD(String postData) {
   bool datosGuardados = false;
+  int string_len = postData.length()+1;
   File myFile = SD.open("/data.json", FILE_APPEND);
+  char Buf[string_len];
+  
+  postData.toCharArray(Buf, string_len);
 
   if (myFile) {
-    myFile.println(postData);
+    myFile.println(Buf);
     datosGuardados = true;
   } else {
     datosGuardados = false;
     //Crear otro archivo?
   }
-  delay(2000);
   myFile.close();
   return datosGuardados;
 }
