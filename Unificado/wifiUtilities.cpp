@@ -24,8 +24,12 @@ bool wifiInicializacion() {
   return true;
 }
 
-bool httpmyRequest(String postData) {
 
+/**
+  Recibe un archivo en formato apto para el servidor y lo envía por medio de una petición POST
+  Retorna true si fue enviado correctamente y false si hubo algún error.
+*/
+bool httpmyRequest(String postData) {
   bool data_sent_correct = false;
   if (WiFi.status() == WL_CONNECTED) {
     WiFiClient client;
