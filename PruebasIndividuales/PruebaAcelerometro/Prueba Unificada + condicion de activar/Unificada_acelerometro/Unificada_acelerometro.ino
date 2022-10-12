@@ -1,6 +1,6 @@
 
 
-/*
+/*// comment
   Rui Santos
   Complete project details at Complete project details at https://RandomNerdTutorials.com/esp32-http-get-post-arduino/
 

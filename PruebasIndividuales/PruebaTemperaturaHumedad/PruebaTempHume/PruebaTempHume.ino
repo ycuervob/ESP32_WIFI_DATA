@@ -10,7 +10,7 @@ void setup()
   dht.begin(); 
 }
 void loop()
-{
+{// comment
  float h = dht.readHumidity(); //Se lee la humedad y se asigna el valor a "h"
  float t = dht.readTemperature(); //Se lee la temperatura y se asigna el valor a "t"
 

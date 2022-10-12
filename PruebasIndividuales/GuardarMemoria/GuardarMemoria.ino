@@ -1,6 +1,6 @@
 /*
   SD card read/write
-
+// comment
   This example shows how to read and write data to and from an SD card file
   The circuit:
    SD card attached to SPI bus as follows:

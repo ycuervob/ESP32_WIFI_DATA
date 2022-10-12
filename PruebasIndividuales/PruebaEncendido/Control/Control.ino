@@ -8,7 +8,7 @@
 int pin_led = 23;
 //Data from the device
 const char * id_device = "ESP32LAB_TEST1";
-
+// comment
 //Setting Wifi settings for connection
 const char* ssid = "LabLog";
 const char* password = "17113467";
