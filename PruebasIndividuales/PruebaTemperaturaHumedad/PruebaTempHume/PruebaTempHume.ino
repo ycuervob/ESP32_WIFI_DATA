@@ -1,6 +1,7 @@
 #include <DHT.h>           //Cargamos la librería DHT
 #define DHTTYPE  DHT22   //Definimos el modelo del sensor DHT22
 #define DHTPIN    4     // Se define el pin D4 del ESP32 para conectar el sensor DHT22
+// comment
 
 DHT dht(DHTPIN, DHTTYPE, 22); 
 void setup()
