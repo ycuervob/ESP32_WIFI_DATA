@@ -27,6 +27,8 @@ void tempInicialization();
 void unionInicializacionWifiSD(byte);
 void printStatusGeneral(byte);
 void printStatusSDtoWIFI(byte);
+void getLine(int *);
+void setLine(int *);
 
 bool saveDataSD(String);
 bool acelerometroInicializacion();

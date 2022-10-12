@@ -61,7 +61,6 @@ void unionInicializacionWifiSD() {
     Usar Serial.println solo para probar y luego eliminarlo.
 */
 void setup() {
-  defineSerial();
   gpsInicialization();
   tempInicialization();
   acelerometroInicializacion();
