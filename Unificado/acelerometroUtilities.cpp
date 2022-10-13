@@ -32,7 +32,7 @@ void acelerometro(acelerometroDataType & dataAcelerometro) {
 bool acelerometroAlto() {
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
-  if (sqrt(pow(a.acceleration.x, 2) + pow(a.acceleration.y, 2) + pow(a.acceleration.z, 2)) > 20) {
+  if (sqrt(pow(a.acceleration.x, 2) + pow(a.acceleration.y, 2) + pow(a.acceleration.z, 2)) > 40) {
     return true;
   } else {
     return false;
