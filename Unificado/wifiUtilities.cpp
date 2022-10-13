@@ -3,8 +3,8 @@
 #include <Arduino.h>
 
 // Setting Wifi settings for connection
-const char *ssid = "LabLog";
-const char *password = "17113467";
+const char *ssid = "Redmi999";
+const char *password = "clavechida";
 
 // Your Domain name with URL path or IP address with path
 const char *serverName = "http://54.94.206.91:80/";
@@ -16,7 +16,7 @@ bool wifiInicializacion() {
  
   unsigned long start = millis();
   while (WiFi.status() != WL_CONNECTED) {
-    if (millis() - start > 30000) {  // Se intenta conectar por 10 segundos
+    if (millis() - start > 5000) {  // Se intenta conectar por 30 segundos
       return false;
     }
   }

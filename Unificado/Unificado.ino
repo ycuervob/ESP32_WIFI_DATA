@@ -27,6 +27,9 @@ void ProcesamientoDeInformacion() {
 
   String postData = createPostData(dataToPost);
   byte status = guardaDatosGeneral(postData);
+  if(status == NOT_WIFI_NOT_SD){
+    ESP.restart();
+  }
   char Buf[postData.length()+1];
   postData.toCharArray(Buf, postData.length()+1);
   printStatusGeneral(status); //Se puede comentar y descomentar para mostrar el status de los datos guardados.
@@ -65,12 +68,11 @@ void setup() {
   tempInicialization();
   acelerometroInicializacion();
   pinesyvariables();
-  //Aqui debe haber un delay, ya que el dispositivo wifi (usb) se demora en prender y en estár disponible
 }
 
 void loop() {
   EncenderDispositivos();
-  //Aqui debe haber un delay, ya que el dispositivo wifi (usb) se demora en prender y en estár disponible
+  //delay(50000);//Aqui debe haber un delay, ya que el dispositivo wifi (usb) se demora en prender y en estár disponible
   unionInicializacionWifiSD();
   while (x <= 5) { 
     ProcesamientoDeInformacion();
