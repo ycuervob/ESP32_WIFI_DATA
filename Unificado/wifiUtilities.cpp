@@ -3,8 +3,8 @@
 #include <Arduino.h>
 
 // Setting Wifi settings for connection
-const char *ssid = "Redmi999";
-const char *password = "clavechida";
+const char *ssid = "LabLog";
+const char *password = "17113467";
 
 // Your Domain name with URL path or IP address with path
 const char *serverName = "http://54.94.206.91:80/";

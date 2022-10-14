@@ -50,7 +50,7 @@ void setLine(int* position_var) {
     fileLine.println(*position_var);
   }
   fileLine.close();
-  Serial.println(*position_var);  //IMPORTANTE ELIMINAR ESTA LINEA ----------------
+  //Serial.println(*position_var);  //IMPORTANTE COMENTAR ESTA LINEA ----------------
 }
 
 /**
