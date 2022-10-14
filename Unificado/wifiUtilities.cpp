@@ -13,11 +13,10 @@ bool wifiInicializacion() {
   // Wifi settings
   
   WiFi.begin(ssid, password);
-  
-  Serial.println("Conectando ...");
+ 
   unsigned long start = millis();
   while (WiFi.status() != WL_CONNECTED) {
-    if (millis() - start > 30000) {  // Se intenta conectar por 10 segundos
+    if (millis() - start > 5000) {  // Se intenta conectar por 30 segundos
       return false;
     }
   }
@@ -38,13 +37,6 @@ bool httpmyRequest(String postData) {
     http.addHeader("Content-Type", "application/json");
     int httpResponseCode = http.POST(postData);
     
-    //borrar esto --------------
-    Serial.print("Status code: ");
-    Serial.println(httpResponseCode);
-    char Buf[postData.length()+1];
-    postData.toCharArray(Buf, postData.length()+1);
-    Serial.println(Buf);
-
     if (httpResponseCode < 0) {
       data_sent_correct = false;
     } else {

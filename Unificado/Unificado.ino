@@ -27,10 +27,13 @@ void ProcesamientoDeInformacion() {
 
   String postData = createPostData(dataToPost);
   byte status = guardaDatosGeneral(postData);
-  char Buf[postData.length()+1];
-  postData.toCharArray(Buf, postData.length()+1);
-  printStatusGeneral(status); //Se puede comentar y descomentar para mostrar el status de los datos guardados.
-  Serial.println(Buf);
+  if(status == NOT_WIFI_NOT_SD){
+    ESP.restart();
+  }
+  //char Buf[postData.length()+1];
+  //postData.toCharArray(Buf, postData.length()+1);
+  //printStatusGeneral(status); //Se puede comentar y descomentar para mostrar el status de los datos guardados.
+  //Serial.println(Buf);
 }
 
 /**
@@ -44,15 +47,15 @@ void ProcesamientoDeInformacion() {
 void unionInicializacionWifiSD() {
   bool init_sd = sdInicializacion();
   bool init_wifi = wifiInicializacion();
-  Serial.println(init_sd ? "si sd":"no sd");
-  Serial.println(init_wifi ? "si wifi":"no wifi");
+  //Serial.println(init_sd ? "si sd":"no sd");
+  //Serial.println(init_wifi ? "si wifi":"no wifi");
   if (!init_sd && !init_wifi) {  //verificar si el wifi o el sd funciona, se admite que uno funcione y el otro no
     ESP.restart();               //La unica posibilidad para reiniciar el dispoditivo es que ni el wifi ni el SD funcionen
   }
 
   if (init_wifi && init_sd) {
     byte status = sendSDtoServer();
-    printStatusSDtoWIFI(status); //Se puede comentar y descomentar para que muestre los estados que tuvo al enviar al servidor
+    //printStatusSDtoWIFI(status); //Se puede comentar y descomentar para que muestre los estados que tuvo al enviar al servidor
   }
 }
 
@@ -61,23 +64,25 @@ void unionInicializacionWifiSD() {
     Usar Serial.println solo para probar y luego eliminarlo.
 */
 void setup() {
-  defineSerial();
+  pinMode(2, OUTPUT);
+  digitalWrite(2, LOW);
   gpsInicialization();
   tempInicialization();
   acelerometroInicializacion();
   pinesyvariables();
-  //Aqui debe haber un delay, ya que el dispositivo wifi (usb) se demora en prender y en estár disponible
 }
 
 void loop() {
   EncenderDispositivos();
-  //Aqui debe haber un delay, ya que el dispositivo wifi (usb) se demora en prender y en estár disponible
+  //delay(50000);//Aqui debe haber un delay, ya que el dispositivo wifi (usb) se demora en prender y en estár disponible
   unionInicializacionWifiSD();
-  while (x <= 5) { 
+  digitalWrite(2, HIGH);
+  while (x <= 30) { 
     ProcesamientoDeInformacion();
     x += 1;
   }
+  digitalWrite(2, LOW);
   x = 0;
   //ApagarDispositivos();
-  //delay(15000);
+  delay(300000);
 }

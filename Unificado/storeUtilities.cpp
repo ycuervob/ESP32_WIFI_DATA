@@ -1,14 +1,11 @@
 #include <Arduino.h>
 #include "utilities.h"
 
-//Posición actual que se está leyendo en la micro sd, en bytes.
-int currPos =0;
-
 /**
   Retorna un String con el formato para enviar por medio de HTTP y admitido por el servidor
 */
 String createPostData(struct paqueteDataType &postData) {
-  if (postData.gpsDatos.flon == String("0.000000") || postData.gpsDatos.flat == String("0.000000")) {
+  if (postData.gpsDatos.flon == String("0.0") || postData.gpsDatos.flat == String("0.0")) {
     return "NULL";  // No envia datos donde el gps no esté funcionando o alun dato esté mal
   }
 
@@ -67,9 +64,14 @@ byte guardaDatosGeneral(String postData) {
     - LEIDO_PERO_NO_ENVIADO 3
 
 */
+
+//Posición actual que se está leyendo en la micro sd, en bytes.
+int currPos;
+
 byte sendSDtoServer() {
   String currLine = "";
-
+  
+  getLine(&currPos);
   byte status = readLine(&currLine, &currPos);  
   while (status == LEIDO) {
     if(!httpmyRequest(currLine)){

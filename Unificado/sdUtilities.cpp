@@ -1,12 +1,15 @@
 #include <SPI.h>
 #include <SD.h>
 #include <Arduino.h>
+#include <cstdlib>
+
+File myFile, fileLine;
 
 bool sdInicializacion() {
-  if (!SD.begin(SS)) {
-    return false;
+  if (SD.begin(SS)) {
+    return true;
   }
-  return true;
+  return false;
 }
 
 /**
@@ -14,11 +17,10 @@ bool sdInicializacion() {
     Retorna true si se guardo y false de lo contrario.
 */
 bool saveDataSD(String postData) {
+  myFile = SD.open("/data.json", FILE_APPEND);
   bool datosGuardados = false;
-  int string_len = postData.length()+1;
-  File myFile = SD.open("/data.json", FILE_APPEND);
+  int string_len = postData.length() + 1;
   char Buf[string_len];
-  
   postData.toCharArray(Buf, string_len);
 
   if (myFile) {
@@ -26,10 +28,29 @@ bool saveDataSD(String postData) {
     datosGuardados = true;
   } else {
     datosGuardados = false;
-    //Crear otro archivo?
   }
+
   myFile.close();
   return datosGuardados;
+}
+
+void getLine(int* position_var) {
+  fileLine = SD.open("/currentLine.txt");
+  if (fileLine) {
+    char value[fileLine.size()];
+    fileLine.readBytes(value, fileLine.size());
+    *position_var = atoi(value);
+  }
+  fileLine.close();
+}
+
+void setLine(int* position_var) {
+  fileLine = SD.open("/currentLine.txt", FILE_WRITE);
+  if (fileLine) {
+    fileLine.println(*position_var);
+  }
+  fileLine.close();
+  //Serial.println(*position_var);  //IMPORTANTE COMENTAR ESTA LINEA ----------------
 }
 
 /**
@@ -39,23 +60,31 @@ bool saveDataSD(String postData) {
     - LEIDO 1
     - NO_MAS_DATOS 2
 */
-byte readLine(String* linea, int* posicion) {
-  File myFile = SD.open("/data.json");
+byte readLine(String* linea, int* posicion_var) {
+  myFile = SD.open("/data.json");
   byte linea_leida = 0;
   int fileSize = myFile.size();
 
-  if (myFile && *posicion < fileSize) {
-    myFile.seek(*posicion);
-    *linea = myFile.readStringUntil('\n');
-    *posicion = myFile.position();
-    linea_leida = 1;
-  } else if (*posicion >= fileSize) {
-    linea_leida = 2;
-    *posicion = 0;
-    SD.remove("/data.json");
+  if (myFile) {
+    if (*posicion_var < fileSize) {
+      myFile.seek(*posicion_var);
+      *linea = myFile.readStringUntil('\n');
+      *posicion_var = myFile.position();
+      setLine(posicion_var);
+      linea_leida = 1;
+      myFile.close();
+      return linea_leida;
+    } else if (*posicion_var >= fileSize) {
+      linea_leida = 2;
+      *posicion_var = 0;
+      myFile.close();
+      SD.remove("/currentLine.txt");
+      SD.remove("/data.json");
+      return linea_leida;
+    }
   }
 
-  delay(2000);
   myFile.close();
+  delay(2000);
   return linea_leida;
 }
