@@ -13,7 +13,6 @@
 #define LEIDO 1
 #define NO_MAS_DATOS 2
 #define LEIDO_PERO_NO_ENVIADO 3
-#endif
 
 void setup();
 void defineSerial();
@@ -24,24 +23,29 @@ void EncenderDispositivos();
 void ApagarDispositivos();
 void gpsInicialization();
 void tempInicialization();
-void unionInicializacionWifiSD(byte);
+void unionInicializacionWifiSD();
 void printStatusGeneral(byte);
 void printStatusSDtoWIFI(byte);
 void getLine(int *);
 void setLine(int *);
+void endSD();
+void acelerometroAlto();
+void timeWrapper(unsigned long, void (*)());
+void timeWrapper(unsigned long, bool (*)());
 
 bool saveDataSD(String);
 bool acelerometroInicializacion();
 bool sdInicializacion();
 bool wifiInicializacion();
-bool acelerometroAlto();
 bool httpmyRequest(String);
 
+byte pinWrapper(byte (*)());
+byte pinWrapper(String, byte (*)(String));
 byte sendSDtoServer();
-byte readLine(String*, int*);
+byte readLine(String *, int *);
 void acelerometro(acelerometroDataType &);
 void gpsDatos(gpsDataType &);
 void tempyhumedad(temyhumDataType &);
 byte guardaDatosGeneral(String);
 String createPostData(paqueteDataType &);
-
+#endif

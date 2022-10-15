@@ -40,7 +40,7 @@ byte guardaDatosGeneral(String postData) {
   if (postData == "NULL") {
     return BAD_DATA;
   }
-  
+
   byte status = SENT;
   if (!httpmyRequest(postData)) {
     status = NOT_WIFI_STORED;
@@ -67,17 +67,15 @@ byte guardaDatosGeneral(String postData) {
 
 //Posición actual que se está leyendo en la micro sd, en bytes.
 int currPos;
-
 byte sendSDtoServer() {
   String currLine = "";
-  
+
   getLine(&currPos);
-  byte status = readLine(&currLine, &currPos);  
+  byte status = readLine(&currLine, &currPos);
   while (status == LEIDO) {
-    if(!httpmyRequest(currLine)){
+    if (!httpmyRequest(currLine)) {
       status = LEIDO_PERO_NO_ENVIADO;
-      break; 
-      //Si esto ocurre, por alguna razón no hay red, por tanto se descarta el dato y se sale para evitar leer mas datos, sabiendo que hhttpmyRequest tratará de reconectar si se pierde conexión
+      break;
     };
     status = readLine(&currLine, &currPos);
   }

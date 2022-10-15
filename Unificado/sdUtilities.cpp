@@ -6,6 +6,8 @@
 File myFile, fileLine;
 
 bool sdInicializacion() {
+  SD.end();
+  delay(100);
   if (SD.begin(SS)) {
     return true;
   }
