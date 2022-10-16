@@ -45,8 +45,8 @@ void ProcesamientoDeInformacion() {
 
 void unionInicializacionWifiSD() {
   Serial.println("Inicializando wifi | sd ...");
-  bool init_sd = sdInicializacion();
   bool init_wifi = wifiInicializacion();
+  bool init_sd = sdInicializacion();
   Serial.println(init_sd ? "si sd" : "no sd");
   Serial.println(init_wifi ? "si wifi" : "no wifi");
 
