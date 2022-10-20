@@ -38,6 +38,7 @@ bool acelerometroInicializacion();
 bool sdInicializacion();
 bool wifiInicializacion();
 bool httpmyRequest(String);
+void endSD();
 
 byte pinWrapper(byte (*)());
 byte pinWrapper(String, byte (*)(String));

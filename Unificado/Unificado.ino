@@ -5,7 +5,7 @@
   Aquí no va nigún serial.prinln
 */
 void setup() {
-  Serial.begin(115200);
+  //Serial.begin(115200);
   gpsInicialization();
   tempInicialization();
   acelerometroInicializacion();
@@ -17,5 +17,5 @@ void loop() {
   unionInicializacionWifiSD();
   timeWrapper(30000, &ProcesamientoDeInformacion);
   ApagarDispositivos();
-  timeWrapper(10000,&acelerometroAlto);
+  timeWrapper(300000,&acelerometroAlto);
 }

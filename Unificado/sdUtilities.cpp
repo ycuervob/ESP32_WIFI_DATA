@@ -6,12 +6,15 @@
 File myFile, fileLine;
 
 bool sdInicializacion() {
-  SD.end();
-  delay(100);
   if (SD.begin(SS)) {
     return true;
   }
   return false;
+}
+
+void endSD(){
+  SD.end();
+  delay(200);
 }
 
 /**
