@@ -29,14 +29,16 @@ void ProcesamientoDeInformacion() {
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = id_device;
 
+  delay(3000);
+  
   String postData = createPostData(dataToPost);
   byte status = pinWrapper(postData, &guardaDatosGeneral);
 
-  //char* estados_general[4] = { "Datos erroneos, descartados", "Fallo al enviar al servidor, guardado en SD", "No hay wifi ni SD --", "Enviado al servidor" };
-  //Serial.println(estados_general[status]);
-  //char Buf[postData.length() + 1];
-  //postData.toCharArray(Buf, postData.length() + 1);
-  //Serial.println(Buf);
+  char* estados_general[4] = { "Datos erroneos, descartados", "Fallo al enviar al servidor, guardado en SD", "No hay wifi ni SD --", "Enviado al servidor" };
+  Serial.println(estados_general[status]);
+  char Buf[postData.length() + 1];
+  postData.toCharArray(Buf, postData.length() + 1);
+  Serial.println(Buf);
 
   if (status == NOT_WIFI_NOT_SD) {
     endSD();
@@ -45,11 +47,11 @@ void ProcesamientoDeInformacion() {
 }
 
 void unionInicializacionWifiSD() {
-  //Serial.println("Inicializando wifi | sd ...");
+  Serial.println("Inicializando wifi | sd ...");
   bool init_wifi = wifiInicializacion();
   bool init_sd = sdInicializacion();
-  //Serial.println(init_sd ? "si sd" : "no sd");
-  //println(init_wifi ? "si wifi" : "no wifi");
+  Serial.println(init_sd ? "si sd" : "no sd");
+  Serial.println(init_wifi ? "si wifi" : "no wifi");
 
   if (!init_sd && !init_wifi) {  //verificar si el wifi o el sd funciona, se admite que uno funcione y el otro no
     endSD();

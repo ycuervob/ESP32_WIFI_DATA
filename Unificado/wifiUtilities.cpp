@@ -14,7 +14,7 @@ bool wifiInicializacion() {
 
   unsigned long start = millis();
   while (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    if (millis() - start > 30000) {  // Se intenta conectar por 30 segundos
+    if (millis() - start > 10000) {  // Se intenta conectar por 30 segundos
       return false;
     }
   }
