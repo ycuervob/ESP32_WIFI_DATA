@@ -29,8 +29,6 @@ void ProcesamientoDeInformacion() {
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = id_device;
 
-  delay(3000);
-  
   String postData = createPostData(dataToPost);
   byte status = pinWrapper(postData, &guardaDatosGeneral);
 
@@ -54,7 +52,6 @@ void unionInicializacionWifiSD() {
   Serial.println(init_wifi ? "si wifi" : "no wifi");
 
   if (!init_sd && !init_wifi) {  //verificar si el wifi o el sd funciona, se admite que uno funcione y el otro no
-    endSD();
     if (!sdInicializacion()) {
       ESP.restart();
     }

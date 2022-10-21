@@ -6,13 +6,16 @@
 File myFile, fileLine;
 
 bool sdInicializacion() {
-  if (SD.begin(SS)) {
-    return true;
+  unsigned long start = millis();
+  while (!SD.begin(SS)) {
+    if (millis() - start > 5000) {  // Se intenta conectar por 10 segundos
+      return false;
+    }
   }
-  return false;
+  return true;
 }
 
-void endSD(){
+void endSD() {
   SD.end();
   delay(200);
 }
