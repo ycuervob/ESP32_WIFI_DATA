@@ -52,9 +52,7 @@ void unionInicializacionWifiSD() {
   Serial.println(init_wifi ? "si wifi" : "no wifi");
 
   if (!init_sd && !init_wifi) {  //verificar si el wifi o el sd funciona, se admite que uno funcione y el otro no
-    if (!sdInicializacion()) {
-      ESP.restart();
-    }
+    ESP.restart();
     //La unica posibilidad para reiniciar el dispoditivo es que ni el wifi ni el SD funcionen
   }
 
