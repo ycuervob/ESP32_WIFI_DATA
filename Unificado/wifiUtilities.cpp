@@ -2,8 +2,8 @@
 #include <HTTPClient.h>
 #include <Arduino.h>
 
-const char *ssid = "test";
-const char *password = "clavechida";
+const char *ssid = "FIPROTECTION_C";
+const char *password = "DX-120USBBLACKG55";
 const char *serverName = "http://54.94.206.91:80/";
 
 bool wifiInicializacion() {

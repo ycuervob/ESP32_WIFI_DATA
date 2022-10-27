@@ -21,7 +21,7 @@ void timeWrapper(unsigned long time, bool (*func)()) {
   }
 }
 
-void ProcesamientoDeInformacion() {
+void almacenamientoDatos() {
   paqueteDataType dataToPost;
   tempyhumedad(dataToPost.temyhDatos);
   gpsDatos(dataToPost.gpsDatos);
@@ -30,18 +30,27 @@ void ProcesamientoDeInformacion() {
   dataToPost.id_device = id_device;
 
   String postData = createPostData(dataToPost);
-  byte status = pinWrapper(postData, &guardaDatosGeneral);
+  byte status = pinWrapper(postData, &guardaDatosSD);
+
+  unsigned long start = millis();
+  while (status == NOT_SD) {
+    endSD();
+    sdInicializacion();
+    status = pinWrapper(postData, &guardaDatosSD);
+    if (millis() - start > 5000) {
+      break;
+    }
+  }
 
   char* estados_general[4] = { "Datos erroneos, descartados", "Fallo al enviar al servidor, guardado en SD", "No hay wifi ni SD --", "Enviado al servidor" };
   Serial.println(estados_general[status]);
   char Buf[postData.length() + 1];
   postData.toCharArray(Buf, postData.length() + 1);
   Serial.println(Buf);
+}
 
-  if (status == NOT_WIFI_NOT_SD) {
-    endSD();
-    sdInicializacion();
-  }
+void envioInformacion() {
+  byte status = pinWrapper(&sendSDtoServer);
 }
 
 void unionInicializacionWifiSD() {
@@ -54,9 +63,5 @@ void unionInicializacionWifiSD() {
   if (!init_sd && !init_wifi) {  //verificar si el wifi o el sd funciona, se admite que uno funcione y el otro no
     ESP.restart();
     //La unica posibilidad para reiniciar el dispoditivo es que ni el wifi ni el SD funcionen
-  }
-
-  if (init_wifi && init_sd) {
-    byte status = pinWrapper(&sendSDtoServer);
   }
 }

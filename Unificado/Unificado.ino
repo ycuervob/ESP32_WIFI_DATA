@@ -15,7 +15,8 @@ void setup() {
 void loop() {
   EncenderDispositivos();
   unionInicializacionWifiSD();
-  timeWrapper(60000, &ProcesamientoDeInformacion);
+  timeWrapper(20000, &almacenamientoDatos);
+  timeWrapper(20000, &envioInformacion);
   ApagarDispositivos();
   timeWrapper(10000,&acelerometroAlto);
 }

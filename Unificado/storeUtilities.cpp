@@ -29,27 +29,21 @@ String createPostData(struct paqueteDataType &postData) {
 
 
 /**
-  Recibe datos en el formato para guardar en la bd.
   Retorna los siguientes estados:
-  - BAD_DATA 0          : Se recolecto datos de gps en mal estado y por tanto el paquete no sirve  
-  - NOT_WIFI_STORED 1   : No hubo internet a la hora de guardar el dato por tanto se almacena en la SD
-  - NOT_WIFI_NOT_SD 2   : No sirvió ni el internet ni la micro SD por tanto el dispositivo debe reiniciarse
-  - SENT 3              : Se envió el dato correctamente
+  - BAD_DATA 0 : Se recolecto datos de gps en mal estado y por tanto el paquete no sirve  
+  - NOT_SD 1   : Hubo elgún error al guardar en la SD
+  - STORED 2   : El dato se almacenó correctamente
 */
-byte guardaDatosGeneral(String postData) {
+byte guardaDatosSD(String postData) {
   if (postData == "NULL") {
     return BAD_DATA;
   }
 
-  byte status = SENT;
-  if (!httpmyRequest(postData)) {
-    status = NOT_WIFI_STORED;
-    if (!saveDataSD(postData)) {
-      return NOT_WIFI_NOT_SD;
-    }
+  if (!saveDataSD(postData)) {
+    return NOT_SD;
   }
 
-  return status;
+  return STORED;
 }
 
 
