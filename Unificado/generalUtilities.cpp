@@ -4,11 +4,22 @@
 const int pinBateria = 35;
 byte x = 1;
 byte y = 1;
+const String id_device = "dispositivo_prueba";
 int bateria = 0;
-const char* id_device;
-const char* ssid;
-const char* password;
-const char* serverName;
+
+void timeWrapper(unsigned long time, void (*func)()) {
+  for (unsigned long start = millis(); millis() - start < time;) {
+    func();
+  }
+}
+
+void timeWrapper(unsigned long time, bool (*func)()) {
+  for (unsigned long start = millis(); millis() - start < time;) {
+    if (func()) {
+      break;
+    }
+  }
+}
 
 void almacenamientoDatos() {
   paqueteDataType dataToPost;
@@ -16,11 +27,7 @@ void almacenamientoDatos() {
   gpsDatos(dataToPost.gpsDatos);
   acelerometro(dataToPost.acelerometroDatos);
   dataToPost.bateria = analogRead(pinBateria);
-  dataToPost.id_device = String(id_device);
-  Serial.println(id_device);
-  Serial.println(ssid);
-  Serial.println(password);
-  Serial.println(serverName);
+  dataToPost.id_device = id_device;
 
   String postData = createPostData(dataToPost);
   byte status = pinWrapper(postData, &guardaDatosSD);
@@ -28,7 +35,7 @@ void almacenamientoDatos() {
   unsigned long start = millis();
   while (status == NOT_SD) {
     endSD();
-    sdInicializacion(id_device, ssid, password, serverName);
+    sdInicializacion();
     status = pinWrapper(postData, &guardaDatosSD);
     if (millis() - start > 5000) {
       break;
@@ -43,13 +50,13 @@ void almacenamientoDatos() {
 }
 
 void envioInformacion() {
-  byte status = pinWrapper(serverName,&sendSDtoServer);
+  byte status = pinWrapper(&sendSDtoServer);
 }
 
 void unionInicializacionWifiSD() {
   Serial.println("Inicializando wifi | sd ...");
-  bool init_sd = sdInicializacion(id_device, ssid, password, serverName);
-  bool init_wifi = wifiInicializacion(ssid, password);
+  bool init_wifi = wifiInicializacion();
+  bool init_sd = sdInicializacion();
   Serial.println(init_sd ? "si sd" : "no sd");
   Serial.println(init_wifi ? "si wifi" : "no wifi");
 

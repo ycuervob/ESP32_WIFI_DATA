@@ -8,6 +8,20 @@ int pinTem = 13;
 int pinGps = 12;
 int pinUsb = 27;
 
+byte pinWrapper(byte (*func)()) {
+  digitalWrite(2, HIGH);
+  byte status = func();
+  digitalWrite(2, LOW);
+  return status;
+}
+
+byte pinWrapper(String data, byte (*func)(String)) {
+  digitalWrite(2, HIGH);
+  byte status = func(data);
+  digitalWrite(2, LOW);
+  return status;
+}
+
 void pinesyvariables() {
   pinMode(2, OUTPUT);
   pinMode(pinSD, OUTPUT);

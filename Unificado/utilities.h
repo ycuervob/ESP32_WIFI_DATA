@@ -34,21 +34,19 @@ void timeWrapper(unsigned long, bool (*)());
 void acelerometro(acelerometroDataType &);
 void gpsDatos(gpsDataType &);
 void tempyhumedad(temyhumDataType &);
-void endSD();
-void envioInformacion();
 
 bool saveDataSD(String);
 bool acelerometroInicializacion();
-bool sdInicializacion(const char *, const char *, const char *, const char *);
-bool wifiInicializacion(const char *, const char *);
-bool httpmyRequest(String, const char *);
+bool sdInicializacion();
+bool wifiInicializacion();
+bool httpmyRequest(String);
+void endSD();
+void envioInformacion();
 
 byte pinWrapper(byte (*)());
 byte pinWrapper(String, byte (*)(String));
-byte pinWrapper(const char *, byte (*)(const char *));
-byte sendSDtoServer(const char *);
+byte sendSDtoServer();
 byte readLine(String *, int *);
 byte guardaDatosSD(String);
 String createPostData(paqueteDataType &);
-
 #endif

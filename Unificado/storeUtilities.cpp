@@ -61,13 +61,13 @@ byte guardaDatosSD(String postData) {
 
 //Posición actual que se está leyendo en la micro sd, en bytes.
 int currPos;
-byte sendSDtoServer(const char * serverName) {
+byte sendSDtoServer() {
   String currLine = "";
 
   getLine(&currPos);
   byte status = readLine(&currLine, &currPos);
   while (status == LEIDO) {
-    if (!httpmyRequest(currLine, serverName)) {
+    if (!httpmyRequest(currLine)) {
       status = LEIDO_PERO_NO_ENVIADO;
       break;
     };
