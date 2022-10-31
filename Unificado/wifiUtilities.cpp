@@ -2,11 +2,7 @@
 #include <HTTPClient.h>
 #include <Arduino.h>
 
-const char *ssid = "FIPROTECTION_C";
-const char *password = "DX-120USBBLACKG55";
-const char *serverName = "http://54.94.206.91:80/";
-
-bool wifiInicializacion() {
+bool wifiInicializacion(const char * ssid, const char * password) {
   WiFi.setAutoConnect(true);
   WiFi.setSleep(WIFI_PS_NONE);
   WiFi.setAutoReconnect(true);
@@ -25,7 +21,7 @@ bool wifiInicializacion() {
   Recibe un archivo en formato apto para el servidor y lo envía por medio de una petición POST
   Retorna true si fue enviado correctamente y false si hubo algún error.
 */
-bool httpmyRequest(String postData) {
+bool httpmyRequest(String postData, const char * serverName) {
   bool data_sent_correct = false;
   if (WiFi.status() == WL_CONNECTED) {
     WiFiClient client;

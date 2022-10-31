@@ -28,3 +28,10 @@ byte pinWrapper(String data, byte (*func)(String)) {
   digitalWrite(2, LOW);
   return status;
 }
+
+byte pinWrapper(const char * data, byte (*func)(const char *)) {
+  digitalWrite(2, HIGH);
+  byte status = func(data);
+  digitalWrite(2, LOW);
+  return status;
+}

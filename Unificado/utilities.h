@@ -38,14 +38,14 @@ void tempyhumedad(temyhumDataType &);
 bool saveDataSD(String);
 bool acelerometroInicializacion();
 bool sdInicializacion();
-bool wifiInicializacion();
-bool httpmyRequest(String);
+bool wifiInicializacion(const char *, const char *);
+bool httpmyRequest(String, const char *);
 void endSD();
 void envioInformacion();
 
 byte pinWrapper(byte (*)());
 byte pinWrapper(String, byte (*)(String));
-byte sendSDtoServer();
+byte sendSDtoServer(const char *);
 byte readLine(String *, int *);
 byte guardaDatosSD(String);
 String createPostData(paqueteDataType &);

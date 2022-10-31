@@ -5,7 +5,10 @@
 const int pinBateria = 35;
 byte x = 1;
 byte y = 1;
-const String id_device = "dispositivo_prueba";
+const char *id_device = "dispositivo_prueba";
+const char *ssid = "FIPROTECTION_C";
+const char *password = "DX-120USBBLACKG55";
+const char *serverName = "http://54.94.206.91:80/";
 int bateria = 0;
 
 void almacenamientoDatos() {
@@ -14,7 +17,7 @@ void almacenamientoDatos() {
   gpsDatos(dataToPost.gpsDatos);
   acelerometro(dataToPost.acelerometroDatos);
   dataToPost.bateria = analogRead(pinBateria);
-  dataToPost.id_device = id_device;
+  dataToPost.id_device = String(id_device);
 
   String postData = createPostData(dataToPost);
   byte status = pinWrapper(postData, &guardaDatosSD);
@@ -29,7 +32,7 @@ void almacenamientoDatos() {
     }
   }
 
-  char* estados_general[4] = { "Datos erroneos, descartados", "Fallo al enviar al servidor, guardado en SD", "No hay wifi ni SD --", "Enviado al servidor" };
+  char *estados_general[4] = { "Datos erroneos, descartados", "No hay SD datos descartados", "Almacenado" };
   Serial.println(estados_general[status]);
   char Buf[postData.length() + 1];
   postData.toCharArray(Buf, postData.length() + 1);
@@ -37,14 +40,14 @@ void almacenamientoDatos() {
 }
 
 void envioInformacion() {
-  byte status = pinWrapper(&sendSDtoServer);
+  byte status = pinWrapper(serverName, &sendSDtoServer);
 }
 
 void unionInicializacionWifiSD() {
   Serial.println("Inicializando wifi | sd ...");
-  bool init_wifi = wifiInicializacion();
   bool init_sd = sdInicializacion();
   Serial.println(init_sd ? "si sd" : "no sd");
+  bool init_wifi = wifiInicializacion(ssid, password);
   Serial.println(init_wifi ? "si wifi" : "no wifi");
 
   if (!init_sd && !init_wifi) {  //verificar si el wifi o el sd funciona, se admite que uno funcione y el otro no
