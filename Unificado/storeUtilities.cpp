@@ -72,7 +72,7 @@ byte sendSDtoServer(const char *serverName) {
     case LEIDO:
       {
         unsigned long start = millis();
-        while (!httpmyRequest(currLine, serverName) || millis() - start < 5000) {
+        while (!httpmyRequest(currLine, serverName) && millis() - start < 5000) {
           status = LEIDO_PERO_NO_ENVIADO;
         };
       }

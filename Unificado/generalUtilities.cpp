@@ -38,19 +38,22 @@ void almacenamientoDatos() {
   Serial.println(Buf);
 }
 
+/*
+    - ARCHIVO_NO_ABIERTO 0
+    - LEIDO 1
+    - NO_MAS_DATOS 2
+    - LEIDO_PERO_NO_ENVIADO 3
+*/
+
 void envioInformacion() {
   byte status = pinWrapper(serverName, &sendSDtoServer);
+  char *estados_general[4] = { "ARCHIVO_NO_ABIERTO", "LEIDO", "NO_MAS_DATOS", "LEIDO_PERO_NO_ENVIADO" };
+  Serial.println(estados_general[status]);
 }
 
 void unionInicializacionWifiSD() {
-  Serial.println("Inicializando wifi | sd ...");
   bool init_sd = sdInicializacion();
   Serial.println(init_sd ? "si sd" : "no sd");
   bool init_wifi = wifiInicializacion(ssid, password);
   Serial.println(init_wifi ? "si wifi" : "no wifi");
-
-  if (!init_sd && !init_wifi) {  //verificar si el wifi o el sd funciona, se admite que uno funcione y el otro no
-    ESP.restart();
-    //La unica posibilidad para reiniciar el dispoditivo es que ni el wifi ni el SD funcionen
-  }
 }

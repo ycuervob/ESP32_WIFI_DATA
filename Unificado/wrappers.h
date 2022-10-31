@@ -33,5 +33,6 @@ byte pinWrapper(const char * data, byte (*func)(const char *)) {
   digitalWrite(2, HIGH);
   byte status = func(data);
   digitalWrite(2, LOW);
+  delay(200);
   return status;
 }
