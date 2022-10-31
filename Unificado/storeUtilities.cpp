@@ -63,15 +63,25 @@ byte guardaDatosSD(String postData) {
 int currPos;
 byte sendSDtoServer(const char *serverName) {
   String currLine = "";
-
   getLine(&currPos);
   byte status = readLine(&currLine, &currPos);
-  while (status == LEIDO) {
-    if (!httpmyRequest(currLine, serverName)) {
+
+  switch (status) {
+    case ARCHIVO_NO_ABIERTO:
+      break;
+    case LEIDO:
+      {
+        unsigned long start = millis();
+        while (!httpmyRequest(currLine, serverName) || millis() - start < 5000) {
+          status = LEIDO_PERO_NO_ENVIADO;
+        };
+      }
+      break;
+    case NO_MAS_DATOS:
+      break;
+    default:
       status = LEIDO_PERO_NO_ENVIADO;
       break;
-    };
-    status = readLine(&currLine, &currPos);
   }
 
   return status;

@@ -6,8 +6,8 @@ const int pinBateria = 35;
 byte x = 1;
 byte y = 1;
 const char *id_device = "dispositivo_prueba";
-const char *ssid = "FIPROTECTION_C";
-const char *password = "DX-120USBBLACKG55";
+const char *ssid = "test";
+const char *password = "clavechida";
 const char *serverName = "http://54.94.206.91:80/";
 int bateria = 0;
 
