@@ -8,14 +8,13 @@ byte y = 1;
 int bateria = 0;
 const char *id_device = "dispositivo_prueba";
 const char *ssid = "test";
-const char *password = "";
+const char *password = "clavechida";
 const char *serverName = "http://54.94.206.91:80/";
 
 void almacenamientoDatos() {
   paqueteDataType dataToPost;
   tempyhumedad(dataToPost.temyhDatos);
   gpsDatos(dataToPost.gpsDatos);
-  Serial.print("Velocidad: ");Serial.println(dataToPost.gpsDatos.velocidad);
   acelerometro(dataToPost.acelerometroDatos);
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = String(id_device);
