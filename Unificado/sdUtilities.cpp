@@ -5,13 +5,36 @@
 
 File myFile, fileLine;
 
-bool sdInicializacion() {
+void initGlobalVar(const char* id_device, const char* ssid, const char* password, const char* serverName) {
+  File fileSsid, filePassword, fileServerName, fileId_device;
+  File* listFiles[4] = { &fileId_device, &fileSsid, &filePassword, &fileServerName };
+  char* nameFiles[4] = { "/id_device.txt", "/ssid.txt", "/password.txt", "/fileServerName.txt" };
+  const char** vars[4] = { &id_device, &ssid, &password, &serverName };
+
+  for (int i = 0; i < 4; i++) {
+    *listFiles[i] = SD.open(nameFiles[i], FILE_READ);
+    if (*listFiles[i]) {
+      char value[listFiles[i]->size()];
+
+      listFiles[i]->readBytes(value, listFiles[i]->size());
+
+      Serial.println(nameFiles[i]);
+      Serial.println(value);
+      *vars[i] = value;
+      Serial.println(*vars[i]);
+    }
+    listFiles[i]->close();
+  }
+}
+
+bool sdInicializacion(const char* id_device, const char* ssid, const char* password, const char* serverName) {
   unsigned long start = millis();
   while (!SD.begin(SS)) {
     if (millis() - start > 5000) {  // Se intenta conectar por 10 segundos
       return false;
     }
   }
+  initGlobalVar(id_device, ssid, password, serverName);
   return true;
 }
 
@@ -19,6 +42,8 @@ void endSD() {
   SD.end();
   delay(200);
 }
+
+
 
 /**
   Recibe un String y lo almacena el archivo data.json de la micro sd.
