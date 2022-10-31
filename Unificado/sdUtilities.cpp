@@ -68,7 +68,6 @@ void setLine(int* position_var) {
     - NO_MAS_DATOS 2
 */
 byte readLine(String* linea, int* posicion_var) {
-  getLine(posicion_var);
   myFile = SD.open("/data.json");
   byte linea_leida = 0;
   int fileSize = myFile.size();
@@ -78,7 +77,6 @@ byte readLine(String* linea, int* posicion_var) {
       myFile.seek(*posicion_var);
       *linea = myFile.readStringUntil('\n');
       *posicion_var = myFile.position();
-      setLine(posicion_var);
       linea_leida = 1;
       myFile.close();
       return linea_leida;

@@ -1,3 +1,4 @@
+#include "WiFiType.h"
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <Arduino.h>
@@ -20,6 +21,9 @@ bool wifiInicializacion(const char * ssid, const char * password) {
 /**
   Recibe un archivo en formato apto para el servidor y lo envía por medio de una petición POST
   Retorna true si fue enviado correctamente y false si hubo algún error.
+    - FALLO_EN_SERVIDOR 0
+    - LEIDO 1
+    - NO_MAS_DATOS 2
 */
 bool httpmyRequest(String postData, const char * serverName) {
   bool data_sent_correct = false;

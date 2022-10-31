@@ -64,7 +64,9 @@ byte guardaDatosSD(String postData) {
 int currPos;
 byte sendSDtoServer(const char *serverName) {
   String currLine = "";
+  getLine(&currPos);
   byte status = readLine(&currLine, &currPos);
+  setLine(&currPos);
 
   switch (status) {
     case ARCHIVO_NO_ABIERTO:
