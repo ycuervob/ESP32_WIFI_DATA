@@ -1,25 +1,12 @@
 #include <Arduino.h>
 #include "utilities.h"
+#include "wrappers.h"
 
 const int pinBateria = 35;
 byte x = 1;
 byte y = 1;
 const String id_device = "dispositivo_prueba";
 int bateria = 0;
-
-void timeWrapper(unsigned long time, void (*func)()) {
-  for (unsigned long start = millis(); millis() - start < time;) {
-    func();
-  }
-}
-
-void timeWrapper(unsigned long time, bool (*func)()) {
-  for (unsigned long start = millis(); millis() - start < time;) {
-    if (func()) {
-      break;
-    }
-  }
-}
 
 void almacenamientoDatos() {
   paqueteDataType dataToPost;
