@@ -58,7 +58,6 @@ void setLine(int* position_var) {
     fileLine.println(*position_var);
   }
   fileLine.close();
-  //Serial.println(*position_var);  //IMPORTANTE COMENTAR ESTA LINEA ----------------
 }
 
 /**
@@ -69,6 +68,7 @@ void setLine(int* position_var) {
     - NO_MAS_DATOS 2
 */
 byte readLine(String* linea, int* posicion_var) {
+  getLine(posicion_var);
   myFile = SD.open("/data.json");
   byte linea_leida = 0;
   int fileSize = myFile.size();

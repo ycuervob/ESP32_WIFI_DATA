@@ -63,7 +63,6 @@ byte guardaDatosSD(String postData) {
 int currPos;
 byte sendSDtoServer(const char *serverName) {
   String currLine = "";
-  getLine(&currPos);
   byte status = readLine(&currLine, &currPos);
 
   switch (status) {

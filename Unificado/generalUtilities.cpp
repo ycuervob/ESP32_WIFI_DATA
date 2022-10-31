@@ -5,11 +5,11 @@
 const int pinBateria = 35;
 byte x = 1;
 byte y = 1;
+int bateria = 0;
 const char *id_device = "dispositivo_prueba";
 const char *ssid = "test";
-const char *password = "clavechida";
+const char *password = "";
 const char *serverName = "http://54.94.206.91:80/";
-int bateria = 0;
 
 void almacenamientoDatos() {
   paqueteDataType dataToPost;
@@ -18,7 +18,6 @@ void almacenamientoDatos() {
   acelerometro(dataToPost.acelerometroDatos);
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = String(id_device);
-
   String postData = createPostData(dataToPost);
   byte status = pinWrapper(postData, &guardaDatosSD);
 
