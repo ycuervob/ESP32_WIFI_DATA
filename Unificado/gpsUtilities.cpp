@@ -16,7 +16,7 @@ void gpsDatos(gpsDataType& dataGps) {
   unsigned long chars;
   unsigned short sentences, failed;
   bool newData = false;
-  float flon, flat;
+  float flon, flat, speed;
   unsigned long age;
   int year;
   byte month, day, hour, minute, second, hundredths;
@@ -34,6 +34,7 @@ void gpsDatos(gpsDataType& dataGps) {
 
   gps.f_get_position(&flat, &flon, &age);
   gps.stats(&chars, &sentences, &failed);
+  speed = gps.f_speed_kmph();
   gps.crack_datetime(&year, &month, &day, &hour, &minute, &second, &hundredths, &age);
   char timestamp[32];
 
@@ -41,6 +42,7 @@ void gpsDatos(gpsDataType& dataGps) {
   dataGps.timestamp = String(timestamp);
   dataGps.flat = (flat == TinyGPS::GPS_INVALID_F_ANGLE) ? "0.0" : String(flat, 6);
   dataGps.flon = (flon == TinyGPS::GPS_INVALID_F_ANGLE) ? "0.0" : String(flon, 6);
+  dataGps.velocidad = (speed == TinyGPS::GPS_INVALID_F_SPEED) ? "0.0" : String(speed, 6);
   dataGps.numero_satelites = (gps.satellites() == TinyGPS::GPS_INVALID_SATELLITES) ? "0" : String(gps.satellites(), 6);
   dataGps.varianza = (gps.hdop() == TinyGPS::GPS_INVALID_HDOP) ? "0.0" : String(((float)gps.hdop() / 100),6);
 }

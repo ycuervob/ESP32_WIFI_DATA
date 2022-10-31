@@ -15,6 +15,7 @@ void almacenamientoDatos() {
   paqueteDataType dataToPost;
   tempyhumedad(dataToPost.temyhDatos);
   gpsDatos(dataToPost.gpsDatos);
+  Serial.print("Velocidad: ");Serial.println(dataToPost.gpsDatos.velocidad);
   acelerometro(dataToPost.acelerometroDatos);
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = String(id_device);

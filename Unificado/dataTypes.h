@@ -9,6 +9,7 @@ struct gpsDataType {
   String timestamp;
   String numero_satelites;
   String varianza;
+  String velocidad;
 };
 
 struct temyhumDataType {
