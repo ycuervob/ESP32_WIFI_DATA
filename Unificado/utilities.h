@@ -32,7 +32,7 @@ void printStatusGeneral(byte);
 void printStatusSDtoWIFI(byte);
 void getLine(int *);
 void setLine(int *);
-char * getLine(const char *);
+void getLine(String &, String *);
 void endSD();
 void acelerometroAlto();
 void timeWrapper(unsigned long, void (*)());

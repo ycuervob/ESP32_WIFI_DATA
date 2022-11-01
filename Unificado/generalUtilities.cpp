@@ -6,29 +6,20 @@ const int pinBateria = 35;
 byte x = 1;
 byte y = 1;
 int bateria = 0;
-const char *id_device;
-const char *ssid;
-const char *password;
-const char *serverName;
+globVars gVars;
+globVars nFiles;
+bool only_first_time = true;
+
 
 void initGlobalVar() {
-  globVars gVars;
-  globVars nFiles;
-  nFiles.device = "/device.txt";
-  nFiles.ssid = "/ssid.txt";
-  nFiles.pass = "/pass.txt";
-  nFiles.server = "/server.txt";
-  getVariables(gVars, nFiles);
-  id_device = gVars.device;
-  ssid = gVars.ssid;
-  password = gVars.pass;
-  serverName = gVars.server;
-
-  Serial.println("Datos de sd: ------------");
-  Serial.println(id_device);
-  Serial.println(ssid);
-  Serial.println(password);
-  Serial.println(serverName);
+  if (only_first_time) {
+    nFiles.device = "/device.txt";
+    nFiles.ssid = "/ssid.txt";
+    nFiles.pass = "/pass.txt";
+    nFiles.server = "/server.txt";
+    getVariables(gVars, nFiles);
+    only_first_time = false;
+  }
 }
 
 void almacenamientoDatos() {
@@ -37,7 +28,7 @@ void almacenamientoDatos() {
   gpsDatos(dataToPost.gpsDatos);
   acelerometro(dataToPost.acelerometroDatos);
   dataToPost.bateria = analogRead(pinBateria);
-  dataToPost.id_device = String(id_device);
+  dataToPost.id_device = gVars.device;
   String postData = createPostData(dataToPost);
   byte status = pinWrapper(postData, &guardaDatosSD);
 
@@ -66,7 +57,7 @@ void almacenamientoDatos() {
 */
 
 void envioInformacion() {
-  byte status = pinWrapper(serverName, ssid, password, &sendSDtoServer);
+  byte status = pinWrapper(gVars.server.c_str(), gVars.ssid.c_str(), gVars.pass.c_str(), &sendSDtoServer);
   char *estados_general[7] = { "ARCHIVO_NO_ABIERTO", "LEIDO", "NO_MAS_DATOS", "LEIDO_PERO_NO_ENVIADO", "FALLO_AL_ENVIAR", "ENVIADO", "NO_WIFI" };
   Serial.println(estados_general[status]);
 }
@@ -78,6 +69,6 @@ void initSD() {
 
 
 void initWIFI() {
-  bool init_wifi = wifiInicializacion(ssid, password);
+  bool init_wifi = wifiInicializacion(gVars.ssid.c_str(), gVars.pass.c_str());
   Serial.println(init_wifi ? "si wifi" : "no wifi");
 }

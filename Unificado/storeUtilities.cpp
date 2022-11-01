@@ -28,11 +28,11 @@ String createPostData(struct paqueteDataType &postData) {
   return str_postData;
 }
 
-void getVariables(struct globVars &gVars,struct globVars &nFiles) {
-  gVars.device = getLine(nFiles.device);
-  gVars.ssid = getLine(nFiles.ssid);
-  gVars.pass = getLine( nFiles.pass);
-  gVars.server = getLine(nFiles.server);
+void getVariables(struct globVars &gVars, struct globVars &nFiles) {
+  getLine(nFiles.device, &gVars.device);
+  getLine(nFiles.ssid, &gVars.ssid);
+  getLine(nFiles.pass, &gVars.pass);
+  getLine(nFiles.server, &gVars.server);
 }
 
 

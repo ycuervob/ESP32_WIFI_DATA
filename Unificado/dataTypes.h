@@ -4,10 +4,10 @@
 #define dataTypesproject
 
 struct globVars {
-  const char *device;
-  const char *ssid;
-  const char *pass;
-  const char *server;
+  String device;
+  String ssid;
+  String pass;
+  String server;
 };
 
 struct gpsDataType {
