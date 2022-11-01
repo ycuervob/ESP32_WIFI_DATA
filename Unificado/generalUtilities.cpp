@@ -6,17 +6,24 @@ const int pinBateria = 35;
 byte x = 1;
 byte y = 1;
 int bateria = 0;
-const char *id_device = "dispositivo_prueba";
-const char *ssid = "test";
-const char *password = "clavechida";
-const char *serverName = "http://54.94.206.91:80/";
+const char *id_device;
+const char *ssid;
+const char *password;
+const char *serverName;
 
 void initGlobalVar() {
-  const char *filenames[4] = { "/device.txt", "/ssid.txt", "/pass.txt", "/server.txt" };
-  const char *myvars[4] = { id_device, ssid, password, serverName };
-  int size = sizeof(filenames) / sizeof(filenames[0]);
-  Serial.println(size);
-  getVariables(myvars, filenames, size);
+  globVars gVars;
+  globVars nFiles;
+  nFiles.device = "/device.txt";
+  nFiles.ssid = "/ssid.txt";
+  nFiles.pass = "/pass.txt";
+  nFiles.server = "/server.txt";
+  getVariables(gVars, nFiles);
+  id_device = gVars.device;
+  ssid = gVars.ssid;
+  password = gVars.pass;
+  serverName = gVars.server;
+
   Serial.println("Datos de sd: ------------");
   Serial.println(id_device);
   Serial.println(ssid);

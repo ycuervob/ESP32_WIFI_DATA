@@ -52,22 +52,23 @@ void getLine(int* position_var) {
   fileLine.close();
 }
 
-
-
 /**
   CORREGIR --------------
   acá hay un error NO se está pasando el puntero almacenado en value al de la variable global 
 */
-void getLine(const char* my_var, const char* filename) {
+char * getLine(const char* filename) {
   fileLine = SD.open(filename);
-
+  
   if (fileLine) {
-    char value[fileLine.size()];
+    char *value;
     fileLine.readBytes(value, fileLine.size());
-    my_var = value;
+    fileLine.close();
+    return value;
+  }else{
+    fileLine.close();
+    return "NO_DATO_DISPONIBLE_SD";
   }
-
-  fileLine.close();
+  
 }
 
 void setLine(int* position_var) {

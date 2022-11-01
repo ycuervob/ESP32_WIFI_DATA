@@ -3,6 +3,13 @@
 #ifndef dataTypesproject
 #define dataTypesproject
 
+struct globVars {
+  const char *device;
+  const char *ssid;
+  const char *pass;
+  const char *server;
+};
+
 struct gpsDataType {
   String flat;
   String flon;
@@ -33,4 +40,3 @@ struct paqueteDataType {
 };
 
 #endif
-

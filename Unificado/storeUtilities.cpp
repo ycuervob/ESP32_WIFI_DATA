@@ -28,10 +28,11 @@ String createPostData(struct paqueteDataType &postData) {
   return str_postData;
 }
 
-void getVariables(const char **my_vars, const char **filename, int size) {
-  for (int i = 0; i < size; i++) {
-    getLine(my_vars[i], filename[i]);
-  }
+void getVariables(struct globVars &gVars,struct globVars &nFiles) {
+  gVars.device = getLine(nFiles.device);
+  gVars.ssid = getLine(nFiles.ssid);
+  gVars.pass = getLine( nFiles.pass);
+  gVars.server = getLine(nFiles.server);
 }
 
 
@@ -86,7 +87,7 @@ byte sendSDtoServer(const char *serverName, const char *ssid, const char *passwo
             {
               status = ENVIADO;
               while (httpmyRequest(currLine, serverName) == FALLO_AL_ENVIAR) {
-                if (millis() - start < 5000) {
+                if (millis() - start > 5000) {
                   status = LEIDO_PERO_NO_ENVIADO;
                   setLine(&currPos);
                   break;
