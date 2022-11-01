@@ -15,6 +15,7 @@ void setup() {
 void loop() {
   EncenderDispositivos();
   initSD();
+  initGlobalVar();
   timeWrapper(60000, &almacenamientoDatos);
   initWIFI();
   timeWrapper(60000, &envioInformacion);

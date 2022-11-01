@@ -11,6 +11,19 @@ const char *ssid = "test";
 const char *password = "clavechida";
 const char *serverName = "http://54.94.206.91:80/";
 
+void initGlobalVar() {
+  const char *filenames[4] = { "/device.txt", "/ssid.txt", "/pass.txt", "/server.txt" };
+  const char **myvars[4] = { &id_device, &ssid, &password, &serverName };
+  int size = sizeof(filenames) / sizeof(filenames[0]);
+  Serial.println(size);
+  getVariables(myvars, filenames, size);
+  Serial.println("Datos de sd: ------------");
+  Serial.println(id_device);
+  Serial.println(ssid);
+  Serial.println(password);
+  Serial.println(serverName);
+}
+
 void almacenamientoDatos() {
   paqueteDataType dataToPost;
   tempyhumedad(dataToPost.temyhDatos);
