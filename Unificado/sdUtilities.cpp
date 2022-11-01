@@ -60,9 +60,8 @@ char * getLine(const char* filename) {
   fileLine = SD.open(filename);
   
   if (fileLine) {
-    char *value;
+    char value[fileLine.size()];
     fileLine.readBytes(value, fileLine.size());
-    fileLine.close();
     return value;
   }else{
     fileLine.close();
