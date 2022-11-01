@@ -62,6 +62,7 @@ char * getLine(const char* filename) {
   if (fileLine) {
     char *value = new char[fileLine.size()];
     fileLine.readBytes(value, fileLine.size());
+    fileLine.close();
     return value;
   }else{
     fileLine.close();
