@@ -28,7 +28,7 @@ String createPostData(struct paqueteDataType &postData) {
   return str_postData;
 }
 
-void getVariables(const char ***my_vars, const char **filename, int size) {
+void getVariables(const char **my_vars, const char **filename, int size) {
   for (int i = 0; i < size; i++) {
     getLine(my_vars[i], filename[i]);
   }

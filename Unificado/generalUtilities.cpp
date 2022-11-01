@@ -13,7 +13,7 @@ const char *serverName = "http://54.94.206.91:80/";
 
 void initGlobalVar() {
   const char *filenames[4] = { "/device.txt", "/ssid.txt", "/pass.txt", "/server.txt" };
-  const char **myvars[4] = { &id_device, &ssid, &password, &serverName };
+  const char *myvars[4] = { id_device, ssid, password, serverName };
   int size = sizeof(filenames) / sizeof(filenames[0]);
   Serial.println(size);
   getVariables(myvars, filenames, size);

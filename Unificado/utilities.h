@@ -32,7 +32,7 @@ void printStatusGeneral(byte);
 void printStatusSDtoWIFI(byte);
 void getLine(int *);
 void setLine(int *);
-void getLine(const char **, const char *);
+void getLine(const char *, const char *);
 void endSD();
 void acelerometroAlto();
 void timeWrapper(unsigned long, void (*)());
@@ -40,7 +40,7 @@ void timeWrapper(unsigned long, bool (*)());
 void acelerometro(acelerometroDataType &);
 void gpsDatos(gpsDataType &);
 void initGlobalVar();
-void getVariables(const char **[], const char *[], int);
+void getVariables(const char **, const char **, int);
 void tempyhumedad(temyhumDataType &);
 
 bool saveDataSD(String);
