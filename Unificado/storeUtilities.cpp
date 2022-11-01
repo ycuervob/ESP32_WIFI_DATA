@@ -62,21 +62,43 @@ byte guardaDatosSD(String postData) {
 
 //Posición actual que se está leyendo en la micro sd, en bytes.
 int currPos;
-byte sendSDtoServer(const char *serverName) {
+byte sendSDtoServer(const char *serverName, const char *ssid, const char *password) {
   String currLine = "";
   getLine(&currPos);
   byte status = readLine(&currLine, &currPos);
-  setLine(&currPos);
 
   switch (status) {
     case ARCHIVO_NO_ABIERTO:
+      endSD();
+      sdInicializacion();
       break;
     case LEIDO:
       {
         unsigned long start = millis();
-        while (!httpmyRequest(currLine, serverName) && millis() - start < 5000) {
-          status = LEIDO_PERO_NO_ENVIADO;
-        };
+        switch (httpmyRequest(currLine, serverName)) {
+          case FALLO_AL_ENVIAR:
+            {
+              status = ENVIADO;
+              while (httpmyRequest(currLine, serverName) == FALLO_AL_ENVIAR) {
+                if (millis() - start < 5000) {
+                  status = LEIDO_PERO_NO_ENVIADO;
+                  setLine(&currPos);
+                  break;
+                }
+              }
+            }
+            break;
+          case ENVIADO:
+            setLine(&currPos);
+            status = ENVIADO;
+            break;
+          case NO_WIFI:
+            wifiInicializacion(ssid, password);
+            status = NO_WIFI;
+            break;
+          default:
+            break;
+        }
       }
       break;
     case NO_MAS_DATOS:

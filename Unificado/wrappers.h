@@ -29,9 +29,9 @@ byte pinWrapper(String data, byte (*func)(String)) {
   return status;
 }
 
-byte pinWrapper(const char * data, byte (*func)(const char *)) {
+byte pinWrapper(const char *data, const char *data1, const char *data2, byte (*func)(const char *, const char *, const char *)) {
   digitalWrite(2, HIGH);
-  byte status = func(data);
+  byte status = func(data, data1, data2);
   digitalWrite(2, LOW);
   delay(200);
   return status;

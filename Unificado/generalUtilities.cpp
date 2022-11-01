@@ -46,14 +46,18 @@ void almacenamientoDatos() {
 */
 
 void envioInformacion() {
-  byte status = pinWrapper(serverName, &sendSDtoServer);
-  char *estados_general[4] = { "ARCHIVO_NO_ABIERTO", "LEIDO", "NO_MAS_DATOS", "LEIDO_PERO_NO_ENVIADO" };
+  byte status = pinWrapper(serverName, ssid, password, &sendSDtoServer);
+  char *estados_general[7] = { "ARCHIVO_NO_ABIERTO", "LEIDO", "NO_MAS_DATOS", "LEIDO_PERO_NO_ENVIADO", "FALLO_AL_ENVIAR", "ENVIADO", "NO_WIFI" };
   Serial.println(estados_general[status]);
 }
 
-void unionInicializacionWifiSD() {
+void initSD() {
   bool init_sd = sdInicializacion();
   Serial.println(init_sd ? "si sd" : "no sd");
+}
+
+
+void initWIFI() {
   bool init_wifi = wifiInicializacion(ssid, password);
   Serial.println(init_wifi ? "si wifi" : "no wifi");
 }
