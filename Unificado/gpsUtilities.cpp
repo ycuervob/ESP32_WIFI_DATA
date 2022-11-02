@@ -42,7 +42,7 @@ void gpsDatos(gpsDataType& dataGps) {
   dataGps.timestamp = String(timestamp);
   dataGps.flat = (flat == TinyGPS::GPS_INVALID_F_ANGLE) ? "0.0" : String(flat, 6);
   dataGps.flon = (flon == TinyGPS::GPS_INVALID_F_ANGLE) ? "0.0" : String(flon, 6);
-  dataGps.velocidad = (speed == TinyGPS::GPS_INVALID_F_SPEED) ? "0.0" : String(speed, 6);
+  dataGps.velocidad = (speed == TinyGPS::GPS_INVALID_F_SPEED) ? 0.0 : speed;
   dataGps.numero_satelites = (gps.satellites() == TinyGPS::GPS_INVALID_SATELLITES) ? "0" : String(gps.satellites(), 6);
   dataGps.varianza = (gps.hdop() == TinyGPS::GPS_INVALID_HDOP) ? "0.0" : String(((float)gps.hdop() / 100),6);
 }

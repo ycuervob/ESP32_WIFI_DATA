@@ -10,6 +10,15 @@ globVars gVars;
 globVars nFiles;
 bool only_first_time = true;
 
+int tiempoEspera() {
+  if (gVars.velocidad <= 1) {
+    return 10 * 60000;
+  } else if (gVars.velocidad > 1 && gVars.velocidad <= 60) {
+    return (10 - (gVars.velocidad / 6)) * 60000;  //funcion de tiempo
+  } else {
+    return 0;
+  }
+}
 
 void initGlobalVar() {
   if (only_first_time) {
@@ -27,6 +36,7 @@ void almacenamientoDatos() {
   tempyhumedad(dataToPost.temyhDatos);
   gpsDatos(dataToPost.gpsDatos);
   acelerometro(dataToPost.acelerometroDatos);
+  gVars.velocidad = dataToPost.gpsDatos.velocidad;
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = gVars.device;
   String postData = createPostData(dataToPost);

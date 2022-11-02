@@ -8,6 +8,7 @@ struct globVars {
   String ssid;
   String pass;
   String server;
+  float velocidad;
 };
 
 struct gpsDataType {
@@ -16,7 +17,7 @@ struct gpsDataType {
   String timestamp;
   String numero_satelites;
   String varianza;
-  String velocidad;
+  float velocidad;
 };
 
 struct temyhumDataType {

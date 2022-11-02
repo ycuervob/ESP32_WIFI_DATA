@@ -19,7 +19,7 @@ String createPostData(struct paqueteDataType &postData) {
                         + postData.gpsDatos.timestamp + "\","
                         + postData.gpsDatos.numero_satelites + ","
                         + postData.gpsDatos.varianza + ","
-                        + postData.gpsDatos.velocidad + ","
+                        + String(postData.gpsDatos.velocidad) + ","
                         + postData.acelerometroDatos.x + ","
                         + postData.acelerometroDatos.y + ","
                         + postData.acelerometroDatos.z + ","

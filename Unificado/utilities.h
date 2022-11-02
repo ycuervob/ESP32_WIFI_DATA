@@ -42,6 +42,7 @@ void gpsDatos(gpsDataType &);
 void initGlobalVar();
 void getVariables(globVars &, globVars &);
 void tempyhumedad(temyhumDataType &);
+int tiempoEspera();
 
 bool saveDataSD(String);
 bool acelerometroInicializacion();
