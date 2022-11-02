@@ -16,9 +16,9 @@ void loop() {
   EncenderDispositivos();
   initSD();
   initGlobalVar();
-  timeWrapper(60000, &almacenamientoDatos);
+  timeWrapper(30000, &almacenamientoDatos);
   initWIFI();
-  timeWrapper(60000, &envioInformacion);
+  timeWrapper(tiempoEspera() * 0.2 > 60000 ? tiempoEspera() * 0.2 : 0, &envioInformacion);
   ApagarDispositivos();
-  timeWrapper(10000,&acelerometroAlto);
+  timeWrapper(tiempoEspera(), &acelerometroAlto);
 }
