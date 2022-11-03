@@ -11,7 +11,9 @@ globVars nFiles;
 bool only_first_time = true;
 
 int tiempoEspera() {
-  if (gVars.velocidad <= 1) {
+  if (gVars.velocidad == 0.0) {
+    return 0;
+  } else if (gVars.velocidad <= 1) {
     return 10 * 60000;
   } else if (gVars.velocidad > 1 && gVars.velocidad <= 60) {
     return (10 - (gVars.velocidad / 6)) * 60000;  //funcion de tiempo
@@ -37,6 +39,7 @@ void almacenamientoDatos() {
   gpsDatos(dataToPost.gpsDatos);
   acelerometro(dataToPost.acelerometroDatos);
   gVars.velocidad = dataToPost.gpsDatos.velocidad;
+  Serial.println(gVars.velocidad);
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = gVars.device;
   String postData = createPostData(dataToPost);
