@@ -30,7 +30,7 @@ void initWIFI();
 void initSD();
 void printStatusGeneral(byte);
 void printStatusSDtoWIFI(byte);
-void getLine(int *);
+void getLine(String &, int *);
 void setLine(int *);
 void getLine(String &, String *);
 void endSD();
@@ -40,18 +40,21 @@ void timeWrapper(unsigned long, bool (*)());
 void acelerometro(acelerometroDataType &);
 void gpsDatos(gpsDataType &);
 void initGlobalVar();
-void getVariables(globVars &, globVars &);
+void getVariables(globVars &,  String *);
 void tempyhumedad(temyhumDataType &);
-int tiempoEspera();
 
 bool saveDataSD(String);
 bool acelerometroInicializacion();
 bool sdInicializacion();
 bool wifiInicializacion(const char *, const char *);
-byte httpmyRequest(String, const char *);
 void endSD();
 void envioInformacion();
 
+int tiempoEnvio(int);
+int tiempoLectura();
+int tiempoEspera();
+
+byte httpmyRequest(String, const char *);
 byte pinWrapper(byte (*)());
 byte pinWrapper(String, byte (*)(String));
 byte pinWrapper(const char *, const char *, const char *, byte (*)(const char *, const char *, const char *));

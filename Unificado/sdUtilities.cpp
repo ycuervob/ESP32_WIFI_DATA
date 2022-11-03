@@ -42,8 +42,8 @@ bool saveDataSD(String postData) {
   return datosGuardados;
 }
 
-void getLine(int* position_var) {
-  fileLine = SD.open("/currentLine.txt");
+void getLine(String& filename, int* position_var) {
+  fileLine = SD.open(filename.c_str());
   if (fileLine) {
     char value[fileLine.size()];
     fileLine.readBytes(value, fileLine.size());
@@ -56,11 +56,11 @@ void getLine(int* position_var) {
   CORREGIR --------------
   acá hay un error NO se está pasando el puntero almacenado en value al de la variable global 
 */
-void getLine(String & filename, String * value) {
+void getLine(String& filename, String* value) {
   fileLine = SD.open(filename.c_str());
   if (fileLine) {
-    *value= fileLine.readStringUntil('\n'); 
-  }else{
+    *value = fileLine.readStringUntil('\n');
+  } else {
     *value = String("NO_DATO_DISPONIBLE_SD");
   }
   fileLine.close();

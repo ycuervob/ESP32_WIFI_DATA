@@ -28,11 +28,17 @@ String createPostData(struct paqueteDataType &postData) {
   return str_postData;
 }
 
-void getVariables(struct globVars &gVars, struct globVars &nFiles) {
-  getLine(nFiles.device, &gVars.device);
-  getLine(nFiles.ssid, &gVars.ssid);
-  getLine(nFiles.pass, &gVars.pass);
-  getLine(nFiles.server, &gVars.server);
+void getVariables(struct globVars &gVars, String *nFiles) {
+  getLine(nFiles[0], &gVars.device);
+  getLine(nFiles[1], &gVars.ssid);
+  getLine(nFiles[2], &gVars.pass);
+  getLine(nFiles[3], &gVars.server);
+  getLine(nFiles[4], &gVars.time_max);
+  getLine(nFiles[5], &gVars.vel_max);
+  getLine(nFiles[6], &gVars.vel_min);
+  getLine(nFiles[7], &gVars.tiempo_lectura);
+  getLine(nFiles[8], &gVars.max_tiempo_enviado);
+  getLine(nFiles[9], &gVars.porcentaje_enviado);
 }
 
 
@@ -71,7 +77,8 @@ byte guardaDatosSD(String postData) {
 int currPos;
 byte sendSDtoServer(const char *serverName, const char *ssid, const char *password) {
   String currLine = "";
-  getLine(&currPos);
+  String lineFile = "/currentLine.txt";
+  getLine(lineFile, &currPos);
   byte status = readLine(&currLine, &currPos);
 
   switch (status) {

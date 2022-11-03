@@ -9,6 +9,12 @@ struct globVars {
   String pass;
   String server;
   float velocidad;
+  int time_max;
+  int vel_max;
+  int vel_min;
+  int tiempo_lectura;
+  int max_tiempo_enviado;
+  int porcentaje_enviado;
 };
 
 struct gpsDataType {

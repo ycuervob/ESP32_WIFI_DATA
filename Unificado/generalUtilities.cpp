@@ -13,22 +13,27 @@ bool only_first_time = true;
 int tiempoEspera() {
   if (gVars.velocidad == 0.0) {
     return 0;
-  } else if (gVars.velocidad <= 1) {
-    return 10 * 60000;
-  } else if (gVars.velocidad > 1 && gVars.velocidad <= 60) {
-    return (10 - (gVars.velocidad / 6)) * 60000;  //funcion de tiempo
+  } else if (gVars.velocidad <= gVars.vel_min) {
+    return gVars.time_max * 60000;
+  } else if (gVars.velocidad > gVars.vel_min && gVars.velocidad <= gVars.vel_max) {
+    return (gVars.time_max - (gVars.velocidad / (gVars.vel_max / 10))) * 60000;  //funcion de tiempo
   } else {
     return 0;
   }
 }
 
+int tiempoLectura() {
+  return gVars.tiempo_lectura;
+}
+
+int tiempoEnvio(int tiempo_esp){
+  return (tiempo_esp / 5) >= 60 * 1000 ? (tiempo_esp / 5) : 0;
+}
+
 void initGlobalVar() {
   if (only_first_time) {
-    nFiles.device = "/device.txt";
-    nFiles.ssid = "/ssid.txt";
-    nFiles.pass = "/pass.txt";
-    nFiles.server = "/server.txt";
-    getVariables(gVars, nFiles);
+    String files[10] = { "/device.txt", "/ssid.txt", "/pass.txt", "/server.txt", "/maxT.txt", "/maxV.txt", "/minV.txt", "/Tlectura.txt", "/Tenviado.txt", "/porEnviado.txt" };
+    getVariables(gVars, files);
     only_first_time = false;
   }
 }
