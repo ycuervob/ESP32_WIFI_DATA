@@ -34,26 +34,27 @@ void getLine(String &, int *);
 void setLine(int *);
 void getLine(String &, String *);
 void endSD();
-void acelerometroAlto();
+bool acelerometroAlto();
 void timeWrapper(unsigned long, void (*)());
 void timeWrapper(unsigned long, bool (*)());
+void timeWrapper(unsigned long, byte (*)());
 void acelerometro(acelerometroDataType &);
 void gpsDatos(gpsDataType &);
 void initGlobalVar();
 void getVariables(globVars &,  String *);
 void tempyhumedad(temyhumDataType &);
+void endSD();
 
 bool saveDataSD(String);
 bool acelerometroInicializacion();
 bool sdInicializacion();
 bool wifiInicializacion(const char *, const char *);
-void endSD();
-void envioInformacion();
 
 int tiempoEnvio(int);
 int tiempoLectura();
 int tiempoEspera();
 
+byte envioInformacion();
 byte httpmyRequest(String, const char *);
 byte pinWrapper(byte (*)());
 byte pinWrapper(String, byte (*)(String));

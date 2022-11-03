@@ -26,7 +26,7 @@ int tiempoLectura() {
   return gVars.tiempo_lectura;
 }
 
-int tiempoEnvio(int tiempo_esp){
+int tiempoEnvio(int tiempo_esp) {
   return (tiempo_esp / 5) >= 60 * 1000 ? (tiempo_esp / 5) : 0;
 }
 
@@ -60,11 +60,13 @@ void almacenamientoDatos() {
     }
   }
 
+  
   char *estados_general[4] = { "Datos erroneos, descartados", "No hay SD datos descartados", "Almacenado" };
   Serial.println(estados_general[status]);
   char Buf[postData.length() + 1];
   postData.toCharArray(Buf, postData.length() + 1);
   Serial.println(Buf);
+  
 }
 
 /*
@@ -74,19 +76,27 @@ void almacenamientoDatos() {
     - LEIDO_PERO_NO_ENVIADO 3
 */
 
-void envioInformacion() {
+byte envioInformacion() {
   byte status = pinWrapper(gVars.server.c_str(), gVars.ssid.c_str(), gVars.pass.c_str(), &sendSDtoServer);
+  
+  
   char *estados_general[7] = { "ARCHIVO_NO_ABIERTO", "LEIDO", "NO_MAS_DATOS", "LEIDO_PERO_NO_ENVIADO", "FALLO_AL_ENVIAR", "ENVIADO", "NO_WIFI" };
   Serial.println(estados_general[status]);
+  return status;
+  
 }
 
 void initSD() {
   bool init_sd = sdInicializacion();
+  
   Serial.println(init_sd ? "si sd" : "no sd");
+  
 }
 
 
 void initWIFI() {
   bool init_wifi = wifiInicializacion(gVars.ssid.c_str(), gVars.pass.c_str());
+  
   Serial.println(init_wifi ? "si wifi" : "no wifi");
+  
 }

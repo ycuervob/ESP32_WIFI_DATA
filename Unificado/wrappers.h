@@ -7,10 +7,19 @@ void timeWrapper(unsigned long time, void (*func)()) {
   }
 }
 
+void timeWrapper(unsigned long time, byte (*func)()) {
+  for (unsigned long start = millis(); millis() - start < time;) {
+    if(func() == 2){//NO MAS DATOS
+      return;
+    }
+  }
+}
+
 void timeWrapper(unsigned long time, bool (*func)()) {
   for (unsigned long start = millis(); millis() - start < time;) {
-    if (func()) {
-      break;
+    bool mybool = func();
+    if (mybool) {
+      return;
     }
   }
 }
