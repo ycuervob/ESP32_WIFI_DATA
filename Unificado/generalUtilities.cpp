@@ -27,7 +27,7 @@ int tiempoLectura() {
 }
 
 int tiempoEnvio(int tiempo_esp) {
-  return (tiempo_esp / 5) >= 60 * 1000 ? (tiempo_esp / 5) : 0;
+  return (tiempo_esp / gVars.porcentaje_enviado) >= gVars.max_tiempo_enviado * 1000 ? (tiempo_esp / gVars.porcentaje_enviado) : 0;
 }
 
 void initGlobalVar() {
