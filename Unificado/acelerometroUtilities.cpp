@@ -33,7 +33,7 @@ bool acelerometroAlto() {
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
   float value = sqrt(pow(a.acceleration.x, 2) + pow(a.acceleration.y, 2) + pow(a.acceleration.z, 2));   
-  if (value > 13) {
+  if (value > 11) {
     return true;
   } else {
     return false;
