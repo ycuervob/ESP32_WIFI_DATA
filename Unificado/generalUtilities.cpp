@@ -30,13 +30,17 @@ int minAcelerometro() {
   return gVars.min_acelerometro_anormal;
 }
 
+int tiempoEsperaWifi(){
+  return gVars.tiempo_epera_conexion;
+}
+
 int tiempoEnvio(int tiempo_esp) {
   return (tiempo_esp / gVars.porcentaje_enviado) >= gVars.max_tiempo_enviado * 1000 ? (tiempo_esp / gVars.porcentaje_enviado) : 0;
 }
 
 void initGlobalVar() {
   if (only_first_time) {
-    String files[11] = { "/device.txt", "/ssid.txt", "/pass.txt", "/server.txt", "/maxT.txt", "/maxV.txt", "/minV.txt", "/Tlectura.txt", "/Tenviado.txt", "/porEnviado.txt", "/max_acel.txt" };
+    String files[12] = { "/device.txt", "/ssid.txt", "/pass.txt", "/server.txt", "/maxT.txt", "/maxV.txt", "/minV.txt", "/Tlectura.txt", "/Tenviado.txt", "/porEnviado.txt", "/max_acel.txt", "/tiempo_espera_wifi.txt" };
     getVariables(gVars, files);
     only_first_time = false;
   }

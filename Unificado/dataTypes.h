@@ -16,6 +16,7 @@ struct globVars {
   int max_tiempo_enviado;
   int porcentaje_enviado;
   int min_acelerometro_anormal;
+  int tiempo_epera_conexion;
 };
 
 struct gpsDataType {

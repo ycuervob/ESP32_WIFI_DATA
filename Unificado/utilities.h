@@ -53,6 +53,7 @@ bool wifiInicializacion(const char *, const char *);
 int tiempoEnvio(int);
 int tiempoLectura();
 int tiempoEspera();
+int tiempoEsperaWifi();
 
 byte envioInformacion();
 byte httpmyRequest(String, const char *);
