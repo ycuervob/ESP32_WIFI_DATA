@@ -42,7 +42,7 @@ struct acelerometroDataType {
 };
 
 struct termocuplaDataType{
-  float temp;
+  String temp;
 };
 
 struct paqueteDataType {

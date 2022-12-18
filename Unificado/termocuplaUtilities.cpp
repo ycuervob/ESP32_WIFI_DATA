@@ -17,5 +17,7 @@ void termocuplaInicializacion(){
 void termocupla(termocuplaDataType & dataTermocupla){
   sensorDS18B20.requestTemperatures(); 
   // Leemos y mostramos los datos de los sensores DS18B20
-  dataTermocupla.temp = sensorDS18B20.getTempCByIndex(0); 
+  String str_temperatura = String(sensorDS18B20.getTempCByIndex(0),6);
+  dataTermocupla.temp = str_temperatura == "nan" ? "0.0" : str_temperatura;
+   
 }

@@ -6,6 +6,7 @@ void setup() {
   gpsInicialization();
   tempInicialization();
   acelerometroInicializacion();
+  termocuplaInicializacion();
   pinesyvariables();
   EncenderDispositivos();
   initSD();
