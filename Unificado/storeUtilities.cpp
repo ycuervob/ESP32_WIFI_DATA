@@ -23,7 +23,8 @@ String createPostData(struct paqueteDataType &postData) {
                         + postData.acelerometroDatos.x + ","
                         + postData.acelerometroDatos.y + ","
                         + postData.acelerometroDatos.z + ","
-                        + postData.acelerometroDatos.total + "]}";
+                        + postData.acelerometroDatos.total + ","
+                        + postData.termocuplaDatos.temp + "]}";
 
   return str_postData;
 }

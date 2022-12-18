@@ -55,6 +55,7 @@ void almacenamientoDatos() {
   tempyhumedad(dataToPost.temyhDatos);
   gpsDatos(dataToPost.gpsDatos);
   acelerometro(dataToPost.acelerometroDatos);
+  termocupla(dataToPost.termocuplaDatos);
   gVars.velocidad = dataToPost.gpsDatos.velocidad;
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = gVars.device;

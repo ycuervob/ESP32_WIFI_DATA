@@ -41,12 +41,17 @@ struct acelerometroDataType {
   String total;
 };
 
+struct termocuplaDataType{
+  float temp;
+};
+
 struct paqueteDataType {
   String id_device;
   String bateria;
   temyhumDataType temyhDatos;
   gpsDataType gpsDatos;
   acelerometroDataType acelerometroDatos;
+  termocuplaDataType termocuplaDatos;
 };
 
 #endif
