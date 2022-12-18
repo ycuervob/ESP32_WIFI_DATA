@@ -17,6 +17,7 @@ struct globVars {
   int porcentaje_enviado;
   int min_acelerometro_anormal;
   int tiempo_epera_conexion;
+  int tiempo_conexion_wifi;
 };
 
 struct gpsDataType {

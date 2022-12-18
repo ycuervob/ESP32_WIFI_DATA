@@ -40,7 +40,8 @@ void getVariables(struct globVars &gVars, String *nFiles) {
   getLine(nFiles[8], &gVars.max_tiempo_enviado);
   getLine(nFiles[9], &gVars.porcentaje_enviado);
   getLine(nFiles[10], &gVars.min_acelerometro_anormal);
-  getLine(nFiles[11], &gVars.max_tiempo_enviado);
+  getLine(nFiles[11], &gVars.tiempo_epera_conexion);
+  getLine(nFiles[12], &gVars.tiempo_conexion_wifi);
 }
 
 

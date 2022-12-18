@@ -54,6 +54,7 @@ int tiempoEnvio(int);
 int tiempoLectura();
 int tiempoEspera();
 int tiempoEsperaWifi();
+int tiempoConexionWifi();
 
 byte envioInformacion();
 byte httpmyRequest(String, const char *);
