@@ -19,6 +19,7 @@ String createPostData(struct paqueteDataType &postData) {
                         + postData.gpsDatos.timestamp + "\","
                         + postData.gpsDatos.numero_satelites + ","
                         + postData.gpsDatos.varianza + ","
+                        + String(postData.gpsDatos.velocidad) + ","
                         + postData.acelerometroDatos.x + ","
                         + postData.acelerometroDatos.y + ","
                         + postData.acelerometroDatos.z + ","
@@ -27,29 +28,39 @@ String createPostData(struct paqueteDataType &postData) {
   return str_postData;
 }
 
+void getVariables(struct globVars &gVars, String *nFiles) {
+  getLine(nFiles[0], &gVars.device);
+  getLine(nFiles[1], &gVars.ssid);
+  getLine(nFiles[2], &gVars.pass);
+  getLine(nFiles[3], &gVars.server);
+  getLine(nFiles[4], &gVars.time_max);
+  getLine(nFiles[5], &gVars.vel_max);
+  getLine(nFiles[6], &gVars.vel_min);
+  getLine(nFiles[7], &gVars.tiempo_lectura);
+  getLine(nFiles[8], &gVars.max_tiempo_enviado);
+  getLine(nFiles[9], &gVars.porcentaje_enviado);
+  getLine(nFiles[10], &gVars.min_acelerometro_anormal);
+  getLine(nFiles[11], &gVars.tiempo_epera_conexion);
+  getLine(nFiles[12], &gVars.tiempo_conexion_wifi);
+}
+
 
 /**
-  Recibe datos en el formato para guardar en la bd.
   Retorna los siguientes estados:
-  - BAD_DATA 0          : Se recolecto datos de gps en mal estado y por tanto el paquete no sirve  
-  - NOT_WIFI_STORED 1   : No hubo internet a la hora de guardar el dato por tanto se almacena en la SD
-  - NOT_WIFI_NOT_SD 2   : No sirvió ni el internet ni la micro SD por tanto el dispositivo debe reiniciarse
-  - SENT 3              : Se envió el dato correctamente
+  - BAD_DATA 0 : Se recolecto datos de gps en mal estado y por tanto el paquete no sirve  
+  - NOT_SD 1   : Hubo elgún error al guardar en la SD
+  - STORED 2   : El dato se almacenó correctamente
 */
-byte guardaDatosGeneral(String postData) {
+byte guardaDatosSD(String postData) {
   if (postData == "NULL") {
     return BAD_DATA;
   }
-  
-  byte status = SENT;
-  if (!httpmyRequest(postData)) {
-    status = NOT_WIFI_STORED;
-    if (!saveDataSD(postData)) {
-      return NOT_WIFI_NOT_SD;
-    }
+
+  if (!saveDataSD(postData)) {
+    return NOT_SD;
   }
 
-  return status;
+  return STORED;
 }
 
 
@@ -67,19 +78,51 @@ byte guardaDatosGeneral(String postData) {
 
 //Posición actual que se está leyendo en la micro sd, en bytes.
 int currPos;
-
-byte sendSDtoServer() {
+byte sendSDtoServer(const char *serverName, const char *ssid, const char *password) {
   String currLine = "";
-  
-  getLine(&currPos);
-  byte status = readLine(&currLine, &currPos);  
-  while (status == LEIDO) {
-    if(!httpmyRequest(currLine)){
+  String lineFile = "/currentLine.txt";
+  getLine(lineFile, &currPos);
+  byte status = readLine(&currLine, &currPos);
+
+  switch (status) {
+    case ARCHIVO_NO_ABIERTO:
+      endSD();
+      sdInicializacion();
+      break;
+    case LEIDO:
+      {
+        unsigned long start = millis();
+        switch (httpmyRequest(currLine, serverName)) {
+          case FALLO_AL_ENVIAR:
+            {
+              status = ENVIADO;
+              while (httpmyRequest(currLine, serverName) == FALLO_AL_ENVIAR) {
+                if (millis() - start > 5000) {
+                  status = LEIDO_PERO_NO_ENVIADO;
+                  setLine(&currPos);
+                  break;
+                }
+              }
+            }
+            break;
+          case ENVIADO:
+            setLine(&currPos);
+            status = ENVIADO;
+            break;
+          case NO_WIFI:
+            wifiInicializacion(ssid, password);
+            status = NO_WIFI;
+            break;
+          default:
+            break;
+        }
+      }
+      break;
+    case NO_MAS_DATOS:
+      break;
+    default:
       status = LEIDO_PERO_NO_ENVIADO;
-      break; 
-      //Si esto ocurre, por alguna razón no hay red, por tanto se descarta el dato y se sale para evitar leer mas datos, sabiendo que hhttpmyRequest tratará de reconectar si se pierde conexión
-    };
-    status = readLine(&currLine, &currPos);
+      break;
   }
 
   return status;

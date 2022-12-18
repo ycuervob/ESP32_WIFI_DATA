@@ -6,10 +6,18 @@
 File myFile, fileLine;
 
 bool sdInicializacion() {
-  if (SD.begin(SS)) {
-    return true;
+  unsigned long start = millis();
+  while (!SD.begin(SS)) {
+    if (millis() - start > 5000) {  // Se intenta conectar por 10 segundos
+      return false;
+    }
   }
-  return false;
+  return true;
+}
+
+void endSD() {
+  SD.end();
+  delay(200);
 }
 
 /**
@@ -34,12 +42,26 @@ bool saveDataSD(String postData) {
   return datosGuardados;
 }
 
-void getLine(int* position_var) {
-  fileLine = SD.open("/currentLine.txt");
+void getLine(String& filename, int* position_var) {
+  fileLine = SD.open(filename.c_str());
   if (fileLine) {
     char value[fileLine.size()];
     fileLine.readBytes(value, fileLine.size());
     *position_var = atoi(value);
+  }
+  fileLine.close();
+}
+
+/**
+  CORREGIR --------------
+  acá hay un error NO se está pasando el puntero almacenado en value al de la variable global 
+*/
+void getLine(String& filename, String* value) {
+  fileLine = SD.open(filename.c_str());
+  if (fileLine) {
+    *value = fileLine.readStringUntil('\n');
+  } else {
+    *value = String("NO_DATO_DISPONIBLE_SD");
   }
   fileLine.close();
 }
@@ -50,7 +72,6 @@ void setLine(int* position_var) {
     fileLine.println(*position_var);
   }
   fileLine.close();
-  //Serial.println(*position_var);  //IMPORTANTE COMENTAR ESTA LINEA ----------------
 }
 
 /**
@@ -70,7 +91,6 @@ byte readLine(String* linea, int* posicion_var) {
       myFile.seek(*posicion_var);
       *linea = myFile.readStringUntil('\n');
       *posicion_var = myFile.position();
-      setLine(posicion_var);
       linea_leida = 1;
       myFile.close();
       return linea_leida;
