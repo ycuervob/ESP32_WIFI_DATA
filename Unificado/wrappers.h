@@ -15,12 +15,12 @@ void timeWrapper(unsigned long time, byte (*func)()) {
   }
 }
 
-void timeWrapper(unsigned long time, bool (*func)()) {
+void timeWrapper(unsigned long time, int min_acelerometro, bool (*func)(int)) {
   for (unsigned long start = millis(); millis() - start < time;) {
-    bool mybool = func();
+    bool mybool = func(min_acelerometro);
     if (mybool) {
       return;
-    }
+    } 
   }
 }
 

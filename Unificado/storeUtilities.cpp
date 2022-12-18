@@ -39,6 +39,7 @@ void getVariables(struct globVars &gVars, String *nFiles) {
   getLine(nFiles[7], &gVars.tiempo_lectura);
   getLine(nFiles[8], &gVars.max_tiempo_enviado);
   getLine(nFiles[9], &gVars.porcentaje_enviado);
+  getLine(nFiles[10], &gVars.min_acelerometro_anormal);
 }
 
 

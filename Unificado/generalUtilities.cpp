@@ -26,13 +26,17 @@ int tiempoLectura() {
   return gVars.tiempo_lectura;
 }
 
+int minAcelerometro() {
+  return gVars.min_acelerometro_anormal;
+}
+
 int tiempoEnvio(int tiempo_esp) {
   return (tiempo_esp / gVars.porcentaje_enviado) >= gVars.max_tiempo_enviado * 1000 ? (tiempo_esp / gVars.porcentaje_enviado) : 0;
 }
 
 void initGlobalVar() {
   if (only_first_time) {
-    String files[10] = { "/device.txt", "/ssid.txt", "/pass.txt", "/server.txt", "/maxT.txt", "/maxV.txt", "/minV.txt", "/Tlectura.txt", "/Tenviado.txt", "/porEnviado.txt" };
+    String files[11] = { "/device.txt", "/ssid.txt", "/pass.txt", "/server.txt", "/maxT.txt", "/maxV.txt", "/minV.txt", "/Tlectura.txt", "/Tenviado.txt", "/porEnviado.txt", "/max_acel.txt" };
     getVariables(gVars, files);
     only_first_time = false;
   }
@@ -44,7 +48,6 @@ void almacenamientoDatos() {
   gpsDatos(dataToPost.gpsDatos);
   acelerometro(dataToPost.acelerometroDatos);
   gVars.velocidad = dataToPost.gpsDatos.velocidad;
-  Serial.println(gVars.velocidad);
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = gVars.device;
   String postData = createPostData(dataToPost);
@@ -60,13 +63,12 @@ void almacenamientoDatos() {
     }
   }
 
-  
+
   char *estados_general[4] = { "Datos erroneos, descartados", "No hay SD datos descartados", "Almacenado" };
   Serial.println(estados_general[status]);
   char Buf[postData.length() + 1];
   postData.toCharArray(Buf, postData.length() + 1);
   Serial.println(Buf);
-  
 }
 
 /*
@@ -78,25 +80,17 @@ void almacenamientoDatos() {
 
 byte envioInformacion() {
   byte status = pinWrapper(gVars.server.c_str(), gVars.ssid.c_str(), gVars.pass.c_str(), &sendSDtoServer);
-  
-  
   char *estados_general[7] = { "ARCHIVO_NO_ABIERTO", "LEIDO", "NO_MAS_DATOS", "LEIDO_PERO_NO_ENVIADO", "FALLO_AL_ENVIAR", "ENVIADO", "NO_WIFI" };
   Serial.println(estados_general[status]);
   return status;
-  
 }
 
 void initSD() {
   bool init_sd = sdInicializacion();
-  
   Serial.println(init_sd ? "si sd" : "no sd");
-  
 }
-
 
 void initWIFI() {
   bool init_wifi = wifiInicializacion(gVars.ssid.c_str(), gVars.pass.c_str());
-  
   Serial.println(init_wifi ? "si wifi" : "no wifi");
-  
 }

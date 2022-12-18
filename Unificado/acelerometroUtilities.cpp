@@ -29,11 +29,11 @@ void acelerometro(acelerometroDataType & dataAcelerometro) {
   dataAcelerometro.total = String(sqrt(pow(a.acceleration.x, 2) + pow(a.acceleration.y, 2) + pow(a.acceleration.z, 2)), 6);
 }
 
-bool acelerometroAlto() {
+bool acelerometroAlto(int alt_val) {
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
   float value = sqrt(pow(a.acceleration.x, 2) + pow(a.acceleration.y, 2) + pow(a.acceleration.z, 2));   
-  if (value > 11) {
+  if (value > alt_val) {
     return true;
   } else {
     return false;
