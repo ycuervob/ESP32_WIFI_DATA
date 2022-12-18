@@ -11,6 +11,8 @@ ESP32 Project for real time geolocalization, used libraries:
 
 # Branches
 
+## main
+
 * Unificado: This folder includes the whole code from the project
 * Pruebas Individuales: This forlder includes code for testing separate elements in a ESP32
 * Circuito/Placa 1: This folder has the files for the kiCad program with the circuit of a PCB 
