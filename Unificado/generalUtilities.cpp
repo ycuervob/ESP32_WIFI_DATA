@@ -11,9 +11,7 @@ globVars nFiles;
 bool only_first_time = true;
 
 int tiempoEspera() {
-  if (gVars.velocidad == 0.0) {
-    return 0;
-  } else if (gVars.velocidad <= gVars.vel_min) {
+  if (gVars.velocidad <= gVars.vel_min) {
     return gVars.time_max * 60000;
   } else if (gVars.velocidad > gVars.vel_min && gVars.velocidad <= gVars.vel_max) {
     return (gVars.time_max - (gVars.velocidad / (gVars.vel_max / 10))) * 60000;  //funcion de tiempo
