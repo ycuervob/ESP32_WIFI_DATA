@@ -1,9 +1,15 @@
 #include <Arduino.h>
 #include "utilities.h"
 
+//Variable global con la Posición actual que se está leyendo en la micro sd, en bytes.
+int currPos;
+
 /**
-  Retorna un String con el formato para enviar por medio de HTTP y admitido por el servidor
-*/
+ * @brief Recibe los datos recogidos por los sensores y los formatea para ser enviados al servidor
+ * 
+ * @param postData paqueteDataType | ver dataTypes.h
+ * @return String | Datos formateados para ser enviados al servidor
+ */
 String createPostData(struct paqueteDataType &postData) {
   if (postData.gpsDatos.flon == String("0.0") || postData.gpsDatos.flat == String("0.0")) {
     return "NULL";  // No envia datos donde el gps no esté funcionando o alun dato esté mal
@@ -29,6 +35,12 @@ String createPostData(struct paqueteDataType &postData) {
   return str_postData;
 }
 
+/**
+ * @brief Recibe la estructura de datos que almacena las variables globales y un arreglo de strings con los nombres de los archivos de las respectivas variables
+ * guarda los datos de la microsd en la estructura de datos.
+ *
+ * @param postData paqueteDataType | ver dataTypes.h
+ */
 void getVariables(struct globVars &gVars, String *nFiles) {
   getLine(nFiles[0], &gVars.device);
   getLine(nFiles[1], &gVars.ssid);
@@ -47,11 +59,18 @@ void getVariables(struct globVars &gVars, String *nFiles) {
 
 
 /**
-  Retorna los siguientes estados:
+
+*/
+
+/**
+ * @brief   Retorna los siguientes estados:
   - BAD_DATA 0 : Se recolecto datos de gps en mal estado y por tanto el paquete no sirve  
   - NOT_SD 1   : Hubo elgún error al guardar en la SD
   - STORED 2   : El dato se almacenó correctamente
-*/
+ * 
+ * @param postData 
+ * @return byte 
+ */
 byte guardaDatosSD(String postData) {
   if (postData == "NULL") {
     return BAD_DATA;
@@ -66,7 +85,7 @@ byte guardaDatosSD(String postData) {
 
 
 /**
-  Lee todos los datos de la micro sd y los va enviando al servidor uno por uno.
+ * @brief   Lee todos los datos de la micro sd y los va enviando al servidor uno por uno.
   Si algún dato falla entonces descartará el dato y seguirá en el próximo reinicio o próxima vez que se llame la función.
   También si en medio del proceso algún dato no se puede enviar entonces descartará el dato y continuará la proxima vez que se reinicie o que se llame la función.
   Estados:
@@ -74,11 +93,12 @@ byte guardaDatosSD(String postData) {
     - LEIDO 1
     - NO_MAS_DATOS 2
     - LEIDO_PERO_NO_ENVIADO 3
-
-*/
-
-//Posición actual que se está leyendo en la micro sd, en bytes.
-int currPos;
+ * 
+ * @param serverName ip o url del servidor
+ * @param ssid nombre de la red wifi
+ * @param password password de la red wifi
+ * @return byte 
+ */
 byte sendSDtoServer(const char *serverName, const char *ssid, const char *password) {
   String currLine = "";
   String lineFile = "/currentLine.txt";

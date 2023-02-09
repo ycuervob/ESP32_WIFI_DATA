@@ -1,6 +1,10 @@
 #include <Arduino.h>
 #include "utilities.h"
 
+/**
+ * @brief Funcion de inicio del programa.
+ * 
+ */
 void setup() {
   Serial.begin(115200);
   gpsInicialization();
@@ -13,6 +17,10 @@ void setup() {
   initGlobalVar();
 }
 
+/**
+ * @brief Funcion que se ejecuta en un loop infinito.
+ * 
+ */
 void loop() {
   EncenderDispositivos();
   initSD();

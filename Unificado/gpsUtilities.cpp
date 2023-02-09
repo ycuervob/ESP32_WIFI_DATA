@@ -3,14 +3,24 @@
 #include "dataTypes.h"
 
 
-// TinyGPSPlus gps
+// Variables globales para el manejo del GPS
 TinyGPS gps;
 HardwareSerial SerialGPS(2);
 
+/**
+ * @brief Inicializa el puerto serial para el GPS.
+ * 
+ */
 void gpsInicialization() {
   SerialGPS.begin(9600, SERIAL_8N1, 16, 17);  // GPS serial RX-> 16 , TX -> 17
 }
 
+/**
+ * @brief Lee los datos del GPS y los almacena en la estructura de datos
+ * Recibe una referencia a la estrucura de datos gpsDataType.
+ * 
+ * @param dataGps gpsDataType& ver dataTypes.h
+ */
 void gpsDatos(gpsDataType& dataGps) {
   // Read data from gps
   unsigned long chars;
