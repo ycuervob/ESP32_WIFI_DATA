@@ -4,10 +4,15 @@
 #include <Arduino.h>
 #include "dataTypes.h"
 
-// Accelerometer
+//Variable globar para el manejo del acelerometro.
 Adafruit_MPU6050 mpu;
 
-
+/**
+ * @brief Inicializa el acelerometro y retorna true si se pudo inicializar, false si no se pudo inicializar.
+ * 
+ * @return true 
+ * @return false 
+ */
 bool acelerometroInicializacion() {
   // Try to initialize!
   if (!mpu.begin()) {
@@ -19,6 +24,11 @@ bool acelerometroInicializacion() {
   return true;
 }
 
+/**
+ * @brief Lee los datos del acelerometro y los guarda en la estructura dataAcelerometro.
+ * 
+ * @param dataAcelerometro aceleraometroDataType ver el archivo `dataTypes.h`
+ */
 void acelerometro(acelerometroDataType & dataAcelerometro) {
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
@@ -29,6 +39,13 @@ void acelerometro(acelerometroDataType & dataAcelerometro) {
   dataAcelerometro.total = String(sqrt(pow(a.acceleration.x, 2) + pow(a.acceleration.y, 2) + pow(a.acceleration.z, 2)), 6);
 }
 
+/**
+ * @brief Retorna true si el valor del acelerometro es mayor a alt_val, false si no lo es.
+ * 
+ * @param alt_val int
+ * @return true 
+ * @return false 
+ */
 bool acelerometroAlto(int alt_val) {
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);

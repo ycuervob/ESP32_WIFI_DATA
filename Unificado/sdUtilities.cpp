@@ -3,8 +3,15 @@
 #include <Arduino.h>
 #include <cstdlib>
 
+// Variables globales para el manejo de la micro SD
 File myFile, fileLine;
 
+/**
+ * @brief Inicializa la micro SD y retorna true si se pudo conectar, false si no se pudo conectar en 10 segundos.
+ * 
+ * @return true 
+ * @return false 
+ */
 bool sdInicializacion() {
   unsigned long start = millis();
   while (!SD.begin(SS)) {
@@ -15,15 +22,21 @@ bool sdInicializacion() {
   return true;
 }
 
+/**
+ * @brief Termina la conexión con la micro SD y luego espera 200 milisegundos.
+ */
 void endSD() {
   SD.end();
   delay(200);
 }
 
 /**
-  Recibe un String y lo almacena el archivo data.json de la micro sd.
-    Retorna true si se guardo y false de lo contrario.
-*/
+ * @brief Guarda los datos en el archivo data.json de la micro SD si el archivo ya tiene datos, los agrega al final del archivo.
+ * 
+ * @param postData : String
+ * @return true si se guardaron los datos
+ * @return false si no se guardaron los datos
+ */
 bool saveDataSD(String postData) {
   myFile = SD.open("/data.json", FILE_APPEND);
   bool datosGuardados = false;
@@ -42,6 +55,12 @@ bool saveDataSD(String postData) {
   return datosGuardados;
 }
 
+/**
+ * @brief Lee un entero de la micro SD y lo guarda en el puntero *position_var
+ * 
+ * @param filename 
+ * @param position_var 
+ */
 void getLine(String& filename, int* position_var) {
   fileLine = SD.open(filename.c_str());
   if (fileLine) {
@@ -53,9 +72,11 @@ void getLine(String& filename, int* position_var) {
 }
 
 /**
-  CORREGIR --------------
-  acá hay un error NO se está pasando el puntero almacenado en value al de la variable global 
-*/
+ * @brief Lee una linea del archivo de la micro SD y lo guarda en el puntero *value
+ * 
+ * @param filename Nombre del archivo a leer
+ * @param value Puntero donde se retoranará la linea leida de la micro SD
+ */
 void getLine(String& filename, String* value) {
   fileLine = SD.open(filename.c_str());
   if (fileLine) {
@@ -66,6 +87,11 @@ void getLine(String& filename, String* value) {
   fileLine.close();
 }
 
+/**
+ * @brief Guarda en el archivo currentLine.txt de la micro SD el valor de la posición en la que se quedó al guardar los datos. 
+ * 
+ * @param position_var int *
+ */
 void setLine(int* position_var) {
   fileLine = SD.open("/currentLine.txt", FILE_WRITE);
   if (fileLine) {
@@ -75,12 +101,14 @@ void setLine(int* position_var) {
 }
 
 /**
-  Lee una linea y retorna la posición en la que quedó (byte) al dejar de leer la linea.
+ * @brief   Lee una linea y retorna la posición en la que quedó (byte) al dejar de leer la linea.
   Estados:
-    - ARCHIVO_NO_ABIERTO 0
-    - LEIDO 1
-    - NO_MAS_DATOS 2
-*/
+    
+ * 
+ * @param linea String *
+ * @param posicion_var  int *
+ * @return byte ARCHIVO_NO_ABIERTO 0 | LEIDO 1 | NO_MAS_DATOS 2
+ */
 byte readLine(String* linea, int* posicion_var) {
   myFile = SD.open("/data.json");
   byte linea_leida = 0;
