@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include "utilities.h"
-#include "wrappers.h"
 
 //Variables globales para el manejo de la bateria.
 const int pinBateria = 35;
