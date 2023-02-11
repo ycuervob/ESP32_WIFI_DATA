@@ -2,3 +2,6 @@
 .vscode/settings.json
 .vscode/c_cpp_properties.json
 .vscode/settings.json
+/Unificado/debug_custom.json
+/Unificado/debug.cfg
+/Unificado/esp32.svd
