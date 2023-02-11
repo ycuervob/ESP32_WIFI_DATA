@@ -11,13 +11,13 @@
  * @param pass String | Contraseña de la red wifi a la que se conectará el dispositivo
  * @param server String | Dirección del servidor al que se enviarán los datos
  * @param velocidad float | Velocidad a la que se mueve el dispositivo leida en el último ciclo
- * @param time_max int  | 
- * @param vel_max int | Velocidad máxima para no entrar en estado de reposo 
- * @param vel_min int | Velocidad mínima para entrar en estado de reposo el tiempo máximo
- * @param tiempo_lectura int | Tiempo en el que el dispositivo hará tantas lecturas como sea posible
- * @param max_tiempo_enviado int | Minimo tiempo que el dispositivo podrá tener para enviar datos.
- * @param porcentaje_enviado int | Porcentaje de tiempo que el dispositivo estará enviando datos, se refiere al denominador de la fracción
- * @param min_acelerometro_anormal int | Valor para determinar si dejar el estado de reposo ver acelerometroUtilities.cpp
+ * @param tiempo_max int  | Tiempo máximo que el dispositivo tendrá y que luego dividirá en tiempo de envío y tiempo de espera
+ * @param vel_no_reposo int | Velocidad desde la cual no se entra en estado de reposo 
+ * @param vel_reposo_max int | Velocidad mas baja desde la cual se entra en estado de reposo 
+ * @param tiempo_lectura_guardado int | Tiempo en el que el dispositivo hará tantas lecturas como sea posible y las almacenará en la microSD
+ * @param min_tiempo_enviado int | Minimo tiempo que el dispositivo podrá tener para enviar datos por debajo de eso el dispositivo no envía datos
+ * @param porcentaje_enviado int | Denominador de la fracción de tiempo_max que es el tiempo que se usará para enviar datos 
+ * @param acelerometro_anormal int | Valor de aceleración para determinar si dejar el estado de reposo ver acelerometroUtilities.cpp
  * @param tiempo_epera_conexion int | Tiempo de espera para intentar conectar con el servidor
  * @param tiempo_conexion_wifi int | Tiempo que el dispositivo estará intentando conectarse a la red wifi
  */
@@ -27,13 +27,13 @@ struct globVars {
   String pass;
   String server;
   float velocidad;
-  int time_max;
-  int vel_max;
-  int vel_min;
-  int tiempo_lectura;
-  int max_tiempo_enviado;
+  int tiempo_max;
+  int vel_no_reposo;
+  int vel_reposo_max;
+  int tiempo_lectura_guardado;
+  int min_tiempo_enviado;
   int porcentaje_enviado;
-  int min_acelerometro_anormal;
+  int acelerometro_anormal;
   int tiempo_epera_conexion;
   int tiempo_conexion_wifi;
 };

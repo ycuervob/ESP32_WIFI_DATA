@@ -46,13 +46,13 @@ void getVariables(struct globVars &gVars, String *nFiles) {
   getLine(nFiles[1], &gVars.ssid);
   getLine(nFiles[2], &gVars.pass);
   getLine(nFiles[3], &gVars.server);
-  getLine(nFiles[4], &gVars.time_max);
-  getLine(nFiles[5], &gVars.vel_max);
-  getLine(nFiles[6], &gVars.vel_min);
-  getLine(nFiles[7], &gVars.tiempo_lectura);
-  getLine(nFiles[8], &gVars.max_tiempo_enviado);
+  getLine(nFiles[4], &gVars.tiempo_max);
+  getLine(nFiles[5], &gVars.vel_no_reposo);
+  getLine(nFiles[6], &gVars.vel_reposo_max);
+  getLine(nFiles[7], &gVars.tiempo_lectura_guardado);
+  getLine(nFiles[8], &gVars.min_tiempo_enviado);
   getLine(nFiles[9], &gVars.porcentaje_enviado);
-  getLine(nFiles[10], &gVars.min_acelerometro_anormal);
+  getLine(nFiles[10], &gVars.acelerometro_anormal);
   getLine(nFiles[11], &gVars.tiempo_epera_conexion);
   getLine(nFiles[12], &gVars.tiempo_conexion_wifi);
 }
