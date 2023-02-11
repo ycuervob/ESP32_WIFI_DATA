@@ -22,10 +22,10 @@ bool only_first_time = true;
  * @return int 
  */
 int tiempoEspera() {
-  if (gVars.velocidad <= gVars.vel_min) {
-    return gVars.time_max * 60000;
-  } else if (gVars.velocidad > gVars.vel_min && gVars.velocidad <= gVars.vel_max) {
-    return (gVars.time_max - (gVars.velocidad / (gVars.vel_max / 10))) * 60000;  //funcion de tiempo
+  if (gVars.velocidad <= gVars.vel_reposo_max) {
+    return gVars.tiempo_max * 60000;
+  } else if (gVars.velocidad > gVars.vel_reposo_max && gVars.velocidad <= gVars.vel_no_reposo) {
+    return (gVars.tiempo_max - (gVars.velocidad / (gVars.vel_no_reposo / 10))) * 60000;  //funcion de tiempo
   } else {
     return 0;
   }
@@ -37,7 +37,7 @@ int tiempoEspera() {
  * @return int 
  */
 int tiempoLectura() {
-  return gVars.tiempo_lectura;
+  return gVars.tiempo_lectura_guardado;
 }
 
 /**
@@ -46,7 +46,7 @@ int tiempoLectura() {
  * @return int 
  */
 int minAcelerometro() {
-  return gVars.min_acelerometro_anormal;
+  return gVars.acelerometro_anormal;
 }
 
 /**
@@ -69,11 +69,11 @@ int tiempoConexionWifi(){
 
 /**
  * @brief Calcula el tiempo de envio en base al tiempo de espera y el porcentaje de envio.
- * Retorna 0 si el tiempo de envio es menor al max_tiempo_enviado almacenado en la variable global.
+ * Retorna 0 si el tiempo de envio es menor al min_tiempo_enviado almacenado en la variable global.
  * @return int 
  */
 int tiempoEnvio(int tiempo_esp) {
-  return (tiempo_esp / gVars.porcentaje_enviado) >= gVars.max_tiempo_enviado * 1000 ? (tiempo_esp / gVars.porcentaje_enviado) : 0;
+  return (tiempo_esp / gVars.porcentaje_enviado) >= gVars.min_tiempo_enviado * 1000 ? (tiempo_esp / gVars.porcentaje_enviado) : 0;
 }
 
 /**
