@@ -1,6 +1,6 @@
 #include "variablesGlobalesUtilities.h"
-#include "storeUtilities.h"
-#include "../componentes/dataTypes.h"
+#include "../func/storeUtilities.h"
+#include "dataTypes.h"
 
 
 // Variables globales para el manejo de las variables globales.

@@ -1,7 +1,7 @@
 #ifndef GLOBALVARS_H
 #define GLOBALVARS_H
 
-#include "../componentes/dataTypes.h"
+#include "dataTypes.h"
 
 globVars getGlobalVar();
 int tiempoLectura();

@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "../componentes/sdUtilities.h"
 #include "../componentes/wifiUtilities.h"
-#include "../componentes/dataTypes.h"
+#include "../global/dataTypes.h"
 #include "storeUtilities.h"
 
 

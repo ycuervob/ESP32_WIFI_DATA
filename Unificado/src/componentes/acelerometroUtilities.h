@@ -1,7 +1,7 @@
 #ifndef ACCELEROMETRO_H
 #define ACCELEROMETRO_H
 
-#include "dataTypes.h"
+#include "../global/dataTypes.h"
 
 bool acelerometroInicializacion();
 void acelerometro(acelerometroDataType &);

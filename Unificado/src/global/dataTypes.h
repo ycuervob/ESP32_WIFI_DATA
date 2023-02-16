@@ -1,7 +1,7 @@
-#include <Arduino.h>
-
 #ifndef dataTypesproject
 #define dataTypesproject
+
+#include <Arduino.h>
 
 /**
  * @brief Estructura para guardar las variables globales que se usan en el programa y son leidas desde la microSD.

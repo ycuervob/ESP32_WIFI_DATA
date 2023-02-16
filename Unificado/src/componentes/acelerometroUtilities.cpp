@@ -3,7 +3,7 @@
 #include <Wire.h>
 #include <Arduino.h>
 #include "acelerometroUtilities.h"
-#include "dataTypes.h"
+#include "../global/dataTypes.h"
 
 //Variable globar para el manejo del acelerometro.
 Adafruit_MPU6050 mpu;
