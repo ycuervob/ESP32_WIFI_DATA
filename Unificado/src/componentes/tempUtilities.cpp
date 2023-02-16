@@ -1,6 +1,6 @@
 #include <DHT.h>
 #include <Arduino.h>
-#include "dataTypes.h" 
+#include "tempUtilities.h"
 #define DHTTYPE DHT22
 #define DHTPIN 4
 

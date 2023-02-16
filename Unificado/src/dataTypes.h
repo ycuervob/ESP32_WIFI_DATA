@@ -1,7 +1,7 @@
-#include <Arduino.h>
-
 #ifndef dataTypesproject
 #define dataTypesproject
+
+#include <Arduino.h>
 
 /**
  * @brief Estructura para guardar las variables globales que se usan en el programa y son leidas desde la microSD.
@@ -18,8 +18,8 @@
  * @param min_tiempo_enviado int | Minimo tiempo que el dispositivo podrá tener para enviar datos por debajo de eso el dispositivo no envía datos
  * @param porcentaje_enviado int | Denominador de la fracción de tiempo_max que es el tiempo que se usará para enviar datos 
  * @param acelerometro_anormal int | Valor de aceleración para determinar si dejar el estado de reposo ver acelerometroUtilities.cpp
- * @param tiempo_epera_conexion int | Tiempo de espera para intentar conectar con el servidor
- * @param tiempo_conexion_wifi int | Tiempo que el dispositivo estará intentando conectarse a la red wifi
+ * @param tiempo_epera_conexion int | Tiempo que el dispositovo esperará al modem wifi a que esté disponible.
+ * @param tiempo_espera_modem int | Tiempo que el dispositovo esperará al modem wifi a que esté disponible.
  */
 struct globVars {
   String device;
@@ -35,7 +35,7 @@ struct globVars {
   int porcentaje_enviado;
   int acelerometro_anormal;
   int tiempo_epera_conexion;
-  int tiempo_conexion_wifi;
+  int tiempo_espera_modem;
 };
 
 /**

@@ -2,6 +2,7 @@
 #include <SD.h>
 #include <Arduino.h>
 #include <cstdlib>
+#include "sdUtilities.h"
 
 // Variables globales para el manejo de la micro SD
 File myFile, fileLine;

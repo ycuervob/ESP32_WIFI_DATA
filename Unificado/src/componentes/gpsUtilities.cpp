@@ -1,7 +1,6 @@
 #include <TinyGPS.h>
 #include <Arduino.h>
-#include "dataTypes.h"
-
+#include "gpsUtilities.h"
 
 // Variables globales para el manejo del GPS
 TinyGPS gps;

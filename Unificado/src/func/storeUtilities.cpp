@@ -1,5 +1,9 @@
 #include <Arduino.h>
-#include "utilities.h"
+#include "../componentes/sdUtilities.h"
+#include "../componentes/wifiUtilities.h"
+#include "../dataTypes.h"
+#include "storeUtilities.h"
+
 
 //Variable global con la Posición actual que se está leyendo en la micro sd, en bytes.
 int currPos;
@@ -53,8 +57,8 @@ void getVariables(struct globVars &gVars, String *nFiles) {
   getLine(nFiles[8], &gVars.min_tiempo_enviado);
   getLine(nFiles[9], &gVars.porcentaje_enviado);
   getLine(nFiles[10], &gVars.acelerometro_anormal);
-  getLine(nFiles[11], &gVars.tiempo_epera_conexion);
-  getLine(nFiles[12], &gVars.tiempo_conexion_wifi);
+  getLine(nFiles[11], &gVars.tiempo_espera_modem);
+  getLine(nFiles[12], &gVars.tiempo_epera_conexion);
 }
 
 

@@ -1,8 +1,9 @@
 #include "WiFiType.h"
-#include "utilities.h"
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <Arduino.h>
+#include "wifiUtilities.h"
+#include "../variablesGlobalesUtilities.h"
 
 /**
  * @brief Funcion que inicializa el wifi, retorna true si se conecta correctamente y false si no
