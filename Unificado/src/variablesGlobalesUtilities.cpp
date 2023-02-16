@@ -1,5 +1,5 @@
 #include "variablesGlobalesUtilities.h"
-#include "../func/storeUtilities.h"
+#include "func/storeUtilities.h"
 #include "dataTypes.h"
 
 

@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "src/func/variablesGlobalesUtilities.h"
+#include "src/variablesGlobalesUtilities.h"
 #include "src/control/wrappers.h"
 #include "src/func/generalUtilities.h"
 #include "src/componentes/pinnesUtilities.h"
