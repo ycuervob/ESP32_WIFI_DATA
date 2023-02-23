@@ -17,6 +17,7 @@ int status_enviado = 32; //Se define para saber si se esta enviando datos
  * 
  */
 void pinesyvariables() {
+  pinMode(2, OUTPUT); // Se define el led de la placa
   pinMode(pinSD, OUTPUT);
   pinMode(pinTem, OUTPUT);
   pinMode(pinGps, OUTPUT);
