@@ -4,13 +4,9 @@
 bool sdInicializacion();
 void endSD();
 bool saveDataSD(String);
-void getLine(String& , int* );
-void getLine(String& , String* );
-void setLine(int* );
-byte readLine(String* , int* );
+void getLine(String &, int *);
+void getLine(const char *, String *);
+void setLine(int *);
+byte readLine(String *, int *);
 
 #endif // SD_H
-
-
-
-

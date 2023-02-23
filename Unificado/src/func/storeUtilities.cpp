@@ -30,26 +30,12 @@ String createPostData(struct paqueteDataType &postData)
  *
  * @param postData paqueteDataType | ver dataTypes.h
  */
-void getVariables(struct globVars &gVars, String *nFiles)
+String getVariables()
 {
-  getLine(nFiles[0], &gVars.device);
-  getLine(nFiles[1], &gVars.ssid);
-  getLine(nFiles[2], &gVars.pass);
-  getLine(nFiles[3], &gVars.server);
-  getLine(nFiles[4], &gVars.tiempo_max);
-  getLine(nFiles[5], &gVars.vel_no_reposo);
-  getLine(nFiles[6], &gVars.vel_reposo_max);
-  getLine(nFiles[7], &gVars.tiempo_lectura_guardado);
-  getLine(nFiles[8], &gVars.min_tiempo_enviado);
-  getLine(nFiles[9], &gVars.porcentaje_enviado);
-  getLine(nFiles[10], &gVars.acelerometro_anormal);
-  getLine(nFiles[11], &gVars.tiempo_espera_modem);
-  getLine(nFiles[12], &gVars.tiempo_epera_conexion);
+  String ngvars;
+  getLine("/gvars.json", &ngvars);
+  return ngvars;
 }
-
-/**
-
-*/
 
 /**
  * @brief   Retorna los siguientes estados:

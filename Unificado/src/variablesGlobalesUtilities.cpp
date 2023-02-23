@@ -1,13 +1,11 @@
+#include <ArduinoJson.h>
 #include "variablesGlobalesUtilities.h"
 #include "func/storeUtilities.h"
 #include "componentes/wifiUtilities.h"
 #include "dataTypes.h"
 
-
 // Variables globales para el manejo de las variables globales.
 globVars gVars;
-// variable que sirve para saber si es la primera vez que se ejecuta el programa.
-bool only_first_time = true;
 
 globVars getGlobalVar()
 {
@@ -24,12 +22,26 @@ void setVelocidad(int velocidad)
  */
 void initGlobalVar()
 {
-    if (only_first_time)
-    {
-        String files[13] = {"/device.txt", "/ssid.txt", "/pass.txt", "/server.txt", "/maxT.txt", "/maxV.txt", "/minV.txt", "/Tlectura.txt", "/Tenviado.txt", "/porEnviado.txt", "/max_acel.txt", "/tiempo_espera_wifi.txt", "/tiempo_conexion_wifi.txt"};
-        getVariables(gVars, files);
-        only_first_time = false;
-    }
+    String vars = getVariables();
+    DynamicJsonDocument doc(1024);
+    deserializeJson(doc, vars.c_str());
+    const char * device = doc["device"];
+    const char * ssid = doc["ssid"];
+    const char * pass = doc["pass"];
+    const char * server = doc["server"];
+    gVars.device = String(device);
+    gVars.ssid = String(ssid);
+    gVars.pass = String(pass);
+    gVars.server = String(server);
+    gVars.tiempo_max = (int)doc["tiempo_max"];
+    gVars.vel_no_reposo = (int)doc["vel_no_reposo"];
+    gVars.vel_reposo_max = (int)doc["vel_reposo_max"];
+    gVars.tiempo_lectura_guardado = (int)doc["tiempo_lectura_guardado"];
+    gVars.min_tiempo_enviado = (int)doc["min_tiempo_enviado"];
+    gVars.porcentaje_enviado = (int)doc["porcentaje_enviado"];
+    gVars.acelerometro_anormal = (int)doc["acelerometro_anormal"];
+    gVars.tiempo_espera_modem = (int)doc["tiempo_espera_modem"];
+    gVars.tiempo_epera_conexion = (int)doc["tiempo_epera_conexion"];
 }
 
 void initGrupoLectura()

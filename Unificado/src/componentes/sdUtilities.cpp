@@ -21,7 +21,7 @@ bool sdInicializacion()
   while (!SD.begin(SS))
   {
     if (millis() - start > 5000)
-    { // Se intenta conectar por 10 segundos 
+    { // Se intenta conectar por 10 segundos
       return false;
     }
   }
@@ -91,9 +91,9 @@ void getLine(String &filename, int *position_var)
  * @param filename Nombre del archivo a leer
  * @param value Puntero donde se retoranará la linea leida de la micro SD
  */
-void getLine(String &filename, String *value)
+void getLine(const char *filename, String *value)
 {
-  fileLine = SD.open(filename.c_str());
+  fileLine = SD.open(filename);
   if (fileLine)
   {
     while (fileLine.available())
