@@ -37,8 +37,11 @@ void encenderLed(char led, bool estado) {
   case 'w':
     digitalWrite(status_wifi, estado ? HIGH : LOW);
     break;
-  case 'e':
+  case 'e': // Se enciende el led 32 si se enviaron datos al servidor
     digitalWrite(status_enviado, estado ? HIGH : LOW);
+    break;
+  case 'c': // Se enciende el led de la placa si se enviaron datos correctos
+    digitalWrite(2, estado ? HIGH : LOW);
     break;
   default:
     break;

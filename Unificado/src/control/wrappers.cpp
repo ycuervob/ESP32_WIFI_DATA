@@ -8,9 +8,7 @@
  */
 void timeWrapper(unsigned long time, void (*func)()) {
   for (unsigned long start = millis(); millis() - start < time;) {
-    digitalWrite(2, HIGH);
     func();
-    digitalWrite(2, LOW);
   }
 }
 
