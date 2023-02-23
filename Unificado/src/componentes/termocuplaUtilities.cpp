@@ -3,7 +3,7 @@
 #include "termocuplaUtilities.h"
 
 // Pin donde se conecta el bus 1-Wire
-const int pinDatosDQ = 2;
+const int pinDatosDQ = 15;
 
 // Instancia a las clases OneWire
 OneWire oneWireObjeto(pinDatosDQ);

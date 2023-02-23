@@ -9,6 +9,7 @@
 #include "../componentes/termocuplaUtilities.h"
 #include "../componentes/wifiUtilities.h"
 #include "../componentes/sdUtilities.h"
+#include "../componentes/pinnesUtilities.h"
 
 // Variables globales para el manejo de la bateria.
 const int pinBateria = 35;
@@ -49,11 +50,20 @@ void almacenamientoDatos()
     }
   }
 
+  /*
   char *estados_general[4] = {"Datos erroneos, descartados", "No hay SD datos descartados", "Almacenado"};
   Serial.println(estados_general[status]);
   char Buf[postData.length() + 1];
   postData.toCharArray(Buf, postData.length() + 1);
   Serial.println(Buf);
+  */
+
+  if (status == STORED)
+  {
+    encenderLed('c',true);
+    delay(100);
+    encenderLed('c',false);
+  }
 }
 
 /**
@@ -64,7 +74,15 @@ void almacenamientoDatos()
 byte envioInformacion()
 {
   byte status = sendSDtoServer();
+  if (status == 5)
+  {
+    encenderLed('e',true);
+    delay(100);
+    encenderLed('e',false);
+  }
+  /*
   char *estados_general[7] = {"ARCHIVO_NO_ABIERTO", "LEIDO", "NO_MAS_DATOS", "LEIDO_PERO_NO_ENVIADO", "FALLO_AL_ENVIAR", "ENVIADO", "NO_WIFI"};
   Serial.println(estados_general[status]);
+  */
   return status;
 }

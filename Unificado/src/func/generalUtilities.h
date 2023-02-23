@@ -5,8 +5,6 @@
 
 // Declaración de funciones
 void almacenamientoDatos();
-void initWIFI();
-void initSD();
 byte envioInformacion();
 
 #endif // UTILITIES_H

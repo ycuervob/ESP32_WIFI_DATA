@@ -21,7 +21,7 @@ byte sendSDtoServer();
 
 byte guardaDatosSD(String postData);
 
-byte httpmyRequest(String packet, const char *serverName);
+byte httpmyRequest(String packet);
 
 String createPostData(struct paqueteDataType &postData);
 

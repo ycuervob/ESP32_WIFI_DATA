@@ -17,7 +17,6 @@ int status_enviado = 32; //Se define para saber si se esta enviando datos
  * 
  */
 void pinesyvariables() {
-  pinMode(2, OUTPUT);
   pinMode(pinSD, OUTPUT);
   pinMode(pinTem, OUTPUT);
   pinMode(pinGps, OUTPUT);
@@ -71,4 +70,7 @@ void ApagarDispositivos() {
   digitalWrite(pinGps, LOW);
   digitalWrite(pinUsb, LOW);
   digitalWrite(pinTermo, LOW);
+  digitalWrite(status_sd, LOW);
+  digitalWrite(status_wifi, LOW);
+  digitalWrite(status_enviado, LOW);
 }
