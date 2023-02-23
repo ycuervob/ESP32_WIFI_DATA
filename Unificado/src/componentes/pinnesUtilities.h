@@ -2,6 +2,7 @@
 #define PINNES_H
 
 void pinesyvariables();
+void encenderLed(char led, bool estado);
 void EncenderDispositivos();
 void ApagarDispositivos();
 
