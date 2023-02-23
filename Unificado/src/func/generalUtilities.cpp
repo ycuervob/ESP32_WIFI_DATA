@@ -31,19 +31,18 @@ void almacenamientoDatos()
   gpsDatos(dataToPost.gpsDatos);
   acelerometro(dataToPost.acelerometroDatos);
   termocupla(dataToPost.termocuplaDatos);
-
   gVars.velocidad = dataToPost.gpsDatos.velocidad;
   dataToPost.bateria = analogRead(pinBateria);
   dataToPost.id_device = gVars.device;
   String postData = createPostData(dataToPost);
-  byte status = pinWrapper(postData, &guardaDatosSD);
+  byte status = guardaDatosSD(postData);
 
   unsigned long start = millis();
   while (status == NOT_SD)
   {
     endSD();
     sdInicializacion();
-    status = pinWrapper(postData, &guardaDatosSD);
+    status = guardaDatosSD(postData);
     if (millis() - start > 5000)
     {
       break;
@@ -64,8 +63,7 @@ void almacenamientoDatos()
  */
 byte envioInformacion()
 {
-  globVars gVars = getGlobalVar();
-  byte status = pinWrapper(&sendSDtoServer);
+  byte status = sendSDtoServer();
   char *estados_general[7] = {"ARCHIVO_NO_ABIERTO", "LEIDO", "NO_MAS_DATOS", "LEIDO_PERO_NO_ENVIADO", "FALLO_AL_ENVIAR", "ENVIADO", "NO_WIFI"};
   Serial.println(estados_general[status]);
   return status;

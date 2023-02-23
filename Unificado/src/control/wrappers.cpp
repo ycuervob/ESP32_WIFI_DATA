@@ -8,7 +8,9 @@
  */
 void timeWrapper(unsigned long time, void (*func)()) {
   for (unsigned long start = millis(); millis() - start < time;) {
+    digitalWrite(2, HIGH);
     func();
+    digitalWrite(2, LOW);
   }
 }
 
@@ -40,47 +42,4 @@ void timeWrapper(unsigned long time, int min_acelerometro, bool (*func)(int)) {
       return;
     } 
   }
-}
-
-/**
- * @brief Wrapper que sirve para envolver la funcion y que se encienda el pin 2 mientras se ejecuta la funcion.
- * 
- * @param func byte 
- */
-byte pinWrapper(byte (*func)()) {
-  digitalWrite(2, HIGH);
-  byte status = func();
-  digitalWrite(2, LOW);
-  return status;
-}
-
-/**
- * @brief Wrapper que sirve para envolver la funcion y que se encienda el pin 2 mientras se ejecuta la funcion.
- * 
- * @param data String
- * @param func byte
- * @return byte  
- */
-byte pinWrapper(String data, byte (*func)(String)) {
-  digitalWrite(2, HIGH);
-  byte status = func(data);
-  digitalWrite(2, LOW);
-  return status;
-}
-
-/**
- * @brief Wrapper que sirve para envolver la funcion y que se encienda el pin 2 mientras se ejecuta la funcion.
- * 
- * @param data const char *
- * @param data1 const char *
- * @param data2 const char *
- * @param func byte
- * @return byte  
- */
-byte pinWrapper(const char *data, byte (*func)(const char *)) {
-  digitalWrite(2, HIGH);
-  byte status = func(data);
-  digitalWrite(2, LOW);
-  delay(200);
-  return status;
 }
