@@ -7,6 +7,6 @@ void timeWrapper(unsigned long time, byte (*func)());
 void timeWrapper(unsigned long time, int min_acelerometro, bool (*func)(int));
 byte pinWrapper(byte (*func)());
 byte pinWrapper(String data, byte (*func)(String));
-byte pinWrapper(const char *data, const char *data1, const char *data2, byte (*func)(const char *, const char *, const char *));
+byte pinWrapper(const char *data, byte (*func)(const char *));
 
 #endif // MYFILE_H

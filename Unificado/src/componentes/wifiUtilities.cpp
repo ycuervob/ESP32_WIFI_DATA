@@ -15,11 +15,11 @@
  * @return true 
  * @return false 
  */
-bool wifiInicializacion(const char * ssid, const char * password) {
+bool wifiInicializacion() {
   WiFi.setAutoConnect(true);
   WiFi.setSleep(WIFI_PS_NONE);
   WiFi.setAutoReconnect(true);
-  WiFi.begin(ssid, password);
+  WiFi.begin(getGlobalVar().ssid.c_str(), getGlobalVar().pass.c_str());
 
   unsigned long start = millis();
   while (WiFi.waitForConnectResult() != WL_CONNECTED) {

@@ -103,7 +103,7 @@ byte guardaDatosSD(String postData) {
  * @param password password de la red wifi
  * @return byte 
  */
-byte sendSDtoServer(const char *serverName, const char *ssid, const char *password) {
+byte sendSDtoServer(const char *serverName) {
   String currLine = "";
   String lineFile = "/currentLine.txt";
   getLine(lineFile, &currPos);
@@ -135,7 +135,7 @@ byte sendSDtoServer(const char *serverName, const char *ssid, const char *passwo
             status = ENVIADO;
             break;
           case NO_WIFI:
-            wifiInicializacion(ssid, password);
+            wifiInicializacion();
             status = NO_WIFI;
             break;
           default:

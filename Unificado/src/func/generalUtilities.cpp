@@ -65,31 +65,8 @@ void almacenamientoDatos()
 byte envioInformacion()
 {
   globVars gVars = getGlobalVar();
-  byte status = pinWrapper(gVars.server.c_str(), gVars.ssid.c_str(), gVars.pass.c_str(), &sendSDtoServer);
+  byte status = pinWrapper(gVars.server.c_str(), &sendSDtoServer);
   char *estados_general[7] = {"ARCHIVO_NO_ABIERTO", "LEIDO", "NO_MAS_DATOS", "LEIDO_PERO_NO_ENVIADO", "FALLO_AL_ENVIAR", "ENVIADO", "NO_WIFI"};
   Serial.println(estados_general[status]);
   return status;
-}
-
-// inicializadores ----------------------------------------------
-
-/**
- * @brief Funcion que sirve para inicializar la micro sd e imprimir por serial si se inicializo o no.
- *
- */
-void initSD()
-{
-  bool init_sd = sdInicializacion();
-  Serial.println(init_sd ? "si sd" : "no sd");
-}
-
-/**
- * @brief Funcion que sirve para inicializar el wifi e imprimir por serial si se inicializo o no.
- *
- */
-void initWIFI()
-{
-  globVars gVars = getGlobalVar();
-  bool init_wifi = wifiInicializacion(gVars.ssid.c_str(), gVars.pass.c_str());
-  Serial.println(init_wifi ? "si wifi" : "no wifi");
 }

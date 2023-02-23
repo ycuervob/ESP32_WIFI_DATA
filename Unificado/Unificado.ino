@@ -7,6 +7,8 @@
 #include "src/componentes/gpsUtilities.h"
 #include "src/componentes/tempUtilities.h"
 #include "src/componentes/acelerometroUtilities.h"
+#include "src/componentes/wifiUtilities.h"
+#include "src/componentes/sdUtilities.h"
 #include "src/componentes/termocuplaUtilities.h"
 
 /**
@@ -21,7 +23,7 @@ void setup() {
   termocuplaInicializacion();
   pinesyvariables();
   EncenderDispositivos();
-  initSD();
+  sdInicializacion();
   initGlobalVar();
 }
 
@@ -30,14 +32,13 @@ void setup() {
  * 
  */
 void loop() {
-  globVars gvars = getGlobalVar();
   EncenderDispositivos();
-  initSD();
-  timeWrapper(gvars.tiempo_lectura_guardado * 1000, &almacenamientoDatos);
-  initWIFI();
-  delay(gvars.tiempo_espera_modem);
+  sdInicializacion();
+  timeWrapper(getGlobalVar().tiempo_lectura_guardado * 1000, &almacenamientoDatos);
+  wifiInicializacion();
+  delay(getGlobalVar().tiempo_espera_modem);
   int tiempo_esp = tiempoEspera();
   timeWrapper(tiempoEnvio(tiempo_esp), &envioInformacion);
   ApagarDispositivos();
-  timeWrapper(tiempo_esp, gvars.acelerometro_anormal, &acelerometroAlto);
+  timeWrapper(tiempo_esp, getGlobalVar().acelerometro_anormal, &acelerometroAlto);
 }
