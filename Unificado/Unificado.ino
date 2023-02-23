@@ -34,8 +34,8 @@ void loop() {
   EncenderDispositivos();
   sdInicializacion();
   timeWrapper(getGlobalVar().tiempo_lectura_guardado * 1000, &almacenamientoDatos);
-  wifiInicializacion();
   delay(getGlobalVar().tiempo_espera_modem);
+  wifiInicializacion();
   int tiempo_esp = tiempoEspera();
   timeWrapper(tiempoEnvio(tiempo_esp), &envioInformacion);
   ApagarDispositivos();
