@@ -30,13 +30,14 @@ void setup() {
  * 
  */
 void loop() {
+  globVars gvars = getGlobalVar();
   EncenderDispositivos();
   initSD();
-  timeWrapper(tiempoLectura() * 1000, &almacenamientoDatos);
+  timeWrapper(gvars.tiempo_lectura_guardado * 1000, &almacenamientoDatos);
   initWIFI();
-  delay(tiempoEsperaWifi());
+  delay(gvars.tiempo_espera_modem);
   int tiempo_esp = tiempoEspera();
   timeWrapper(tiempoEnvio(tiempo_esp), &envioInformacion);
   ApagarDispositivos();
-  timeWrapper(tiempo_esp, minAcelerometro(), &acelerometroAlto);
+  timeWrapper(tiempo_esp, gvars.acelerometro_anormal, &acelerometroAlto);
 }

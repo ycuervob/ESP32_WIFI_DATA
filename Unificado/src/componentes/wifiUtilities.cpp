@@ -23,7 +23,7 @@ bool wifiInicializacion(const char * ssid, const char * password) {
 
   unsigned long start = millis();
   while (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    if (millis() - start > tiempoConexionWifi()) { 
+    if (millis() - start > getGlobalVar().tiempo_epera_conexion) { 
       return false;
     }
   }

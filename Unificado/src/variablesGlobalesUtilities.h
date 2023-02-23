@@ -4,11 +4,6 @@
 #include "dataTypes.h"
 
 globVars getGlobalVar();
-int tiempoLectura();
-int tiempoEspera();
-int tiempoEsperaWifi();
-int minAcelerometro();
-int tiempoConexionWifi();
 void initGlobalVar();
 int tiempoEspera();
 int tiempoEnvio(int tiempo_esp);
