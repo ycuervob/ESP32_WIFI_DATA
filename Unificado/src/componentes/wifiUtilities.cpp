@@ -3,6 +3,7 @@
 #include <HTTPClient.h>
 #include <Arduino.h>
 #include "wifiUtilities.h"
+#include "pinnesUtilities.h"
 #include "../variablesGlobalesUtilities.h"
 
 
@@ -21,13 +22,14 @@ bool wifiInicializacion() {
   WiFi.setSleep(WIFI_PS_NONE);
   WiFi.setAutoReconnect(true);
   WiFi.begin(getGlobalVar().ssid.c_str(), getGlobalVar().pass.c_str());
-
+  encenderLed('w', false);
   unsigned long start = millis();
   while (WiFi.waitForConnectResult() != WL_CONNECTED) {
     if (millis() - start > getGlobalVar().tiempo_epera_conexion) { 
       return false;
     }
   }
+  encenderLed('w', true);
   return true;
 }
 

@@ -3,6 +3,7 @@
 #include <Arduino.h>
 #include <cstdlib>
 #include "sdUtilities.h"
+#include "pinnesUtilities.h"
 
 // Variables globales para el manejo de la micro SD
 File myFile, fileLine;
@@ -16,13 +17,15 @@ File myFile, fileLine;
 bool sdInicializacion()
 {
   unsigned long start = millis();
+  encenderLed('s', false);
   while (!SD.begin(SS))
   {
     if (millis() - start > 5000)
-    { // Se intenta conectar por 10 segundos
+    { // Se intenta conectar por 10 segundos 
       return false;
     }
   }
+  encenderLed('s', true);
   return true;
 }
 
@@ -95,8 +98,8 @@ void getLine(String &filename, String *value)
   {
     while (fileLine.available())
     {
-      String c = String((char) fileLine.read());
-      
+      String c = String((char)fileLine.read());
+
       if (c != "\n" && c != "\r" && c != " ")
         *value += c;
     }
