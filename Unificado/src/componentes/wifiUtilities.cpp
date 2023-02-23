@@ -5,6 +5,7 @@
 #include "wifiUtilities.h"
 #include "../variablesGlobalesUtilities.h"
 
+
 /**
  * @brief Funcion que inicializa el wifi, retorna true si se conecta correctamente y false si no
  * Intenta conectarse por el tiempo especificado en globVars que se inicializa con base a los datos leidos de la micro sd.
@@ -37,15 +38,14 @@ bool wifiInicializacion() {
     - ENVIADO 5
     - NO_WIFI 6
  * @param postData String datos a enviar
- * @param serverName const char * ip o url del servidor
  * @return byte
 */
-byte httpmyRequest(String postData, const char * serverName) {
+byte httpmyRequest(String postData) {
   byte data_sent_status = 6;
   if (WiFi.status() == WL_CONNECTED) {
     WiFiClient client;
     HTTPClient http;
-    http.begin(client, serverName);
+    http.begin(client, getGlobalVar().server.c_str());
     http.addHeader("Content-Type", "application/json");
     int httpResponseCode = http.POST(postData);
 

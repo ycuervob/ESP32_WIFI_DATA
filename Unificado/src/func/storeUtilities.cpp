@@ -97,13 +97,9 @@ byte guardaDatosSD(String postData) {
     - LEIDO 1
     - NO_MAS_DATOS 2
     - LEIDO_PERO_NO_ENVIADO 3
- * 
- * @param serverName ip o url del servidor
- * @param ssid nombre de la red wifi
- * @param password password de la red wifi
  * @return byte 
  */
-byte sendSDtoServer(const char *serverName) {
+byte sendSDtoServer() {
   String currLine = "";
   String lineFile = "/currentLine.txt";
   getLine(lineFile, &currPos);
@@ -117,11 +113,11 @@ byte sendSDtoServer(const char *serverName) {
     case LEIDO:
       {
         unsigned long start = millis();
-        switch (httpmyRequest(currLine, serverName)) {
+        switch (httpmyRequest(currLine)) {
           case FALLO_AL_ENVIAR:
             {
               status = ENVIADO;
-              while (httpmyRequest(currLine, serverName) == FALLO_AL_ENVIAR) {
+              while (httpmyRequest(currLine) == FALLO_AL_ENVIAR) {
                 if (millis() - start > 5000) {
                   status = LEIDO_PERO_NO_ENVIADO;
                   setLine(&currPos);

@@ -65,7 +65,7 @@ void almacenamientoDatos()
 byte envioInformacion()
 {
   globVars gVars = getGlobalVar();
-  byte status = pinWrapper(gVars.server.c_str(), &sendSDtoServer);
+  byte status = pinWrapper(&sendSDtoServer);
   char *estados_general[7] = {"ARCHIVO_NO_ABIERTO", "LEIDO", "NO_MAS_DATOS", "LEIDO_PERO_NO_ENVIADO", "FALLO_AL_ENVIAR", "ENVIADO", "NO_WIFI"};
   Serial.println(estados_general[status]);
   return status;

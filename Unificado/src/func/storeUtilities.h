@@ -17,7 +17,7 @@
 #define ENVIADO 5
 #define NO_WIFI 6
 
-byte sendSDtoServer(const char *serverName);
+byte sendSDtoServer();
 
 byte guardaDatosSD(String postData);
 

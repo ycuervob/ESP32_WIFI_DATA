@@ -2,6 +2,6 @@
 #define MYFILE_H
 
 bool wifiInicializacion();
-byte httpmyRequest(String postData, const char * serverName);
+byte httpmyRequest(String postData);
 
 #endif // MYFILE_H
