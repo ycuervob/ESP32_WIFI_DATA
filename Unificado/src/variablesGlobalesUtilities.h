@@ -7,5 +7,7 @@ globVars getGlobalVar();
 void initGlobalVar();
 int tiempoEspera();
 int tiempoEnvio(int tiempo_esp);
+void setVelocidad(int velocidad);
+void initGrupoLectura();
 
 #endif // UTILITIES_H

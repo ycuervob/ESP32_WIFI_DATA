@@ -36,6 +36,7 @@ struct globVars {
   int acelerometro_anormal;
   int tiempo_epera_conexion;
   int tiempo_espera_modem;
+  int id_grupo_lectura;
 };
 
 /**
@@ -108,6 +109,7 @@ struct paqueteDataType {
   gpsDataType gpsDatos;
   acelerometroDataType acelerometroDatos;
   termocuplaDataType termocuplaDatos;
+  int id_grupo_lectura;
 };
 
 #endif

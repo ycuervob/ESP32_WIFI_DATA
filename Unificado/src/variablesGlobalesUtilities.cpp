@@ -1,5 +1,6 @@
 #include "variablesGlobalesUtilities.h"
 #include "func/storeUtilities.h"
+#include "componentes/wifiUtilities.h"
 #include "dataTypes.h"
 
 
@@ -13,6 +14,11 @@ globVars getGlobalVar()
     return gVars;
 }
 
+void setVelocidad(int velocidad)
+{
+    gVars.velocidad = velocidad;
+}
+
 /**
  * @brief Inicializa las variables globales basado en la lectura de la micro sd de los archivos de configuración.
  */
@@ -23,8 +29,12 @@ void initGlobalVar()
         String files[13] = {"/device.txt", "/ssid.txt", "/pass.txt", "/server.txt", "/maxT.txt", "/maxV.txt", "/minV.txt", "/Tlectura.txt", "/Tenviado.txt", "/porEnviado.txt", "/max_acel.txt", "/tiempo_espera_wifi.txt", "/tiempo_conexion_wifi.txt"};
         getVariables(gVars, files);
         only_first_time = false;
-        
     }
+}
+
+void initGrupoLectura()
+{
+    gVars.id_grupo_lectura = getGrupoLectura();
 }
 
 /**

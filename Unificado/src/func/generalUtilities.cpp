@@ -26,15 +26,15 @@ int bateria = 0;
  */
 void almacenamientoDatos()
 {
-  globVars gVars = getGlobalVar();
   paqueteDataType dataToPost;
   tempyhumedad(dataToPost.temyhDatos);
   gpsDatos(dataToPost.gpsDatos);
   acelerometro(dataToPost.acelerometroDatos);
   termocupla(dataToPost.termocuplaDatos);
-  gVars.velocidad = dataToPost.gpsDatos.velocidad;
+  setVelocidad(dataToPost.gpsDatos.velocidad);
   dataToPost.bateria = analogRead(pinBateria);
-  dataToPost.id_device = gVars.device;
+  dataToPost.id_device = getGlobalVar().device;
+  dataToPost.id_grupo_lectura = getGlobalVar().id_grupo_lectura;
   String postData = createPostData(dataToPost);
   byte status = guardaDatosSD(postData);
 
@@ -60,9 +60,9 @@ void almacenamientoDatos()
 
   if (status == STORED)
   {
-    encenderLed('c',true);
+    encenderLed('c', true);
     delay(100);
-    encenderLed('c',false);
+    encenderLed('c', false);
   }
 }
 
@@ -73,12 +73,17 @@ void almacenamientoDatos()
  */
 byte envioInformacion()
 {
+  if (getGlobalVar().id_grupo_lectura == 0)
+  {
+    initGrupoLectura();
+  }
+  
   byte status = sendSDtoServer();
   if (status == 5)
   {
-    encenderLed('e',true);
+    encenderLed('e', true);
     delay(100);
-    encenderLed('e',false);
+    encenderLed('e', false);
   }
   /*
   char *estados_general[7] = {"ARCHIVO_NO_ABIERTO", "LEIDO", "NO_MAS_DATOS", "LEIDO_PERO_NO_ENVIADO", "FALLO_AL_ENVIAR", "ENVIADO", "NO_WIFI"};

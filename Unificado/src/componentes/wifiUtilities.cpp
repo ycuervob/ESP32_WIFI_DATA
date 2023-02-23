@@ -2,33 +2,39 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <Arduino.h>
+#include <ArduinoJson.h>
 #include "wifiUtilities.h"
 #include "pinnesUtilities.h"
 #include "../variablesGlobalesUtilities.h"
-
 
 /**
  * @brief Funcion que inicializa el wifi, retorna true si se conecta correctamente y false si no
  * Intenta conectarse por el tiempo especificado en globVars que se inicializa con base a los datos leidos de la micro sd.
  * Ver storeUtilities.cpp
- * 
+ *
  * @param ssid nombre de la red wifi
  * @param password contraseña de la red wifi
- * @return true 
- * @return false 
+ * @return true
+ * @return false
  */
-bool wifiInicializacion() {
-  WiFi.setAutoConnect(true);
-  WiFi.setSleep(WIFI_PS_NONE);
-  WiFi.setAutoReconnect(true);
-  WiFi.begin(getGlobalVar().ssid.c_str(), getGlobalVar().pass.c_str());
-  encenderLed('w', false);
+bool wifiInicializacion()
+{
+
+  if (WiFi.status() != WL_CONNECTED)
+  {
+    WiFi.begin(getGlobalVar().ssid.c_str(), getGlobalVar().pass.c_str());
+    encenderLed('w', false);
+  }
+
   unsigned long start = millis();
-  while (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    if (millis() - start > getGlobalVar().tiempo_epera_conexion) { 
+  while (WiFi.waitForConnectResult() != WL_CONNECTED)
+  {
+    if (millis() - start > getGlobalVar().tiempo_epera_conexion)
+    {
       return false;
     }
   }
+
   encenderLed('w', true);
   return true;
 }
@@ -42,25 +48,62 @@ bool wifiInicializacion() {
  * @param postData String datos a enviar
  * @return byte
 */
-byte httpmyRequest(String postData) {
+byte httpmyRequest(String postData)
+{
   byte data_sent_status = 6;
-  if (WiFi.status() == WL_CONNECTED) {
+  if (WiFi.status() == WL_CONNECTED)
+  {
     WiFiClient client;
     HTTPClient http;
     http.begin(client, getGlobalVar().server.c_str());
     http.addHeader("Content-Type", "application/json");
     int httpResponseCode = http.POST(postData);
 
-    if (httpResponseCode < 0) {
+    if (httpResponseCode < 0)
+    {
       data_sent_status = 4;
-    } else {
+    }
+    else
+    {
       data_sent_status = 5;
     }
 
     http.end();
-  } else {
+  }
+  else
+  {
     data_sent_status = 6;
   }
 
   return data_sent_status;
+}
+
+int getGrupoLectura()
+{
+  if (WiFi.status() == WL_CONNECTED)
+  {
+    WiFiClient client;
+    HTTPClient http;
+    String ulr = getGlobalVar().server + "?id_dispositivo=" + getGlobalVar().device;
+    http.begin(client, ulr.c_str());
+    http.addHeader("Content-Type", "application/json");
+    int httpResponseCode = http.GET();
+
+    if (httpResponseCode < 0)
+    {
+      return 0;
+    }
+    else
+    {
+      DynamicJsonDocument doc(1024);
+      deserializeJson(doc, http.getString().c_str());
+      return (int) doc["currIndex"];
+    }
+
+    http.end();
+  }
+  else
+  {
+    return 0;
+  }
 }

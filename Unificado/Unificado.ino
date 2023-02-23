@@ -24,6 +24,9 @@ void setup() {
   EncenderDispositivos();
   sdInicializacion();
   initGlobalVar();
+  delay(getGlobalVar().tiempo_espera_modem);
+  wifiInicializacion();
+  initGrupoLectura();
 }
 
 /**

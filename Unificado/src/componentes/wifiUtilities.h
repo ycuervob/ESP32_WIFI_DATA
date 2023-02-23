@@ -3,5 +3,6 @@
 
 bool wifiInicializacion();
 byte httpmyRequest(String postData);
+int getGrupoLectura();
 
 #endif // MYFILE_H
